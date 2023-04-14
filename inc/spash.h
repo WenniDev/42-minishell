@@ -17,10 +17,10 @@
 
 typedef struct s_data
 {
-	char			*cmd_line;
-	t_simple_cmd	*simple_cmds;
-	int				simple_cmd_nb;
-	t_syntax		syntax;
+	t_cmd		cmd;
+	t_syntax	syntax;
+	t_error		error;
+	int			exit_status;
 }t_data;
 
 #endif
