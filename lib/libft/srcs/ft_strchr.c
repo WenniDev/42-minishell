@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/11/07 15:17:09 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/11/08 15:29:00 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#include "libft.h"
 
-# include "spash_types.h"
-# include <stddef.h>
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	size_t	len;
 
-void	init(t_data *data);
-
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
-
-#endif
+	i = 0;
+	len = ft_strlen(s);
+	while (i <= len)
+	{
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	return (NULL);
+}

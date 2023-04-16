@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/11/15 08:59:30 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/11/15 16:22:21 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# include "spash_types.h"
-# include <stddef.h>
+# include <fcntl.h>
+# include <stdio.h>
 
-void	init(t_data *data);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000000
+# endif
 
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
+char	*get_next_line(int fd);
 
 #endif

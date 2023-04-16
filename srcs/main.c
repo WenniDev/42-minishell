@@ -8,6 +8,7 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	(void)argv;
 	if (argc != 1)
 		return (EXIT_FAILURE);
 	init(&data);

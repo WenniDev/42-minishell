@@ -2,6 +2,8 @@
 //      -missing header
 
 #include "spash.h"
+#include "spash_grammar.h"
+#include "spash_error.h"
 #include "libft.h"
 
 char	**create_grammar(t_data *data)
@@ -37,6 +39,6 @@ void	init(t_data *data)
 		{
 			exit_prg(data);
 		}
-		data->cmd_line = EMPTY;
+		data->cmd_line.string = EMPTY;
 	}
 }

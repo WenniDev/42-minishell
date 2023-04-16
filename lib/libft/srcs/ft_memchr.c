@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/11/07 15:51:09 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/11/08 14:08:17 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#include "libft.h"
 
-# include "spash_types.h"
-# include <stddef.h>
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*s2;
 
-void	init(t_data *data);
-
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
-
-#endif
+	i = 0;
+	s2 = (unsigned char *)s;
+	while (i < n)
+	{
+		if (s2[i] == (unsigned char)c)
+			return (s2 + i);
+		i++;
+	}
+	return (NULL);
+}

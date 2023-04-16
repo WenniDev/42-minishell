@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/11/07 12:41:45 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/12/14 16:58:30 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#include "libft.h"
 
-# include "spash_types.h"
-# include <stddef.h>
+size_t	ft_strlen(const char *s)
+{
+	size_t	len;
 
-void	init(t_data *data);
-
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
-
-#endif
+	len = 0;
+	if (!s)
+		return (-1);
+	while (s[len])
+		len++;
+	return (len);
+}

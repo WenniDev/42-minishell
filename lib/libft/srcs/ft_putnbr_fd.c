@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/11/08 10:56:13 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/11/08 16:48:41 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#include "libft.h"
 
-# include "spash_types.h"
-# include <stddef.h>
+void	ft_putnbr_fd(int nbr, int fd)
+{
+	long	l;
 
-void	init(t_data *data);
-
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
-
-#endif
+	l = (long)nbr;
+	if (l < 0)
+	{
+		ft_putchar_fd('-', fd);
+		l = -l;
+	}
+	if (l >= 10)
+		ft_putnbr_fd(l / 10, fd);
+	ft_putchar_fd(l % 10 + 48, fd);
+}

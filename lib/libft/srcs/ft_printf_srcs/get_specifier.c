@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spash.h                                            :+:      :+:    :+:   */
+/*   get_specifier.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 18:17:36 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/04/14 18:55:07 by rsabbah          ###   ########.fr       */
+/*   Created: 2022/12/13 16:13:22 by rsabbah           #+#    #+#             */
+/*   Updated: 2022/12/13 16:13:49 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPASH_H
-# define SPASH_H
+#include "libft.h"
 
-# include "spash_types.h"
-# include <stddef.h>
+int	get_specifier(const char *format, t_conf *conf)
+{
+	char	*ptr;
 
-void	init(t_data *data);
-
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
-
-int		exit_prg(t_data *data);
-
-#endif
+	ptr = ft_strchr(SPECIFIERS, format[0]);
+	if (ptr == NULL)
+		conf->specifier = NO_CONV;
+	else
+		conf->specifier = *ptr;
+	return (1);
+}
