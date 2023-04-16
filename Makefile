@@ -59,9 +59,10 @@ $(LIBFT) :
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	@mkdir -p $(patsubst $(SRCDIR),$(DEPDIR),$(dir $<))
+	@mkdir -p $(patsubst $(OBJDIR)/%,$(DEPDIR)/%,$(dir $@))
 	@printf "Building $(BLUE)$(notdir $@)\n$(NC)"
-	@$(CC) $(CFLAGS) $(HDINC) -c $< -o $@ -MMD -MF $(patsubst $(SRCDIR),$(DEPDIR),$(<:.c=.d))
+	@$(CC) $(CFLAGS) $(HDINC) -c $< -o $@ \
+		-MMD -MF $(patsubst $(OBJDIR)/%,$(DEPDIR)/%,$(@:.o=.d))
 
 -include $(DEPS)
 

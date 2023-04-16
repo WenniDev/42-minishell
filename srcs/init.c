@@ -6,6 +6,12 @@
 #include "spash_error.h"
 #include "libft.h"
 
+/**
+ * @brief malloc and fill the grammar table
+ * with elems defined in spash_grammar.h
+ * @param data the main data struct
+ * @return a string table or NULL if failed (updating error)
+ */
 char	**create_grammar(t_data *data)
 {
 	char	**grammar;
@@ -29,6 +35,10 @@ char	**create_grammar(t_data *data)
 	return (grammar);
 }
 
+/**
+ * @brief init to 0 the data struct, affect value to grammar table and cmd_line
+ * @param data the main data struct
+ */
 void	init(t_data *data)
 {
 	if (data)

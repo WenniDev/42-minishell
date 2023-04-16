@@ -10,7 +10,8 @@
  * @param data the main struct
  * @return return of exit()
  */
-int exit_prg(t_data *data) {
+int exit_prg(t_data *data)
+{
 	if (data->error.num)
 	{
 		put_sperr(data->error);
