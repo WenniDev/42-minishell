@@ -1,7 +1,6 @@
 //	NORM
 //		-missing header
 
-#include "spash_types.h"
 #include "spash.h"
 #include <stdlib.h>
 
@@ -16,5 +15,6 @@ int exit_prg(t_data *data)
 	{
 		put_sperr(data->error);
 	}
+	cleanup(data);
 	exit(data->exit_status);
 }

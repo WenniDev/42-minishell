@@ -1,8 +1,8 @@
 //  NORM
 //      -missing header
 
-#ifndef SPASH_GRAMMAR_H
-# define SPASH_GRAMMAR_H
+#ifndef SPASH_PARSING_H
+# define SPASH_PARSING_H
 
 # define MUCH_LESS				"<<"
 # define MUCH_GREATER			">>"
@@ -13,8 +13,12 @@
 # define VERTICAL_BAR			"|"
 # define OPENED_PARENTHESIS		"("
 # define CLOSED_PARENTHESIS		")"
-# define NEWLINE				"\n"
+# define NEWLINE_S				"\n"
+
+#define METACHARACTERS			" \t\n|&()<>"
 
 # define EMPTY					""
+
+char	*get_cmd_line(t_data *data);
 
 #endif

@@ -2,8 +2,7 @@
 //      -missing header
 
 #include "spash.h"
-#include "spash_grammar.h"
-#include "spash_error.h"
+#include "spash_parsing.h"
 #include "libft.h"
 
 /**
@@ -44,11 +43,6 @@ void	init(t_data *data)
 	if (data)
 	{
 		ft_memset(data, 0, sizeof (t_data));
-		data->syntax.grammar = create_grammar(data);
-		if (!data->syntax.grammar)
-		{
-			exit_prg(data);
-		}
-		data->cmd_line.string = EMPTY;
+		data->c_line = EMPTY;
 	}
 }

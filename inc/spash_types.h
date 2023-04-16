@@ -6,44 +6,38 @@
 
 /*******Types used for syntax and token********/
 
-typedef char * t_word;
-typedef char * t_newline;
-
-typedef enum e_io_red
+typedef enum e_op
 {
 	IN_RED,
 	HEREDOC_RED,
-	OUT_RED_TRUNC,
-	OUT_RED_APPEND
-}t_io_red;
-
-typedef enum e_cmd_sep
-{
+	OUTTR_RED,
+	OUTAP_RED,
 	PIPE,
-	AND_OPERATOR,
-	OR_OPERATOR
-}t_cmd_sep;
+	AND_OP,
+	OR_OP,
+	O_PAR,
+	C_PAR,
+	NEWLINE
+}t_op;
 
-typedef union u_type
+typedef union u_token_value
 {
-	t_io_red	io_red;
-	t_cmd_sep	cmd_sep;
-	t_word		word;
-	t_newline	newline;
+	t_op	op;
+	char	*word;
+}t_token_value;
+
+typedef enum e_type
+{
+	CTRL_OP,
+	RED_OP,
+	WORD
 }t_type;
 
 typedef struct s_token
 {
-	t_type	type;
-	char	*value;
+	t_type			type;
+	t_token_value	value;
 }t_token;
-
-typedef struct s_syntax
-{
-	t_token	*token;
-	t_token *prev_token;
-	char	**grammar;
-}t_syntax;
 
 /*************Type used for error************/
 
@@ -58,13 +52,14 @@ typedef struct s_error
 
 typedef struct s_red
 {
-	char	*file;
-	int		flags;
+	char			*file;
+	int				flags;
+	struct s_red	*next;
 }t_red;
 
 typedef struct s_subcmd
 {
-	char	*cmd_line;
+	char	*line;
 	t_red	inred;
 	t_red	*outred;
 }t_subcmd;
@@ -77,25 +72,32 @@ typedef struct s_simple_cmd
 	t_red	*outred;
 }t_simple_cmd;
 
-typedef union u_cdm
+typedef union u_cdm_struct
 {
 	t_simple_cmd	simple_cmd;
 	t_subcmd		subcmd;
-}t_cmd;
+}t_cmd_struct;
 
-typedef struct s_cmd_line
+typedef enum e_cmd_type
 {
-	char	*string;
-	t_cmd	*cmds;
-	int		cmd_nb;
-}t_cmd_line;
+	SIMPLE_CMD,
+	SUBCMD,
+	BUILTIN
+}t_cmd_type;
+
+typedef struct s_cmd
+{
+	t_cmd_struct	cmd;
+	t_cmd_type		type;
+}t_cmd;
 
 /**************Main data type***************/
 
 typedef struct s_data
 {
-	t_cmd_line	cmd_line;
-	t_syntax	syntax;
+	char		*c_line;
+	t_cmd		*c_table;
+	int			c_nb;
 	t_error		error;
 	int			exit_status;
 }t_data;

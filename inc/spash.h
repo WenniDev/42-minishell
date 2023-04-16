@@ -14,12 +14,15 @@
 # define SPASH_H
 
 # include "spash_types.h"
-# include <stddef.h>
+# include "spash_parsing.h"
+# include "spash_error.h"
+# include <stdbool.h>
 
 void	init(t_data *data);
 
-void	sperr(t_data *data, char *msg, char *infos, int errnum);
-void	put_sperr(t_error error);
+int		spash(t_data *data, bool subcmd);
+
+void	cleanup(t_data *data);
 
 int		exit_prg(t_data *data);
 

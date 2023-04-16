@@ -14,9 +14,13 @@ LIBFT	=	$(LIBDIR)/libft/libft.a
 SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/init.c\
 			$(SRCDIR)/error.c\
-			$(SRCDIR)/exit_prg.c
+			$(SRCDIR)/exit_prg.c\
+			$(SRCDIR)/spash.c\
+			$(SRCDIR)/cleanup.c\
+			$(SRCDIR)/parsing/get_cmd_line.c\
+			$(SRCDIR)/parsing/parse.c
 HD		=	$(HDDIR)/spash.h\
-			$(HDDIR)/spash_grammar.h\
+			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\
 			$(HDDIR)/spash_error.h
 OBJS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
