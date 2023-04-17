@@ -12,9 +12,7 @@ void	clean_red(t_red *red)
 	{
 		next = red->next;
 		if (red->file)
-		{
 			free(red->file);
-		}
 		red = next;
 	}
 }
@@ -61,12 +59,8 @@ void	clean_cmd(t_cmd *c_table, int c_nb)
 void	cleanup(t_data *data)
 {
 	if (data->c_line)
-	{
 		free(data->c_line);
-	}
 	if (data->c_table)
-	{
 		clean_cmd(data->c_table, data->c_nb);
-	}
 	ft_memset(data, 0, sizeof (t_data));
 }

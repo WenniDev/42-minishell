@@ -13,12 +13,21 @@
 # define VERTICAL_BAR			"|"
 # define OPENED_PARENTHESIS		"("
 # define CLOSED_PARENTHESIS		")"
-# define NEWLINE_S				"\n"
+# define S_NEWLINE				"newline"
+
+# define FALSE					0
+# define END					1
+# define NO_END					2
+# define CORRECT				3
 
 #define METACHARACTERS			" \t\n|&()<>"
 
 # define EMPTY					""
+# define SINGLE_QUOTE			'\''
+# define DOUBLE_QUOTE			'"'
 
 char	*get_cmd_line(t_data *data);
+void	parse(t_data *data);
+int		check_syntax(t_data *data, t_token *token, char **grammar);
 
 #endif

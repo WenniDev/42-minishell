@@ -14,8 +14,6 @@
 # define SPASH_H
 
 # include "spash_types.h"
-# include "spash_parsing.h"
-# include "spash_error.h"
 # include <stdbool.h>
 
 void	init(t_data *data);

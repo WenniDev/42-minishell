@@ -8,16 +8,17 @@
 
 typedef enum e_op
 {
-	IN_RED,
 	HEREDOC_RED,
-	OUTTR_RED,
 	OUTAP_RED,
-	PIPE,
 	AND_OP,
 	OR_OP,
+	IN_RED,
+	OUTTR_RED,
+	PIPE,
 	O_PAR,
 	C_PAR,
-	NEWLINE
+	NEWLINE,
+	NONE
 }t_op;
 
 typedef union u_token_value

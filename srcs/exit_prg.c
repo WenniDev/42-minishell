@@ -2,6 +2,7 @@
 //		-missing header
 
 #include "spash.h"
+#include "spash_error.h"
 #include <stdlib.h>
 
 /**
@@ -12,9 +13,7 @@
 int exit_prg(t_data *data)
 {
 	if (data->error.num)
-	{
 		put_sperr(data->error);
-	}
 	cleanup(data);
 	exit(data->exit_status);
 }
