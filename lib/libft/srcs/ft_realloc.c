@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, int new_size, int old_size)
+void	*ft_realloc(void *ptr, size_t new_size, size_t old_size)
 {
 	void	*new_ptr;
 

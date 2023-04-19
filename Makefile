@@ -19,7 +19,11 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/cleanup.c\
 			$(SRCDIR)/parsing/get_cmd_line.c\
 			$(SRCDIR)/parsing/parse.c\
-			$(SRCDIR)/parsing/check_syntax.c
+			$(SRCDIR)/parsing/check_syntax.c\
+			$(SRCDIR)/parsing/add_cmd.c\
+			$(SRCDIR)/parsing/subcmd.c\
+			$(SRCDIR)/parsing/add_io_red.c\
+			$(SRCDIR)/parsing/add_arg.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\

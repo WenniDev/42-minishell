@@ -68,20 +68,52 @@ void token_data(t_data *data, t_token *tk, char **grammar, char *ptr)
 		tk->value = get_word_value(data, ptr);
 }
 
-t_token	*new_token(t_data *data, t_syntax *stx, char **ptr)
+int	add_token(t_data *data, char **ptr)
 {
 	t_token		*tk_new;
+	t_token		*tk_last;
 
+	tk_last = data->tk_lst;
+	while (tk_last && tk_last->next)
+		tk_last = tk_last->next;
 	tk_new = (t_token *)ft_calloc(1, sizeof (t_token));
 	if (!tk_new)
 		(sperr(data, MFAIL, "create tk_new", 2), exit_prg(data));
-	if (stx->tk)
-		tk_new->prev = stx->tk;
-	while (**ptr == SPACE)
+	if (!data->tk_lst)
+		data->tk_lst = tk_new;
+	else
+	{
+		tk_last->next = tk_new;
+		tk_new->prev = tk_last;
+	}
+	while(**ptr == SPACE)
 		(*ptr)++;
-	token_data(data, tk_new, stx->grammar, *ptr);
+	token_data(data, tk_new, data->grammar, *ptr);
 	*ptr += ft_strlen(tk_new->value);
-	return (tk_new);
+	if (!tk_new->value)
+		return (ERROR);
+	return (check_syntax(data, tk_new));
+}
+
+void	parse_token(t_data *data, t_token *tk)
+{
+	static bool		subcmd_line;
+
+	if (tk->op == O_PAR)
+	{
+		data->c_table[data->c_nb - 1].type = SUBCMD;
+		subcmd_line = true;
+	}
+	else if (tk->op == C_PAR)
+		subcmd_line = false;
+	else if (!data->c_nb || (tk->type == CTRL_OP && tk->op != NEWLINE))
+		add_cmd(data, tk);
+	if (subcmd_line)
+		subcmd(data, &data->c_table[data->c_nb - 1], tk);
+	else if (tk->prev && tk->prev->type == RED_OP)
+		add_io_red(data, &data->c_table[data->c_nb - 1], tk);
+	else if (tk->type == WORD)
+		add_arg(data, &data->c_table[data->c_nb - 1], tk->value);
 }
 
 /**
@@ -90,19 +122,26 @@ t_token	*new_token(t_data *data, t_syntax *stx, char **ptr)
  */
 void	parse(t_data *data)
 {
-	char		*ptr;
+	t_token	*tk;
+	char	*ptr;
+	int 	stx_stat;
 
+	stx_stat = CORRECT;
 	ptr = data->c_line;
-	while (ptr && data->stx.stat != END)
+	while (ptr && stx_stat != ERROR && stx_stat != END)
 	{
-		data->stx.tk = new_token(data, &data->stx, &ptr);
-		data->stx.stat = check_syntax(data, data->stx.tk);
-		if (!data->stx.tk->value || data->stx.stat == FALSE)
-			break ;
-		else if (data->stx.stat == NO_END)
+		while (stx_stat == CORRECT)
+			stx_stat = add_token(data, &ptr);
+		if (stx_stat == ERROR)
+			put_sperr(data->error);
+		tk = data->tk_lst;
+		while (tk)
+		{
+			parse_token(data, tk);
+			tk = tk->next;
+		}
+		if (stx_stat == NO_END)
 			ptr = get_cmd_line(data);
-//		parse_token(data, data->stx.tk);
+		clean_token(data);
 	}
-	if (data->error.num)
-		put_sperr(data->error);
 }

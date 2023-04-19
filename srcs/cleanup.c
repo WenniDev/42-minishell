@@ -4,10 +4,12 @@
 #include "spash_types.h"
 #include "libft.h"
 
-void	clean_token(t_token *tk)
+void	clean_token(t_data *data)
 {
 	t_token	*prev;
+	t_token *tk;
 
+	tk = data->tk_lst;
 	while (tk)
 	{
 		prev = tk->prev;
@@ -16,6 +18,7 @@ void	clean_token(t_token *tk)
 		free(tk);
 		tk = prev;
 	}
+	data->tk_lst = NULL;
 }
 
 void	clean_red(t_red *red)
@@ -47,35 +50,26 @@ void	clean_argv(char **argv)
 	}
 }
 
-void	clean_cmd(t_cmd *c_table, int c_nb)
+void	clean_cmd(t_cmd *c_table, size_t c_nb)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (i < c_nb)
 	{
-		if (c_table[i].type == SIMPLE_CMD || c_table[i].type == BUILTIN)
-		{
-			clean_argv(c_table[i].cmd.simple_cmd.argv);
-			clean_red(c_table[i].cmd.simple_cmd.outred);
-			clean_red(&c_table[i].cmd.simple_cmd.inred);
-		}
-		if (c_table[i].type == SUBCMD)
-		{
-			free(c_table[i].cmd.subcmd.line);
-			clean_red(c_table[i].cmd.subcmd.outred);
-			clean_red(&c_table[i].cmd.subcmd.inred);
-		}
+		clean_red(c_table[i].io_red);
+		clean_argv(c_table[i].argv);
 		i++;
 	}
+	free(c_table);
 }
 
 void	cleanup(t_data *data)
 {
 	if (data->c_line)
 		free(data->c_line);
-	if (data->stx.tk)
-		clean_token(data->stx.tk);
+	if (data->tk_lst)
+		clean_token(data);
 	if (data->c_table)
 		clean_cmd(data->c_table, data->c_nb);
 	ft_memset(data, 0, sizeof (t_data));

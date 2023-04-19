@@ -4,6 +4,8 @@
 #ifndef SPASH_TYPES_H
 # define SPASH_TYPES_H
 
+# include "string.h"
+
 /*******Types used for syntax and token********/
 
 typedef enum e_op
@@ -33,15 +35,9 @@ typedef struct s_token
 	t_type			type;
 	t_op			op;
 	char			*value;
+	struct s_token	*next;
 	struct s_token	*prev;
 }t_token;
-
-typedef struct s_syntax
-{
-	t_token *tk;
-	char	**grammar;
-	int		stat;
-}t_syntax;
 
 /*************Type used for error************/
 
@@ -58,29 +54,16 @@ typedef struct s_red
 {
 	char			*file;
 	int				flags;
+	t_op			op;
 	struct s_red	*next;
 }t_red;
 
-typedef struct s_subcmd
+typedef enum e_exec
 {
-	char	*line;
-	t_red	inred;
-	t_red	*outred;
-}t_subcmd;
-
-typedef struct s_simple_cmd
-{
-	char	**argv;
-	int		argc;
-	t_red	inred;
-	t_red	*outred;
-}t_simple_cmd;
-
-typedef union u_cdm_struct
-{
-	t_simple_cmd	simple_cmd;
-	t_subcmd		subcmd;
-}t_cmd_struct;
+	ALL,
+	IF_TRUE,
+	IF_FALSE
+}t_exec;
 
 typedef enum e_cmd_type
 {
@@ -91,7 +74,11 @@ typedef enum e_cmd_type
 
 typedef struct s_cmd
 {
-	t_cmd_struct	cmd;
+	char		**argv;
+	int			argc;
+	char		*subcmd_line;
+	t_red		*io_red;
+	t_exec		exec_if;
 	t_cmd_type		type;
 }t_cmd;
 
@@ -101,8 +88,9 @@ typedef struct s_data
 {
 	char		*c_line;
 	t_cmd		*c_table;
-	int			c_nb;
-	t_syntax 	stx;
+	size_t		c_nb;
+	t_token		*tk_lst;
+	char		**grammar;
 	t_error		error;
 	int			exit_status;
 }t_data;

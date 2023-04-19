@@ -35,7 +35,7 @@ void	init(t_data *data)
 	if (data)
 	{
 		ft_memset(data, 0, sizeof (t_data));
-		data->stx.grammar = create_grammar(data);
+		data->grammar = create_grammar(data);
 		data->c_line = EMPTY;
 	}
 }

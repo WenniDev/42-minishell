@@ -21,6 +21,7 @@ void	init(t_data *data);
 int		spash(t_data *data, bool subcmd);
 
 void	cleanup(t_data *data);
+void	clean_token(t_data *data);
 
 int		exit_prg(t_data *data);
 

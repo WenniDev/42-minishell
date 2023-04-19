@@ -25,7 +25,7 @@ int	spash(t_data *data, bool subcmd)
 	{
 		parse(data);
 //		execute(data);
-		exit(data->exit_status);
+		exit_prg(data);
 	}
 	while (data->c_line)
 	{
