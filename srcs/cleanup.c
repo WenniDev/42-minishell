@@ -4,6 +4,20 @@
 #include "spash_types.h"
 #include "libft.h"
 
+void	clean_token(t_token *tk)
+{
+	t_token	*prev;
+
+	while (tk)
+	{
+		prev = tk->prev;
+		if (tk->type == WORD)
+			free(tk->value);
+		free(tk);
+		tk = prev;
+	}
+}
+
 void	clean_red(t_red *red)
 {
 	t_red	*next;
@@ -60,6 +74,8 @@ void	cleanup(t_data *data)
 {
 	if (data->c_line)
 		free(data->c_line);
+	if (data->stx.tk)
+		clean_token(data->stx.tk);
 	if (data->c_table)
 		clean_cmd(data->c_table, data->c_nb);
 	ft_memset(data, 0, sizeof (t_data));

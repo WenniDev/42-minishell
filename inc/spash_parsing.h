@@ -25,9 +25,11 @@
 # define EMPTY					""
 # define SINGLE_QUOTE			'\''
 # define DOUBLE_QUOTE			'"'
+# define SPACE					' '
 
 char	*get_cmd_line(t_data *data);
 void	parse(t_data *data);
-int		check_syntax(t_data *data, t_token *token, char **grammar);
+void	init_syntax(t_data *data, t_syntax *stx);
+int		check_syntax(t_data *data, t_token *tk);
 
 #endif

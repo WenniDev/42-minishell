@@ -16,7 +16,7 @@
 char	*get_cmd_line(t_data *data)
 {
 	if (!ft_strcmp(data->c_line, EMPTY))
-		return (data->c_line = readline(getenv("PS1")));
+		return (data->c_line = readline("prompt> "));
 	else if (data->c_line)
 	{
 		free(data->c_line);

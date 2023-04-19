@@ -5,23 +5,30 @@
 #include "spash_parsing.h"
 #include "spash_error.h"
 #include <stdbool.h>
-#include <stdlib.h>
 #include <stdio.h>
 
-int	token_error(t_token *token, t_token *prev, int pc)
+int	token_error(t_token *tk, t_token *prev, int pc)
 {
-	if (!token || pc < 0)
+	if (pc < 0)
 		return (true);
-	if (token->type == CTRL_OP)
+	if (tk->type == CTRL_OP)
 	{
-		if ((!prev && token->value.op != O_PAR && token->value.op != NEWLINE)
+		if ((!prev && tk->op != O_PAR && tk->op != NEWLINE)
 			|| (prev && prev->type == RED_OP)
-			|| (prev && prev->type == WORD && token->value.op == O_PAR)
-			|| (prev && prev->type == CTRL_OP && token->value.op != O_PAR))
+			|| (prev && prev->type == WORD && tk->op == O_PAR)
+			|| (prev && prev->type == CTRL_OP && tk->op != O_PAR))
 			return (true);
 	}
-	if (prev && token->type == RED_OP && prev->type == RED_OP)
-		return (true);
+	else if (tk->type == RED_OP)
+	{
+		if (prev && prev->type == RED_OP)
+			return (true);
+	}
+	else
+	{
+		if (prev && prev->type == CTRL_OP && prev->op == C_PAR)
+			return (true);
+	}
 	return (false);
 }
 
@@ -32,23 +39,19 @@ int	token_error(t_token *token, t_token *prev, int pc)
  * @param grammar a string table containig the predefined grammar
  * @return the syntaxt status
  */
-int	check_syntax(t_data *data, t_token *token, char **grammar)
+int	check_syntax(t_data *data, t_token *tk)
 {
-	static t_token	*prev;
 	static int		pc;
 
-	if (token->type == CTRL_OP && token->value.op == O_PAR)
+	if (tk->op == O_PAR)
 		pc++;
-	else if (token->type == CTRL_OP && token->value.op == C_PAR)
+	else if (tk->op == C_PAR)
 		pc--;
-	if (token_error(token, prev, pc))
-		return (pc = 0, sperr(data, UNTOK, grammar[token->value.op], 2), FALSE);
-	if (prev)
-		free(prev);
-	if (token->type == CTRL_OP && token->value.op == NEWLINE && pc > 0)
+	if (token_error(tk, tk->prev, pc))
+		return (pc = 0, sperr(data, UNTOK, tk->value, 2), FALSE);
+	else if (tk->op == NEWLINE && pc > 0)
 		return (NO_END);
-	else if (token->type == CTRL_OP && token->value.op == NEWLINE)
+	else if (tk->op == NEWLINE)
 		return (END);
-	prev = token;
 	return (CORRECT);
 }

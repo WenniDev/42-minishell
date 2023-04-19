@@ -8,7 +8,7 @@
 void	reset(t_data *data)
 {
 	cleanup(data);
-	data->c_line = EMPTY;
+	init(data);
 }
 
 /**

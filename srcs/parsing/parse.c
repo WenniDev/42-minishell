@@ -6,26 +6,6 @@
 #include "spash_error.h"
 #include "libft.h"
 
-char	**create_grammar(t_data *data)
-{
-	char	**grammar;
-
-	grammar = (char **)ft_calloc(11, sizeof (char *));
-	if (!grammar)
-		(sperr(data, MFAIL, "create_grammar", 2), exit_prg(data));
-	grammar[0] = MUCH_LESS;
-	grammar[1] = MUCH_GREATER;
-	grammar[2] = DOUBLE_AMPERSAND;
-	grammar[3] = DOUBLE_VERTICAL_BAR;
-	grammar[4] = LESS;
-	grammar[5] = GREATER;
-	grammar[6] = VERTICAL_BAR;
-	grammar[7] = OPENED_PARENTHESIS;
-	grammar[8] = CLOSED_PARENTHESIS;
-	grammar[9] = S_NEWLINE;
-	return (grammar);
-}
-
 /**
  * @brief Get the words value while respecting quoting rules.
  * @param data the main data stuct
@@ -43,7 +23,7 @@ char	*get_word_value(t_data *data, char *ptr)
 	{
 		if (ptr[i] == SINGLE_QUOTE || ptr[i] == DOUBLE_QUOTE)
 		{
-			quote = ptr[i];
+			quote = ptr[i++];
 			while (ptr[i] && ptr[i] != quote)
 				i++;
 			if (!ptr[i])
@@ -60,63 +40,48 @@ char	*get_word_value(t_data *data, char *ptr)
 /**
  * @brief Get the tokens data from the command line
  * @param data the main data struct
- * @param token current token
- * @param ptr a pointer to the current location on command line
+ * @param tk current token
  * @param grammar a string table containing the predefined grammar
+ * @param ptr a pointer to the current location on command line
  */
-void fill_token_data(t_data *data, t_token *token, char *ptr, char **grammar)
+void token_data(t_data *data, t_token *tk, char **grammar, char *ptr)
 {
-	t_op	op;
-
-	op = 0;
 	if (!*ptr)
-		op = NEWLINE;
-	while (*ptr && op != NONE)
+		tk->op = NEWLINE;
+	while (*ptr && tk->op != NONE)
 	{
-		if (!ft_strncmp(ptr, grammar[op], ft_strlen(grammar[op])))
+		tk->value = grammar[tk->op];
+		if (!ft_strncmp(ptr, tk->value, ft_strlen(tk->value)))
 			break;
-		op++;
+		tk->op++;
 	}
-	token->value.op = op;
-	if (op == HEREDOC_RED || op == IN_RED || op == OUTAP_RED || op == OUTTR_RED)
-		token->type = RED_OP;
-	else if (op != NONE)
-		token->type = CTRL_OP;
+	if (tk->op == IN_RED || tk->op == HEREDOC_RED || tk->op == OUTTR_RED
+		|| tk->op == OUTAP_RED)
+		tk->type = RED_OP;
+	else if (tk->op != NONE)
+		tk->type = CTRL_OP;
 	else
-	{
-		token->type = WORD;
-		token->value.word = get_word_value(data, ptr);
-	}
+		tk->type = WORD;
+	if (tk->op == NEWLINE)
+		tk->value = S_NEWLINE;
+	else if (tk->op == NONE)
+		tk->value = get_word_value(data, ptr);
 }
 
-/**
- * @brief Malloc a token struct and fills it with the next tokens data from
- * command line
- * @param data the main data struct
- * @param grammar a string table containig the predifined grammar
- * @return a pointer to the token struct
- */
-t_token	*create_token(t_data *data, char **grammar)
+t_token	*new_token(t_data *data, t_syntax *stx, char **ptr)
 {
-	t_token		*token;
-	static char *ptr;
+	t_token		*tk_new;
 
-	if (!ptr)
-		ptr = data->c_line;
-	token = (t_token *)ft_calloc(1, sizeof (t_token));
-	if (!token)
-	{
-		sperr(data, MFAIL, "create token", 2);
-		exit_prg(data);
-	}
-	fill_token_data(data, token, ptr, grammar);
-	if (token->type == WORD)
-		ptr += ft_strlen(token->value.word);
-	else if (token->value.op == NEWLINE)
-		ptr++;
-	else
-		ptr += ft_strlen(grammar[token->value.op]);
-	return (token);
+	tk_new = (t_token *)ft_calloc(1, sizeof (t_token));
+	if (!tk_new)
+		(sperr(data, MFAIL, "create tk_new", 2), exit_prg(data));
+	if (stx->tk)
+		tk_new->prev = stx->tk;
+	while (**ptr == SPACE)
+		(*ptr)++;
+	token_data(data, tk_new, stx->grammar, *ptr);
+	*ptr += ft_strlen(tk_new->value);
+	return (tk_new);
 }
 
 /**
@@ -125,28 +90,19 @@ t_token	*create_token(t_data *data, char **grammar)
  */
 void	parse(t_data *data)
 {
-	t_token	*token;
-	char 	**grammar;
-	int		syntax_status;
+	char		*ptr;
 
-	grammar = create_grammar(data);
-	while (data && data->c_line)
+	ptr = data->c_line;
+	while (ptr && data->stx.stat != END)
 	{
-		token = create_token(data, grammar);
-		syntax_status = check_syntax(data, token, grammar);
-		if (syntax_status == FALSE || syntax_status == END)
-		{
-			free(token);
-			break;
-		}
-		else if (syntax_status == NO_END)
-		{
-			get_cmd_line(data);
-			continue ;
-		}
-//		parse_token(data, token);
+		data->stx.tk = new_token(data, &data->stx, &ptr);
+		data->stx.stat = check_syntax(data, data->stx.tk);
+		if (!data->stx.tk->value || data->stx.stat == FALSE)
+			break ;
+		else if (data->stx.stat == NO_END)
+			ptr = get_cmd_line(data);
+//		parse_token(data, data->stx.tk);
 	}
-	free(grammar);
 	if (data->error.num)
 		put_sperr(data->error);
 }

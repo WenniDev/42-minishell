@@ -21,12 +21,6 @@ typedef enum e_op
 	NONE
 }t_op;
 
-typedef union u_token_value
-{
-	t_op	op;
-	char	*word;
-}t_token_value;
-
 typedef enum e_type
 {
 	CTRL_OP,
@@ -37,8 +31,17 @@ typedef enum e_type
 typedef struct s_token
 {
 	t_type			type;
-	t_token_value	value;
+	t_op			op;
+	char			*value;
+	struct s_token	*prev;
 }t_token;
+
+typedef struct s_syntax
+{
+	t_token *tk;
+	char	**grammar;
+	int		stat;
+}t_syntax;
 
 /*************Type used for error************/
 
@@ -99,6 +102,7 @@ typedef struct s_data
 	char		*c_line;
 	t_cmd		*c_table;
 	int			c_nb;
+	t_syntax 	stx;
 	t_error		error;
 	int			exit_status;
 }t_data;
