@@ -15,11 +15,12 @@
 # define CLOSED_PARENTHESIS		")"
 # define S_NEWLINE				"newline"
 
-# define END					1
-# define NO_END					2
-# define CORRECT				3
+# define END					2
+# define NO_END					1
+# define CORRECT				0
 
-#define METACHARACTERS			" \t\n|&()<>"
+# define METACHARACTERS			" \t\n|&()<>"
+# define BUILTINS				"export cat pwd unset echo cd env exit"
 
 # define EMPTY					""
 # define SINGLE_QUOTE			'\''
@@ -28,7 +29,7 @@
 
 char	*get_cmd_line(t_data *data);
 void	parse(t_data *data);
-int		check_syntax(t_data *data, t_token *tk);
+int		check_syntax(t_data *data, t_token *tk, int *par);
 void	add_cmd(t_data *data, t_token *tk);
 void	subcmd(t_data *data, t_cmd *cmd, t_token *tk);
 void	add_io_red(t_data *data, t_cmd *cmd, t_token *tk);

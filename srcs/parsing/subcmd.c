@@ -12,7 +12,10 @@ void	subcmd(t_data *data, t_cmd *cmd, t_token *tk)
 	size_t	size;
 
 	if (!cmd->subcmd_line)
-		cmd->subcmd_line = (char *) ft_calloc(1, sizeof (char));
+	{
+		cmd->subcmd_line = (char *) ft_calloc(1, sizeof(char));
+		cmd->type = SUBCMD;
+	}
 	if (!cmd->subcmd_line)
 		(sperr(data, MFAIL, "subcmd", 2), exit_prg(data));
 	size = ft_strlen(cmd->subcmd_line) + ft_strlen(tk->value) + 2;

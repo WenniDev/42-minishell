@@ -6,17 +6,17 @@
 
 void	clean_token(t_data *data)
 {
-	t_token	*prev;
+	t_token	*next;
 	t_token *tk;
 
 	tk = data->tk_lst;
 	while (tk)
 	{
-		prev = tk->prev;
+		next = tk->next;
 		if (tk->type == WORD)
 			free(tk->value);
 		free(tk);
-		tk = prev;
+		tk = next;
 	}
 	data->tk_lst = NULL;
 }
@@ -30,6 +30,7 @@ void	clean_red(t_red *red)
 		next = red->next;
 		if (red->file)
 			free(red->file);
+		free(red);
 		red = next;
 	}
 }
@@ -57,6 +58,8 @@ void	clean_cmd(t_cmd *c_table, size_t c_nb)
 	i = 0;
 	while (i < c_nb)
 	{
+		if (c_table[i].subcmd_line)
+			free(c_table[i].subcmd_line);
 		clean_red(c_table[i].io_red);
 		clean_argv(c_table[i].argv);
 		i++;
@@ -66,6 +69,8 @@ void	clean_cmd(t_cmd *c_table, size_t c_nb)
 
 void	cleanup(t_data *data)
 {
+	if (data->grammar)
+		free(data->grammar);
 	if (data->c_line)
 		free(data->c_line);
 	if (data->tk_lst)

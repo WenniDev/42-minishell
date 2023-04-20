@@ -23,7 +23,7 @@ void	add_io_red(t_data *data, t_cmd *cmd, t_token *tk)
 	red->file = ft_strdup(tk->value);
 	if (!red->file)
 		(sperr(data, MFAIL, "add_io_red", 2), exit_prg(data));
-	red->op = tk->op;
+	red->op = tk->prev->op;
 	if (red->op == OUTTR_RED)
 		red->flags = O_CREAT | O_WRONLY | O_TRUNC;
 	if (red->op == OUTAP_RED)

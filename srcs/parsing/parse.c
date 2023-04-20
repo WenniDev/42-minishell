@@ -68,7 +68,7 @@ void token_data(t_data *data, t_token *tk, char **grammar, char *ptr)
 		tk->value = get_word_value(data, ptr);
 }
 
-int	add_token(t_data *data, char **ptr)
+void	add_token(t_data *data, char **ptr, bool *nl)
 {
 	t_token		*tk_new;
 	t_token		*tk_last;
@@ -90,29 +90,23 @@ int	add_token(t_data *data, char **ptr)
 		(*ptr)++;
 	token_data(data, tk_new, data->grammar, *ptr);
 	*ptr += ft_strlen(tk_new->value);
-	if (!tk_new->value)
-		return (ERROR);
-	return (check_syntax(data, tk_new));
+	if (tk_new->op == NEWLINE)
+		*nl = true;
 }
 
 void	parse_token(t_data *data, t_token *tk)
 {
-	static bool		subcmd_line;
+	static int		par;
 
-	if (tk->op == O_PAR)
-	{
-		data->c_table[data->c_nb - 1].type = SUBCMD;
-		subcmd_line = true;
-	}
-	else if (tk->op == C_PAR)
-		subcmd_line = false;
-	else if (!data->c_nb || (tk->type == CTRL_OP && tk->op != NEWLINE))
+	check_syntax(data, tk, &par);
+	if (!data->c_nb
+		|| (!par && (tk->op == PIPE || tk->op == OR_OP || tk->op == AND_OP)))
 		add_cmd(data, tk);
-	if (subcmd_line)
+	if (par && par != 1)
 		subcmd(data, &data->c_table[data->c_nb - 1], tk);
-	else if (tk->prev && tk->prev->type == RED_OP)
+	if (!par && tk->prev && tk->prev->type == RED_OP)
 		add_io_red(data, &data->c_table[data->c_nb - 1], tk);
-	else if (tk->type == WORD)
+	if (!par && tk->type == WORD)
 		add_arg(data, &data->c_table[data->c_nb - 1], tk->value);
 }
 
@@ -124,23 +118,21 @@ void	parse(t_data *data)
 {
 	t_token	*tk;
 	char	*ptr;
-	int 	stx_stat;
+	bool	nl;
 
-	stx_stat = CORRECT;
 	ptr = data->c_line;
-	while (ptr && stx_stat != ERROR && stx_stat != END)
+	while (ptr && data->stx != END)
 	{
-		while (stx_stat == CORRECT)
-			stx_stat = add_token(data, &ptr);
-		if (stx_stat == ERROR)
-			put_sperr(data->error);
+		nl = false;
+		while (!nl)
+			add_token(data, &ptr, &nl);
 		tk = data->tk_lst;
 		while (tk)
 		{
 			parse_token(data, tk);
 			tk = tk->next;
 		}
-		if (stx_stat == NO_END)
+		if (data->stx == NO_END)
 			ptr = get_cmd_line(data);
 		clean_token(data);
 	}

@@ -79,7 +79,7 @@ typedef struct s_cmd
 	char		*subcmd_line;
 	t_red		*io_red;
 	t_exec		exec_if;
-	t_cmd_type		type;
+	t_cmd_type	type;
 }t_cmd;
 
 /**************Main data type***************/
@@ -91,6 +91,7 @@ typedef struct s_data
 	size_t		c_nb;
 	t_token		*tk_lst;
 	char		**grammar;
+	int			stx;
 	t_error		error;
 	int			exit_status;
 }t_data;
