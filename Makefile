@@ -19,6 +19,7 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/cleanup.c\
 			$(SRCDIR)/parsing/get_cmd_line.c\
 			$(SRCDIR)/parsing/parse.c\
+			$(SRCDIR)/parsing/create_tokens.c\
 			$(SRCDIR)/parsing/check_syntax.c\
 			$(SRCDIR)/parsing/add_cmd.c\
 			$(SRCDIR)/parsing/subcmd.c\

@@ -4,6 +4,8 @@
 #ifndef SPASH_PARSING_H
 # define SPASH_PARSING_H
 
+# include "spash_types.h"
+
 # define MUCH_LESS				"<<"
 # define MUCH_GREATER			">>"
 # define DOUBLE_AMPERSAND		"&&"
@@ -29,6 +31,7 @@
 
 char	*get_cmd_line(t_data *data);
 void	parse(t_data *data);
+void	create_tokens(t_data *data);
 int		check_syntax(t_data *data, t_token *tk, int *par);
 void	add_cmd(t_data *data, t_token *tk);
 void	subcmd(t_data *data, t_cmd *cmd, t_token *tk);

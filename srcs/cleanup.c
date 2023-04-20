@@ -4,7 +4,7 @@
 #include "spash_types.h"
 #include "libft.h"
 
-void	clean_token(t_data *data)
+void	clean_tokens(t_data *data)
 {
 	t_token	*next;
 	t_token *tk;
@@ -74,7 +74,7 @@ void	cleanup(t_data *data)
 	if (data->c_line)
 		free(data->c_line);
 	if (data->tk_lst)
-		clean_token(data);
+		clean_tokens(data);
 	if (data->c_table)
 		clean_cmd(data->c_table, data->c_nb);
 	ft_memset(data, 0, sizeof (t_data));

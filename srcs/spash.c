@@ -21,12 +21,14 @@ void	print_cmds(t_data *data)
 		int k = 1;
 		while (red)
 		{
-			ft_printf("[%d]type: %d file: %s\t", k, red->op, red->file);
+			ft_printf("[%d]type: %d file: %s ", k, red->op, red->file);
 			if (!red->next)
 				ft_printf("\n");
 			red = red->next;
 			k++;
 		}
+		if (data->c_table[i].exec_if)
+			ft_printf("exec if : %d\n", data->c_table[i].exec_if);
 		ft_printf("\n");
 	}
 }

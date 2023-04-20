@@ -1,46 +1,35 @@
 //	NORM
 //		-missing header
 
-#include "spash_types.h"
 #include "spash_parsing.h"
 #include "spash_error.h"
-#include "spash.h"
 #include <stdbool.h>
 #include "libft.h"
 
-char	**init_fbd_values(t_data *data)
+char	*get_fbd_values(t_token *prev)
 {
-	char	**fbd_val;
-
-	fbd_val = (char **)ft_calloc(11, sizeof (char *));
-	if (!fbd_val)
-		exit_prg(data);
-	fbd_val[0] = "newline | || && < << > >> ( )";
-	fbd_val[1] = "newline | || && < << > >> ( )";
-	fbd_val[2] = "| || && )";
-	fbd_val[3] = "| || && )";
-	fbd_val[4] = "newline | || && < << > >> ( )";
-	fbd_val[5] = "newline | || && < << > >> ( )";
-	fbd_val[6] = "| || && )";
-	fbd_val[7] = "| || && )";
-	fbd_val[8] = "(";
-	fbd_val[9] = "(";
-	return (fbd_val);
+	if (!prev)
+		return ("| || && )");
+	if (prev->type == RED_OP)
+		return ("newline | || && < << > >> ( )");
+	if (prev->op == C_PAR || prev->op == NEWLINE)
+		return ("(");
+	if (prev->type == CTRL_OP)
+		return ("| || && )");
+	else
+		return (NULL);
 }
 
 int	token_error(t_data *data, t_token *tk, int pc)
 {
-	char	**fbd_val;
+	char	*fbd_val;
 
-	fbd_val = init_fbd_values(data);
+	fbd_val = get_fbd_values(tk->prev);
 	if (!tk->value)
 		return (true);
-	if (pc < 0
-		|| (!tk->prev && ft_strstr(fbd_val[O_PAR], tk->value))
-		|| (tk->prev && ft_strstr(fbd_val[tk->prev->op], tk->value))
-		|| (tk->prev && tk->prev->op == C_PAR && tk->type == WORD))
+	if (pc < 0 || ft_strstr(fbd_val, tk->value))
 		return (sperr(data, UNTOK, tk->value, 2), true);
-	if (tk->next && tk->next->type != WORD && tk->type == RED_OP)
+	if (tk->next && tk->type == RED_OP && tk->next->type != WORD)
 		return (sperr(data, UNTOK, tk->next->value, 2), true);
 	return (false);
 }
