@@ -51,6 +51,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_realloc(void *ptr, size_t new_size, size_t old_size);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *small, size_t len);
+char	*ft_strstr(const char *big, const char *small);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);

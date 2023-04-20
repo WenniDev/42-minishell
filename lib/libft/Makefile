@@ -22,6 +22,7 @@ SRCS =	$(SRCDIR)/ft_isalpha.c\
 		$(SRCDIR)/ft_memchr.c\
 		$(SRCDIR)/ft_memcmp.c\
 		$(SRCDIR)/ft_strnstr.c\
+		$(SRCDIR)/ft_strstr.c\
 		$(SRCDIR)/ft_atoi.c\
 		$(SRCDIR)/ft_calloc.c\
 		$(SRCDIR)/ft_strdup.c\

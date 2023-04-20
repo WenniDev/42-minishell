@@ -23,7 +23,7 @@ char	*get_cmd_line(t_data *data)
 		data->c_line = readline("> ");
 		if (!data->c_line)
 			return (sperr(data, UNEOF, NULL, 2), NULL);
-		else if (!*data->c_line)
+		else if (*data->c_line)
 			add_history(data->c_line);
 	}
 	return (data->c_line);
