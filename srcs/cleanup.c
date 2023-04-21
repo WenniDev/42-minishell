@@ -69,6 +69,9 @@ void	clean_cmd(t_cmd *c_table, size_t c_nb)
 
 void	cleanup(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	if (data->grammar)
 		free(data->grammar);
 	if (data->c_line)
@@ -77,5 +80,11 @@ void	cleanup(t_data *data)
 		clean_tokens(data);
 	if (data->c_table)
 		clean_cmd(data->c_table, data->c_nb);
+	while (i < 4)
+	{
+		if (data->fds[i] > 0)
+			close(data->fds[i]);
+		i++;
+	}
 	ft_memset(data, 0, sizeof (t_data));
 }

@@ -32,10 +32,7 @@ char	**create_grammar(t_data *data)
  */
 void	init(t_data *data)
 {
-	if (data)
-	{
-		ft_memset(data, 0, sizeof (t_data));
-		data->grammar = create_grammar(data);
-		data->c_line = EMPTY;
-	}
+	ft_memset(data, 0, sizeof (t_data));
+	data->grammar = create_grammar(data);
+	data->c_line = EMPTY;
 }

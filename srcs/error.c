@@ -22,13 +22,10 @@ void	uncquote_error(t_data *data, char quote)
  */
 void	sperr(t_data *data, char *msg, char *infos, int errnum)
 {
-	if (data)
-	{
-		data->error.msg = msg;
-		data->error.infos = infos;
-		data->error.num = errnum;
-		data->exit_status = errnum;
-	}
+	data->error.msg = msg;
+	data->error.infos = infos;
+	data->error.num = errnum;
+	data->exit_status = errnum;
 }
 
 /**
@@ -48,4 +45,6 @@ void	put_sperr(t_error error)
 		}
 		ft_putchar_fd('\n', 2);
 	}
+	else if (error.num)
+		perror(error.infos);
 }

@@ -5,6 +5,7 @@
 # define SPASH_TYPES_H
 
 # include "string.h"
+#include "sys/wait.h"
 
 /*******Types used for syntax and token********/
 
@@ -80,6 +81,7 @@ typedef struct s_cmd
 	t_red		*io_red;
 	t_exec		exec_if;
 	t_cmd_type	type;
+	pid_t		pid;
 }t_cmd;
 
 /**************Main data type***************/
@@ -88,7 +90,8 @@ typedef struct s_data
 {
 	char		*c_line;
 	t_cmd		*c_table;
-	size_t		c_nb;
+	int			c_nb;
+	int			fds[4];
 	t_token		*tk_lst;
 	char		**grammar;
 	int			stx;

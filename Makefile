@@ -24,11 +24,15 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/parsing/add_cmd.c\
 			$(SRCDIR)/parsing/subcmd.c\
 			$(SRCDIR)/parsing/add_io_red.c\
-			$(SRCDIR)/parsing/add_arg.c
+			$(SRCDIR)/parsing/add_arg.c\
+			$(SRCDIR)/execution/exec.c\
+			$(SRCDIR)/execution/io_red.c\
+			$(SRCDIR)/execution/exec_cmd.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\
-			$(HDDIR)/spash_error.h
+			$(HDDIR)/spash_error.h\
+			$(HDDIR)/spash_exec.h
 OBJS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
 DEPS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.d))
 
