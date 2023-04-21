@@ -77,12 +77,20 @@ typedef struct s_cmd
 {
 	char		**argv;
 	int			argc;
+	char		*path;
 	char		*subcmd_line;
 	t_red		*io_red;
 	t_exec		exec_if;
 	t_cmd_type	type;
+	int			errnum;
 	pid_t		pid;
 }t_cmd;
+
+typedef struct s_builtin
+{
+	char	*cmd;
+	int		(*fct)(int, char **);
+}t_builtin;
 
 /**************Main data type***************/
 
@@ -91,6 +99,7 @@ typedef struct s_data
 	char		*c_line;
 	t_cmd		*c_table;
 	int			c_nb;
+	t_builtin	*builtins;
 	int			fds[4];
 	t_token		*tk_lst;
 	char		**grammar;

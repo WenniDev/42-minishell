@@ -27,7 +27,8 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/parsing/add_arg.c\
 			$(SRCDIR)/execution/exec.c\
 			$(SRCDIR)/execution/io_red.c\
-			$(SRCDIR)/execution/exec_cmd.c
+			$(SRCDIR)/execution/exec_cmd.c\
+			$(SRCDIR)/execution/exec_builtin.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\
@@ -39,7 +40,7 @@ DEPS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.d))
 #*********COMPILER*********#
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 DEBUG	=	-g -fsanitize=address
 HDINC	=	-I $(HDDIR) -I $(LIBDIR)/libft/inc
 LIBINC	=	-lreadline

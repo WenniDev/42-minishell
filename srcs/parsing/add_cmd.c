@@ -12,7 +12,7 @@ void	add_cmd(t_data *data, t_token *tk)
 
 	new_table = (t_cmd *)ft_calloc(data->c_nb + 1, sizeof (t_cmd));
 	if (!new_table)
-		(sperr(data, MFAIL, NULL, 2), exit_prg(data));
+		(sperr(data, MFAIL, NULL, 139), exit_prg(data));
 	ft_memcpy(new_table, data->c_table, data->c_nb * sizeof (t_cmd));
 	free(data->c_table);
 	if (tk->op == AND_OP)

@@ -2,6 +2,7 @@
 //		-missing header
 
 #include "spash_types.h"
+#include "spash_parsing.h"
 #include "libft.h"
 
 void	clean_tokens(t_data *data)
@@ -60,6 +61,8 @@ void	clean_cmd(t_cmd *c_table, size_t c_nb)
 	{
 		if (c_table[i].subcmd_line)
 			free(c_table[i].subcmd_line);
+		if (c_table[i].path && *c_table[i].path)
+			free(c_table[i].path);
 		clean_red(c_table[i].io_red);
 		clean_argv(c_table[i].argv);
 		i++;
@@ -74,6 +77,8 @@ void	cleanup(t_data *data)
 	i = 0;
 	if (data->grammar)
 		free(data->grammar);
+	if (data->builtins)
+		free(data->builtins);
 	if (data->c_line)
 		free(data->c_line);
 	if (data->tk_lst)

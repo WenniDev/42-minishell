@@ -23,7 +23,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	dest2 = (char *)dest;
 	src2 = (char *)src;
 	i = 0;
-	while (i < n && &dest2[i] && &src2[i])
+	while (i < n && dest2[i] && src2[i])
 	{
 		dest2[i] = src2[i];
 		i++;

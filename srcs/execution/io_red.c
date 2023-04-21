@@ -27,10 +27,10 @@ void	manage_io_red(t_data *data, t_red *red, int io_fd[2])
 {
 	if (red->op == IN_RED)
 		io_fd[IN] = open(red->file, O_RDONLY);
-	else if (red->op == HEREDOC_RED)
-		io_fd[IN] = heredoc(data, red->file);
+//	else if (red->op == HEREDOC_RED)
+//		io_fd[IN] = heredoc(data, red->file);
 	if (red->op == OUTTR_RED || red->op == OUTAP_RED)
-		io_fd[OUT] = open(red->file, red->flags);
+		io_fd[OUT] = open(red->file, red->flags, 0644);
 	if (io_fd[IN] == ERROR || io_fd[OUT] == ERROR)
 	{
 		sperr(data, NULL, red->file, errno);
@@ -45,6 +45,7 @@ void	io_red(t_data *data, int i)
 	t_red	*red;
 	int		io_fd[2];
 
+	red = data->c_table[i].io_red;
 	init_io_red(data, i, io_fd);
 	while (red)
 	{

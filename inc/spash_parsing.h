@@ -22,9 +22,10 @@
 # define CORRECT				0
 
 # define METACHARACTERS			" \t\n|&()<>"
-# define BUILTINS				"export cat pwd unset echo cd env exit"
+# define BUILTINS				"export pwd unset echo cd env exit"
 
 # define EMPTY					""
+# define NOT_FOUND				""
 # define SINGLE_QUOTE			'\''
 # define DOUBLE_QUOTE			'"'
 # define SPACE					' '

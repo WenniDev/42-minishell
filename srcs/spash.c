@@ -3,13 +3,14 @@
 
 #include "spash.h"
 #include "spash_parsing.h"
+#include "spash_exec.h"
 #include "libft.h"
 
 void	print_cmds(t_data *data)
 {
 	t_red	*red;
 
-	for (size_t i = 0; i < data->c_nb; i++)
+	for (int i = 0; i < data->c_nb; i++)
 	{
 		if (data->c_table[i].subcmd_line)
 			ft_printf("subcmd_line = %s\n", data->c_table[i].subcmd_line);
@@ -52,7 +53,7 @@ int	spash(t_data *data, bool subcmd)
 	if (subcmd)
 	{
 		parse(data);
-//		execute(data);
+		exec(data);
 		exit_prg(data);
 	}
 	while (data->c_line)
@@ -60,8 +61,9 @@ int	spash(t_data *data, bool subcmd)
 		get_cmd_line(data);
 		parse(data);
 		print_cmds(data);
-//		execute(data);
+		exec(data);
 		reset(data);
 	}
-	exit(data->exit_status);
+	exit_prg(data);
+	return (0);
 }

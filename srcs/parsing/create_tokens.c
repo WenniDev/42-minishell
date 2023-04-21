@@ -83,7 +83,7 @@ t_token	*add_token(t_data *data)
 		tk_last = tk_last->next;
 	tk_new = (t_token *)ft_calloc(1, sizeof (t_token));
 	if (!tk_new)
-		exit_prg(data);
+		(sperr(data, MFAIL, NULL, 139), exit_prg(data));
 	if (!data->tk_lst)
 		data->tk_lst = tk_new;
 	else
