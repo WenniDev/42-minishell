@@ -30,7 +30,7 @@
 
 int		exec(t_data *data);
 void	io_red(t_data *data, int i);
-int		exec_builtin(t_data *data, t_cmd cmd);
+int		exec_builtin(t_data *data, t_cmd cmd, int *w_nb);
 void	exec_cmd(t_data *data, t_cmd cmd, bool exec);
 
 #endif

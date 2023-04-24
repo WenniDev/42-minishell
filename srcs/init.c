@@ -34,19 +34,19 @@ void	init_builtins(t_data *data)
 		exit_prg(data);
 	}
 /*	data->builtins[I_EXPORT].cmd = S_EXPORT;
-	data->builtins[I_EXPORT].fct = b_export;
+	data->builtins[I_EXPORT].fct = b_export;*/
 	data->builtins[I_PWD].cmd = S_PWD;
 	data->builtins[I_PWD].fct = b_pwd;
-	data->builtins[I_UNSET].cmd = S_UNSET;
+/*	data->builtins[I_UNSET].cmd = S_UNSET;
 	data->builtins[I_UNSET].fct = b_unset;*/
 	data->builtins[I_CD].cmd = S_CD;
 	data->builtins[I_CD].fct = b_cd;
 /*	data->builtins[I_EXIT].cmd = S_EXIT;
 	data->builtins[I_EXIT].fct = b_exit;
 	data->builtins[I_ECHO].cmd = S_ECHO;
-	data->builtins[I_ECHO].fct = b_echo;
+	data->builtins[I_ECHO].fct = b_echo;*/
 	data->builtins[I_ENV].cmd = S_ENV;
-	data->builtins[I_ENV].fct = b_env;*/
+	data->builtins[I_ENV].fct = b_env;
 }
 
 /**

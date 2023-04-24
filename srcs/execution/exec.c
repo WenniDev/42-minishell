@@ -37,16 +37,22 @@ void	reset_io(t_data *data)
 
 int	check_exec(t_data *data, int i, int *w_nb)
 {
-	int	stat;
+	int		stat;
+	t_exec	exec_if;
 
-	if (data->c_table[i].exec_if)
+	exec_if = data->c_table[i].exec_if;
+	if (exec_if != ALL)
 	{
-		if (waitpid(data->c_table[i - 1].pid, &stat, 0) == ERROR)
+		if (data->c_table[i - 1].type == BUILTIN)
+			stat = data->exit_status;
+		else if (waitpid(data->c_table[i - 1].pid, &stat, 0) == ERROR)
+		{
 			(sperr(data, NULL, "waitpid", errno), exit_prg(data));
-		(*w_nb)--;
+			(*w_nb)--;
+		}
 	}
-	if ((data->c_table[i].exec_if == IF_TRUE && !WEXITSTATUS(stat))
-		|| (data->c_table[i].exec_if == IF_FALSE && WEXITSTATUS(stat))
+	if ((exec_if == IF_TRUE && (!WEXITSTATUS(stat) || !stat))
+		|| (exec_if == IF_FALSE && (WEXITSTATUS(stat) || stat))
 		|| data->c_table[i].exec_if == ALL)
 		return (true);
 	return (false);
@@ -60,7 +66,9 @@ int	wait_cmds(t_data *data, int w_nb)
 	i = 0;
 	if (!w_nb)
 		return (data->exit_status);
-	if (waitpid(data->c_table[data->c_nb - 1].pid, &stat, 0) == ERROR)
+	if (data->c_table[data->c_nb - 1].type == BUILTIN)
+		stat = data->exit_status;
+	else if (waitpid(data->c_table[data->c_nb - 1].pid, &stat, 0) == ERROR)
 		(sperr(data, NULL, "waitpid", errno), exit_prg(data));
 	while (i < w_nb - 1)
 	{
@@ -84,14 +92,17 @@ int	exec(t_data *data)
 	while (i < data->c_nb)
 	{
 		io_red(data, i);
-		if (data->c_nb == 1 && data->c_table[0].type == BUILTIN)
-			return (exec_builtin(data, data->c_table[0]));
 		exec = check_exec(data, i, &w_nb);
-		data->c_table[i].pid = fork();
-		if (data->c_table[i].pid == ERROR)
-			(sperr(data, NULL, "fork", errno), exit_prg(data));
-		if (!data->c_table[i].pid)
-			exec_cmd(data, data->c_table[i], exec);
+		if (data->c_table[i].type == BUILTIN)
+			exec_builtin(data, data->c_table[i], &w_nb);
+		else
+		{
+			data->c_table[i].pid = fork();
+			if (data->c_table[i].pid == ERROR)
+				(sperr(data, NULL, "fork", errno), exit_prg(data));
+			if (!data->c_table[i].pid)
+				exec_cmd(data, data->c_table[i], exec);
+		}
 		i++;
 	}
 	reset_io(data);

@@ -15,11 +15,19 @@ void	init_io_red(t_data *data, int i, int io_fd[2])
 	io_fd[OUT] = 0;
 	if (!i || data->c_table[i].exec_if)
 		io_fd[IN] = dup(data->fds[IN]);
-	if (i == data->c_nb - 1 || data->c_table[i].exec_if)
+	if (i == data->c_nb - 1 || data->c_table[i + 1].exec_if)
 		io_fd[OUT] = dup(data->fds[OUT]);
+	if (io_fd[IN] == ERROR || io_fd[OUT] == ERROR)
+	{
+		if (io_fd[IN] > 0)
+			close(io_fd[IN]);
+		if (io_fd[OUT] > 0)
+			close(io_fd[OUT]);
+		(sperr(data, NULL, "dup", errno), exit_prg(data));
+	}
 	if (i && data->c_table[i].exec_if == ALL)
 		io_fd[IN] = data->fds[PIPE0];
-	if (i != data->c_nb - 1 && data->c_table[i].exec_if == ALL)
+	if (i != data->c_nb - 1 && data->c_table[i + 1].exec_if == ALL)
 		io_fd[OUT] = data->fds[PIPE1];
 }
 

@@ -30,7 +30,9 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/execution/exec_cmd.c\
 			$(SRCDIR)/execution/exec_builtin.c\
 			$(SRCDIR)/sig.c\
-			$(SRCDIR)/builtins/b_cd.c
+			$(SRCDIR)/builtins/b_cd.c\
+			$(SRCDIR)/builtins/b_env.c\
+			$(SRCDIR)/builtins/b_pwd.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\

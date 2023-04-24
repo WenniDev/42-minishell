@@ -31,8 +31,6 @@ void	exec_cmd(t_data *data, t_cmd cmd, bool exec)
 		(sperr(data, CMDNOTF, cmd.argv[0], 127), exit_prg(data));
 	if (cmd.errnum == 126)
 		(sperr(data, PERMDN, cmd.argv[0], 126), exit_prg(data));
-	if (cmd.type == BUILTIN)
-		exec_builtin(data, cmd);
 	if (cmd.type == SUBCMD)
 		exec_subcmd(data, cmd);
 	else if (cmd.type == SIMPLE_CMD)
