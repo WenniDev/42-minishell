@@ -16,15 +16,15 @@
 char	*get_cmd_line(t_data *data)
 {
 	if (!data->c_line)
-		return (data->c_line = readline("prompt> "));
+		data->c_line = readline("\e[32m→ \e[0m");
 	else if (data->c_line)
 	{
 		free(data->c_line);
 		data->c_line = readline("> ");
 		if (!data->c_line)
 			return (sperr(data, UNEOF, NULL, 2), NULL);
-		else if (*data->c_line)
-			add_history(data->c_line);
 	}
+	if (data->c_line && *data->c_line)
+		add_history(data->c_line);
 	return (data->c_line);
 }

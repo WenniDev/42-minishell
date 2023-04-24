@@ -19,7 +19,7 @@ int	b_cd(int argc, char **argv, void *ptr)
 	free(dir);
 	if (argc && chdir(argv[1]) != 0)
 	{
-		sperr(data, NULL, "chdir", errno);
+		sperr(data, NULL, "cd", errno);
 		return (errno);
 	}
 	dir = getcwd((char *) NULL, 0);
