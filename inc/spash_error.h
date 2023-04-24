@@ -5,6 +5,7 @@
 # define SPASH_ERROR_H
 
 # include "spash_types.h"
+# include <errno.h>
 
 # define MFAIL		"Malloc failed"
 # define UNEOF		"syntax error: unexpected end of file"

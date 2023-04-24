@@ -4,7 +4,6 @@
 #include "spash.h"
 #include "spash_error.h"
 #include "spash_exec.h"
-#include "spash_parsing.h"
 #include <stdbool.h>
 #include "libft.h"
 
@@ -19,6 +18,7 @@ void	exec_subcmd(t_data *data, t_cmd cmd)
 		exit_prg(data);
 	}
 	cleanup(data);
+	init(data);
 	data->c_line = subcmd_line;
 	spash(data, 1);
 }
@@ -27,11 +27,10 @@ void	exec_cmd(t_data *data, t_cmd cmd, bool exec)
 {
 	if (!exec)
 		exit_prg(data);
-	printf("%d\n", cmd.errnum);
 	if (cmd.errnum == 127)
-		(sperr(data, CMDNOTF, cmd.argv[0], 127), put_sperr(data->error), exit_prg(data));
+		(sperr(data, CMDNOTF, cmd.argv[0], 127), exit_prg(data));
 	if (cmd.errnum == 126)
-		(sperr(data, PERMDN, cmd.argv[0], 126), put_sperr(data->error), exit_prg(data));
+		(sperr(data, PERMDN, cmd.argv[0], 126), exit_prg(data));
 	if (cmd.type == BUILTIN)
 		exec_builtin(data, cmd);
 	if (cmd.type == SUBCMD)

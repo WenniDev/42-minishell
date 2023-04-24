@@ -79,7 +79,7 @@ void	cleanup(t_data *data)
 		free(data->grammar);
 	if (data->builtins)
 		free(data->builtins);
-	if (data->c_line)
+	if (data->c_line && *data->c_line)
 		free(data->c_line);
 	if (data->tk_lst)
 		clean_tokens(data);

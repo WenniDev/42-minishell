@@ -58,6 +58,8 @@ int	wait_cmds(t_data *data, int w_nb)
 	int stat;
 
 	i = 0;
+	if (!w_nb)
+		return (data->exit_status);
 	if (waitpid(data->c_table[data->c_nb - 1].pid, &stat, 0) == ERROR)
 		(sperr(data, NULL, "waitpid", errno), exit_prg(data));
 	while (i < w_nb - 1)

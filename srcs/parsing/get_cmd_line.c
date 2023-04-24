@@ -15,7 +15,7 @@
  */
 char	*get_cmd_line(t_data *data)
 {
-	if (!ft_strcmp(data->c_line, EMPTY))
+	if (!data->c_line)
 		return (data->c_line = readline("prompt> "));
 	else if (data->c_line)
 	{

@@ -9,7 +9,7 @@
 char	*get_fbd_values(t_token *prev)
 {
 	if (!prev)
-		return ("| || && )");
+		return ("| || &&");
 	if (prev->type == RED_OP)
 		return ("newline | || && < << > >> ( )");
 	if (prev->op == C_PAR || prev->op == NEWLINE)

@@ -5,6 +5,7 @@
 #include "spash_parsing.h"
 #include "spash_error.h"
 #include "spash_exec.h"
+#include "spash_builtins.h"
 #include "libft.h"
 
 void	init_grammar(t_data *data)
@@ -37,10 +38,10 @@ void	init_builtins(t_data *data)
 	data->builtins[I_PWD].cmd = S_PWD;
 	data->builtins[I_PWD].fct = b_pwd;
 	data->builtins[I_UNSET].cmd = S_UNSET;
-	data->builtins[I_UNSET].fct = b_unset;
+	data->builtins[I_UNSET].fct = b_unset;*/
 	data->builtins[I_CD].cmd = S_CD;
 	data->builtins[I_CD].fct = b_cd;
-	data->builtins[I_EXIT].cmd = S_EXIT;
+/*	data->builtins[I_EXIT].cmd = S_EXIT;
 	data->builtins[I_EXIT].fct = b_exit;
 	data->builtins[I_ECHO].cmd = S_ECHO;
 	data->builtins[I_ECHO].fct = b_echo;
@@ -57,5 +58,4 @@ void	init(t_data *data)
 	ft_memset(data, 0, sizeof (t_data));
 	init_grammar(data);
 	init_builtins(data);
-	data->c_line = EMPTY;
 }

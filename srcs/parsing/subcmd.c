@@ -11,6 +11,8 @@ void	subcmd(t_data *data, t_cmd *cmd, t_token *tk)
 	char	*new_line;
 	size_t	size;
 
+	if (!cmd->subcmd_line && tk->op == O_PAR)
+		return ;
 	if (!cmd->subcmd_line)
 	{
 		cmd->subcmd_line = (char *) ft_calloc(1, sizeof(char));

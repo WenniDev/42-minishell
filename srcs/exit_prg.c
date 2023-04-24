@@ -4,6 +4,7 @@
 #include "spash.h"
 #include "spash_error.h"
 #include <stdlib.h>
+#include "libft.h"
 
 /**
  * @brief Print error if any and exit with data status
@@ -12,6 +13,7 @@
  */
 int exit_prg(t_data *data)
 {
+	ft_printf("exit status = %d\n", data->error.num);
 	if (data->error.num)
 		put_sperr(data->error);
 	cleanup(data);

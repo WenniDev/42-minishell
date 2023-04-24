@@ -18,6 +18,8 @@
 
 void	init(t_data *data);
 
+void	sig(t_data *data);
+
 int		spash(t_data *data, bool subcmd);
 
 void	cleanup(t_data *data);

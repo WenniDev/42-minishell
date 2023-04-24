@@ -56,13 +56,16 @@ int	spash(t_data *data, bool subcmd)
 		exec(data);
 		exit_prg(data);
 	}
-	while (data->c_line)
+	else
 	{
 		get_cmd_line(data);
-		parse(data);
-		print_cmds(data);
-		exec(data);
-		reset(data);
+		while (data->c_line)
+		{
+			parse(data);
+			exec(data);
+			reset(data);
+			get_cmd_line(data);
+		}
 	}
 	exit_prg(data);
 	return (0);

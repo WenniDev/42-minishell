@@ -72,12 +72,12 @@ void	add_arg(t_data *data, t_cmd *cmd, char *arg)
 		(sperr(data, MFAIL, "add_arg", 139), exit_prg(data));
 	ft_memcpy(new_argv, cmd->argv, cmd->argc * sizeof (char *));
 	free(cmd->argv);
-	if (cmd->argc == 0)
-		cmd->path = get_path(data, cmd, arg);
-	if (data->c_nb == 1 && ft_strnstr(BUILTINS, arg, ft_strlen(arg)))
+	if (cmd->argc == 0 && ft_strstr(BUILTINS, arg))
 		cmd->type = BUILTIN;
-	else if (data->c_nb == 1)
+	else if (cmd->argc == 0)
 		cmd->type = SIMPLE_CMD;
+	if (cmd->argc == 0 && cmd->type == SIMPLE_CMD)
+		cmd->path = get_path(data, cmd, arg);
 	new_argv[cmd->argc] = ft_strdup(arg);
 	if (!new_argv[cmd->argc])
 		(sperr(data, MFAIL, "add_arg", 139), exit_prg(data));

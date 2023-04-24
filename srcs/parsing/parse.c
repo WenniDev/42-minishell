@@ -11,10 +11,9 @@
  */
 void	parse_tokens(t_data *data)
 {
-	int		par;
-	t_token	*tk;
+	static int		par;
+	t_token			*tk;
 
-	par = 0;
 	tk = data->tk_lst;
 	while (tk && check_syntax(data, tk, &par) == CORRECT)
 	{

@@ -89,7 +89,7 @@ typedef struct s_cmd
 typedef struct s_builtin
 {
 	char	*cmd;
-	int		(*fct)(int, char **);
+	int		(*fct)(int, char **, void *);
 }t_builtin;
 
 /**************Main data type***************/
