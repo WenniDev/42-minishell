@@ -16,6 +16,6 @@ int exit_prg(t_data *data)
 	ft_printf("exit status = %d\n", data->error.num);
 	if (data->error.num)
 		put_sperr(data->error);
-	cleanup(data);
+	cleanup(data, 1);
 	exit(data->exit_status);
 }

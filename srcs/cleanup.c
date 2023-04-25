@@ -2,8 +2,8 @@
 //		-missing header
 
 #include "spash_types.h"
-#include "spash_parsing.h"
 #include "libft.h"
+#include <stdbool.h>
 
 void	clean_tokens(t_data *data)
 {
@@ -70,15 +70,30 @@ void	clean_cmd(t_cmd *c_table, size_t c_nb)
 	free(c_table);
 }
 
-void	cleanup(t_data *data)
+void	clean_all(t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
+	if (data->env)
+	{
+		while (data->env[i])
+			free(data->env[i++]);
+		free(data->env);
+	}
 	if (data->grammar)
 		free(data->grammar);
 	if (data->builtins)
 		free(data->builtins);
+}
+
+void	cleanup(t_data *data, bool all)
+{
+	int	i;
+
+	i = 0;
+	if (all)
+		clean_all(data);
 	if (data->c_line && *data->c_line)
 		free(data->c_line);
 	if (data->tk_lst)
@@ -91,5 +106,4 @@ void	cleanup(t_data *data)
 			close(data->fds[i]);
 		i++;
 	}
-	ft_memset(data, 0, sizeof (t_data));
 }

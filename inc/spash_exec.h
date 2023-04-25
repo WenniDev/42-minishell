@@ -28,8 +28,11 @@
 # define I_ECHO			5
 # define I_ENV			6
 
+# define NOT_FOUND		""
+
 int		exec(t_data *data);
 void	io_red(t_data *data, int i);
+char	*get_path(t_data *data, char *cmd_name);
 int		exec_builtin(t_data *data, t_cmd cmd, int *w_nb);
 void	exec_cmd(t_data *data, t_cmd cmd, bool exec);
 

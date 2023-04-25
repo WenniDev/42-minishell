@@ -17,12 +17,13 @@
 # include <stdbool.h>
 
 void	init(t_data *data);
+void	reset(t_data *data);
 
 void	sig(t_data *data);
 
 int		spash(t_data *data, bool subcmd);
 
-void	cleanup(t_data *data);
+void	cleanup(t_data *data, bool all);
 void	clean_tokens(t_data *data);
 
 int		exit_prg(t_data *data);

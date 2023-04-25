@@ -82,7 +82,6 @@ typedef struct s_cmd
 	t_red		*io_red;
 	t_exec		exec_if;
 	t_cmd_type	type;
-	int			errnum;
 	pid_t		pid;
 }t_cmd;
 
@@ -104,6 +103,7 @@ typedef struct s_data
 	t_token		*tk_lst;
 	char		**grammar;
 	int			stx;
+	char		**env;
 	t_error		error;
 	int			exit_status;
 }t_data;

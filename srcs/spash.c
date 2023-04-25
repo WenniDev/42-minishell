@@ -36,8 +36,17 @@ void	print_cmds(t_data *data)
 
 void	reset(t_data *data)
 {
-	cleanup(data);
-	init(data);
+	int i;
+
+	i = 0;
+	cleanup(data, 0);
+	data->c_line = NULL;
+	data->c_table = NULL;
+	data->c_nb = 0;
+	while (i < 4)
+		data->fds[i++] = 0;
+	data->tk_lst = NULL;
+	data->stx = CORRECT;
 }
 
 /**

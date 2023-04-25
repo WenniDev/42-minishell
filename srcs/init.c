@@ -6,6 +6,7 @@
 #include "spash_error.h"
 #include "spash_exec.h"
 #include "spash_builtins.h"
+#include "spash_environ.h"
 #include "libft.h"
 
 void	init_grammar(t_data *data)
@@ -56,6 +57,7 @@ void	init_builtins(t_data *data)
 void	init(t_data *data)
 {
 	ft_memset(data, 0, sizeof (t_data));
+	init_env(data);
 	init_grammar(data);
 	init_builtins(data);
 }
