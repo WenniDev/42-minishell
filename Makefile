@@ -35,14 +35,16 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/builtins/b_env.c\
 			$(SRCDIR)/builtins/b_pwd.c\
 			$(SRCDIR)/builtins/b_unset.c\
-			$(SRCDIR)/environ/init_env.c
+			$(SRCDIR)/environ/init_env.c\
+			$(SRCDIR)/expand/expand_env.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\
 			$(HDDIR)/spash_types.h\
 			$(HDDIR)/spash_error.h\
 			$(HDDIR)/spash_exec.h\
-			$(SRCDIR)/spash_builtins.h\
-			$(SRCDIR)/spash_environ.h
+			$(HDDIR)/spash_builtins.h\
+			$(HDDIR)/spash_environ.h\
+			$(HDDIR)/spash_expand.h
 OBJS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
 DEPS	=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.d))
 
