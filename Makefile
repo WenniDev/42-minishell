@@ -34,6 +34,7 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/builtins/b_cd.c\
 			$(SRCDIR)/builtins/b_env.c\
 			$(SRCDIR)/builtins/b_pwd.c\
+			$(SRCDIR)/builtins/b_unset.c\
 			$(SRCDIR)/environ/init_env.c
 HD		=	$(HDDIR)/spash.h\
 			$(HDDIR)/spash_parsing.h\

@@ -1,3 +1,8 @@
+//	NORM
+//		-missing header
+//	TODO
+//		-fixe tabs in DEFAULT_PATH
+
 #ifndef SPASH_ENVIRON_H
 # define SPASH_ENVIRON_H
 

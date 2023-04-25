@@ -38,8 +38,8 @@ void	init_builtins(t_data *data)
 	data->builtins[I_EXPORT].fct = b_export;*/
 	data->builtins[I_PWD].cmd = S_PWD;
 	data->builtins[I_PWD].fct = b_pwd;
-/*	data->builtins[I_UNSET].cmd = S_UNSET;
-	data->builtins[I_UNSET].fct = b_unset;*/
+	data->builtins[I_UNSET].cmd = S_UNSET;
+	data->builtins[I_UNSET].fct = b_unset;
 	data->builtins[I_CD].cmd = S_CD;
 	data->builtins[I_CD].fct = b_cd;
 /*	data->builtins[I_EXIT].cmd = S_EXIT;

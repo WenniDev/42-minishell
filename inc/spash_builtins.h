@@ -12,5 +12,6 @@
 int	b_cd(int argc, char **argv, void *ptr);
 int	b_env(int argc, char **argv, void *ptr);
 int	b_pwd(int argc, char **argv, void *data);
+int	b_unset(int argc, char **argv, void *ptr);
 
 #endif
