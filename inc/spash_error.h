@@ -13,6 +13,9 @@
 # define UNTOK		"syntax error: unexpected token"
 # define CMDNOTF	"command not found"
 # define PERMDN		"permission denied"
+# define CDFAIL		"HOME not set"
+# define PWDFAIL	"OLDPWD not set"
+# define CDTMARG	"too many arguments"
 
 # define ERROR		(-1)
 
