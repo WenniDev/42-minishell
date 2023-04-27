@@ -1,0 +1,5 @@
+[32m→ [0mpwd
+argv[0] = pwd
+
+/mnt/nfs/homes/jopadova/projects/git/minishell/tester
+[32m→ [0mexit status = 0
