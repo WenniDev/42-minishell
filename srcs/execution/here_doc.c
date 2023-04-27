@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 00:17:16 by jopadova          #+#    #+#             */
-/*   Updated: 2023/04/27 00:17:16 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:14:22 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "spash_parsing.h"
 #include "spash_error.h"
 #include "spash_exec.h"
+#include <fcntl.h>
+
 #include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -21,7 +23,7 @@
 # define HEREDOC_TMP	"/tmp/heredoc_minishell"
 
 /* 
-	strace -o steps_out -ff -e open,close,unlink,read,write,execve,dup2 -- $sh ./test.sh
+	strace -o steps_out -ff -e open,close,unlink,read,write,execve,readline,dup2 -- $sh ./test.sh
 
 	test.sh:
 
