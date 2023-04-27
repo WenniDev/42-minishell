@@ -29,6 +29,7 @@ SRCS	=	$(SRCDIR)/main.c\
 			$(SRCDIR)/execution/io_red.c\
 			$(SRCDIR)/execution/exec_cmd.c\
 			$(SRCDIR)/execution/exec_builtin.c\
+			$(SRCDIR)/execution/here_doc.c\
 			$(SRCDIR)/sig.c\
 			$(SRCDIR)/builtins/b_cd.c\
 			$(SRCDIR)/builtins/b_env.c\
