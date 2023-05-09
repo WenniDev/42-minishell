@@ -16,7 +16,7 @@
 char	*get_cmd_line(t_data *data)
 {
 	if (!data->c_line)
-		data->c_line = readline("→ ");
+		data->c_line = readline("spash$ ");
 	else if (data->c_line)
 	{
 		free(data->c_line);

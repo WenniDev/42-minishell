@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#! /usr/bin/env bash
 
 MINISHELL=../minishell
 TEST_FILE=./minitest.csv
@@ -13,6 +13,7 @@ exec_cmd()
 
   echo "$command" > $INPUT_FILE
   result=$(cat $LOG_FILE | tail -n2 | head -1)
+  echo "$result = $expected"
   if [ "$result" = "$expected" ]
   then
     echo "Test pass"
@@ -22,7 +23,7 @@ exec_cmd()
   
 }
 
-function killCmd() {
+killCmd() {
     kill "$1"
 }
 

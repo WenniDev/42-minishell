@@ -1,6 +1,0 @@
-→ pwd
-/mnt/nfs/homes/jopadova/projects/git/minishell/tester
-→ cd
-→ pwd
-/mnt/nfs/homes/jopadova
-→ exit status = 0
