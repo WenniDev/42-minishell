@@ -1,0 +1,3 @@
+first_pwd,pwd,/mnt/nfs/homes/jopadova/projects/git/minishell/tester
+go_to_home,cd,→ cd
+home_pwd,pwd,/mnt/nfs/homes/jopadova

@@ -1,60 +1,60 @@
 #!/bin/bash
 
 MINISHELL=../minishell
-
+TEST_FILE=./minitest.csv
 LOG_FILE=./log.txt
-ERROR_FILE=./error.txt
-
-SAVE_FILE=./pid.txt
 
 INPUT_FILE=bridge.fifo
 
-function get_diff
+exec_cmd()
 {
-  if [[ "$1" == "$2" ]]
+  command=$1
+  expected=$2
+
+  echo "$command" > $INPUT_FILE
+  result=$(cat $LOG_FILE | tail -n2 | head -1)
+  if [ "$result" = "$expected" ]
   then
     echo "Test pass"
   else
     echo "Test not pass"
   fi
+  
 }
 
-function exec_cmd
-{
-  echo "$1" > $INPUT_FILE
-  if [[ "$2" == "OK" ]]; then
-    get_diff "$(tail -1 $LOG_FILE)" "spash: command not found: $1"
-  fi
-  if [[ "$2" == "KO" ]]; then
-    get_diff "$(tail -1 $ERROR_FILE)" "spash: command not found: $1"
-  fi
-  echo "Resultat: $(tail -1 $ERROR_FILE)"
-  echo "Excepted: spash: command not found: $1"
+function killCmd() {
+    kill "$1"
 }
 
-#rm -f $INPUT_FILE
-#rm -f $SAVE_FILE
-#mkfifo $INPUT_FILE
-#cat > $INPUT_FILE &
-#while :; do cat $INPUT_FILE ; done > /dev/null  &
-#echo $! > $SAVE_FILE
+rm -f $INPUT_FILE
+mkfifo $INPUT_FILE
+while true; do cat; done >$INPUT_FILE &
+PID=$!
 echo "Minishell init finish"
 
-#$MINISHELL 1>$LOG_FILE 2>$ERROR_FILE < $INPUT_FILE &
-#echo "Minishell started"
+$MINISHELL > $LOG_FILE < $INPUT_FILE &
+echo "Minishell started"
 
-echo " ---- TEST 1 ---- "
-exec_cmd "efweoihfoiwef" "KO"
-sleep 1
 
-echo " ---- TEST 2 ---- "
-exec_cmd "effwef" "KO"
-sleep 1
+while read -r line || [ -n "$line" ]
+do
+    # Séparer les éléments de la ligne en utilisant le délimiteur ';'
+    newline_string=$(echo "$line" | tr ',' '\n')
+    readarray -t elements <<<"$newline_string"
 
-echo " ---- TEST 3 ---- "
-exec_cmd "efoiwef" "KO"
-sleep 1
+    # Stocker chaque élément dans une variable séparée
+    test_name=${elements[0]}
+    command=${elements[1]}
+    expected_result=${elements[2]}
+
+    # Faire quelque chose avec chaque élément séparé
+    echo " ---- $test_name ---- "
+    exec_cmd "$command" "$expected_result"
+    sleep 1
+done < $TEST_FILE
+
+killCmd $PID &
 
 echo "Minishell killed"
 
-#rm -rf $INPUT_FILE $SAVE_FILE
+rm -rf $INPUT_FILE

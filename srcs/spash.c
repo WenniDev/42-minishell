@@ -62,7 +62,7 @@ int	spash(t_data *data, bool subcmd)
 		while (data->c_line)
 		{
 			parse(data);
-			print_cmds(data);
+			// print_cmds(data);
 			exec(data);
 			reset(data);
 			get_cmd_line(data);

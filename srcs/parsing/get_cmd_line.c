@@ -16,7 +16,7 @@
 char	*get_cmd_line(t_data *data)
 {
 	if (!data->c_line)
-		data->c_line = readline("\e[32m→ \e[0m");
+		data->c_line = readline("→ ");
 	else if (data->c_line)
 	{
 		free(data->c_line);
