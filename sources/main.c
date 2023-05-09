@@ -1,8 +1,15 @@
-#include "minishell_command.h"
+#include <stdlib.h>
+#include "minishell.h"
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
+	t_data	*msh;
+
 	(void)argv;
-	return (0);
+	if (argc != 1)
+		return (EXIT_FAILURE);
+	msh = (t_data *)sfcalloc(1, sizeof (t_data));
+	signal_handler(msh);
+	parse(&msh->parser, 0);
+	return (EXIT_SUCCESS);
 }

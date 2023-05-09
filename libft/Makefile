@@ -38,6 +38,7 @@ SRCS =	$(SRCDIR)/ft_isalpha.c\
 		$(SRCDIR)/ft_strnchr.c\
 		$(SRCDIR)/ft_atoi_base.c\
 		$(SRCDIR)/ft_realloc.c\
+		$(SRCDIR)/ft_free.c\
 		$(FT_PRINTF_SRCDIR)/ft_printf.c\
 		$(FT_PRINTF_SRCDIR)/ft_putnbr_base.c\
 		$(FT_PRINTF_SRCDIR)/get_conf.c\

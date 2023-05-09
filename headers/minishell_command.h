@@ -1,11 +1,29 @@
- #ifndef MINISHELL_COMMAND_H
+#ifndef MINISHELL_COMMAND_H
 # define MINISHELL_COMMAND_H
 
-# define	W_DOLLAR		(1 << 0)
-# define 	W_QUOTES		(1 << 1)
+# include "minishell_utils.h"
+# include "fcntl.h"
 
-# define 	CMD_SUBSHELL	(1 << 0)
-# define 	CMD_BUILTIN		(1 << 1)
+/* values for word_d flags */
+# define W_DOLLAR		0x01	//dollar sign present
+# define W_QUOTES		0x02	//quotes present
+
+/* values for command flags */
+# define CMD_SUBSHELL	0x01	//command wants subshell
+# define CMD_BUILTIN	0x02	//command is a builtin
+# define CMD_EXECTRUE	0x02	//execute command if previous is true
+# define CMD_EXECFALSE	0x04	//execute command if previous is false
+# define CMD_STARTPIPE	0x08	//command start a pipeline
+# define CMD_PIPE		0x10	//command is in a pipeline
+# define CMD_ENDPIPE	0x20	//command ends a pipeline
+
+typedef enum e_red_infos
+{
+	r_input,
+	r_output_tr,
+	r_output_ap,
+	r_heredoc
+}t_red_infos;
 
 typedef enum e_command_type
 {
@@ -13,55 +31,46 @@ typedef enum e_command_type
 	subshell_cmd
 }t_command_type;
 
-typedef struct s_word_desc
+typedef struct s_word_d
 {
-	char	*word;
+	char	*lval;
 	int		flags;
-}t_word_desc;
+}t_word_d;
 
 typedef struct s_word_lst
 {
-	t_word_desc			word_desc;
+	t_word_d			*word_d;
 	struct s_word_lst	*next;
 }t_word_lst;
 
-typedef struct s_redirect
+typedef struct s_red
 {
-	int					flags;
-	int					oflags;
-	t_word_desc 		filename;
-	char				*heredoc_eof;
-	struct s_redirect	*next;
-}t_redirect;
+	int				oflags;
+	int				src;
+	t_word_d		*filename;
+	char			*heredoc_eof;
+	struct s_red	*next;
+}t_red;
 
-typedef struct s_subshell_cmd
+typedef union u_command_elems
 {
-	int					flags;
-	int					line;
-	struct s_command	*command;
-}t_subshell_cmd;
+	t_word_lst				*words;
+	struct s_command_lst	*cmds;
+}t_command_elems;
 
-typedef struct s_simple_cmd
+typedef struct s_command
 {
-	int			flags;
-	int			line;
-	t_word_lst	*words;
-	t_redirect	*redirects;
-}t_simple_cmd;
+	t_command_type	type;
+	int				flags;
+	t_red			*reds;
+	t_command_elems	elems;
+}t_command;
 
-typedef union u_command_value
+typedef struct s_command_lst
 {
-	t_simple_cmd	*simple_cmd;
-	t_subshell_cmd	*subshell_cmd;
-}t_command_value;
-
- typedef struct s_command
- {
-	 t_command_type		type;
-	 int				flags;
-	 int				line;
-	 t_redirect			*redirects;
-	 t_command_value	value;
- }t_command;
+	t_command				cmd;
+	struct s_command_lst	*prev;
+	struct s_command_lst	*next;
+}t_command_lst;
 
 #endif

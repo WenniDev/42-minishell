@@ -8,16 +8,26 @@ DEPDIR		=	$(PROJDIR)/dependencies
 
 #COMPILER
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
-HDINC		=	-I $(INCDIR) -I $(PROJDIR)/libft/libft.a
+CFLAGS		=	-Wall -Wextra -Werror -g
+HDINC		=	-I $(INCDIR) -I $(PROJDIR)/libft/inc
 LIBINC		=	-lreadline
 
 #FILES
 LIBFT		=	$(PROJDIR)/libft/libft.a
 SRCS		=	$(SRCDIR)/main.c\
-				$(SRCDIR)/minishell.c
+				$(SRCDIR)/parser.c\
+				$(SRCDIR)/token.c\
+				$(SRCDIR)/actions.c\
+				$(SRCDIR)/sfcalloc.c\
+				$(SRCDIR)/parse_utils.c\
+				$(SRCDIR)/parse_utils2.c\
+				$(SRCDIR)/error.c\
+				$(SRCDIR)/signal_handler.c\
+				$(SRCDIR)/cleanup.c
 INCS		=	$(INCDIR)/minishell_types.h\
-				$(INCDIR)/minishell_command.h
+				$(INCDIR)/minishell_command.h\
+				$(INCDIR)/minishell.h\
+				$(INCDIR)/minishell_error.h
 OBJS		=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
 DEPS		=	$(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SRCS:.c=.d))
 
@@ -26,12 +36,12 @@ all : $(TARGET)
 
 $(TARGET) : $(LIBFT) $(OBJS)
 	@printf "\nLinking $@...\n"
-	@$(CC) $(CFLAGS) $(HDINC) $(OBJS) $(LIBFT) -o $@
+	@$(CC) $(CFLAGS) $(HDINC) $(OBJS) $(LIBFT) -o $@ $(LIBINC)
 	@printf "All done\n"
 
 $(LIBFT) :
 	@printf "Compiling libft...\n"
-	@make -s -C $(PROJDIR)/libft
+	@make -s -C $(PROJDIR)/libft/
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
@@ -44,7 +54,7 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 clean :
 	@printf "Cleaning object files...\n"
-	@make -s clean -C $(PROJDIR)/libft
+	@make -s clean -C $(PROJDIR)/libft/
 	@rm -rf $(OBJDIR) $(DEPDIR)
 
 fclean : clean
