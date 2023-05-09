@@ -1,32 +1,42 @@
-# Start your image with a node base image
+# Start compiler for ubuntu base
 FROM ubuntu AS compiler
 
-# The /app directory should act as the main application directory
+# Create and move to 42_minishell directory
 WORKDIR /42_minishell
 
-# Copy local directories to the current local directory of our docker image (/app)
+# Copy source files 
 COPY ./srcs ./srcs
 COPY ./inc ./inc
 COPY ./lib ./lib
-COPY ./tester ./tester
 COPY Makefile Makefile
 
-# Install node packages, install serve, build the app, and remove dependencies at the end
+# Copy tester
+COPY ./tester ./tester
+
+# Install build tools and dependencies
 RUN apt-get update
 RUN apt-get -y install libreadline-dev=8.1.2-1 build-essential dos2unix
+
+# Start building
 RUN make
+
+# Make file compatible with Linux
 RUN dos2unix tester/tester.sh
 RUN dos2unix tester/minitest.csv
 
-# Start the app using serve command
+# Start another Docker
 FROM ubuntu
 
+# Install only dependencies
 RUN apt-get update
 RUN apt-get -y install libreadline-dev=8.1.2-1
 
+# Copy built binary and tester from compiler
 COPY --from=compiler /42_minishell/minishell /minishell
 COPY --from=compiler /42_minishell/tester /tester
 
+# Move into tester folder
 WORKDIR /tester
 
+# Start tester
 CMD [ "bash", "./tester.sh" ]
