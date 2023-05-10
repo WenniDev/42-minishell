@@ -80,6 +80,7 @@ void	add_word(t_parser *p, t_word_d wd)
 	}
 	else
 	{
+		new_wl->word->flags |= W_NOEXPAND;
 		p->cl_curr->cmd.elem.words = new_wl;
 		if (ft_strstr(BUILTINS, new_wl->word->lval))
 			p->cl_curr->cmd.flags |= CMD_BUILTIN;
