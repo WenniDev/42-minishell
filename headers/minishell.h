@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:59:09 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/10 15:59:11 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:13:58 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "minishell_command.h"
 # include "minishell_parse.h"
 # include "minishell_execute.h"
+# include "minishell_expand.h"
 # include "minishell_error.h"
 # include "libft.h"
 # include <signal.h>
