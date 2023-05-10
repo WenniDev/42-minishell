@@ -4,15 +4,16 @@
 # include "minishell_utils.h"
 # include "fcntl.h"
 
-/* values for word_d flags */
+/* values for word flags */
 # define W_DOLLAR		0x01	//dollar sign present
 # define W_QUOTES		0x02	//quotes present
+# define W_NOEXPAND		0x04	//do not expand filenames
 
 /* values for command flags */
 # define CMD_SUBSHELL	0x01	//command wants subshell
 # define CMD_BUILTIN	0x02	//command is a builtin
-# define CMD_EXECTRUE	0x02	//execute command if previous is true
-# define CMD_EXECFALSE	0x04	//execute command if previous is false
+# define CMD_EXECTRUE	0x02	//execution command if previous is true
+# define CMD_EXECFALSE	0x04	//execution command if previous is false
 # define CMD_STARTPIPE	0x08	//command start a pipeline
 # define CMD_PIPE		0x10	//command is in a pipeline
 # define CMD_ENDPIPE	0x20	//command ends a pipeline
@@ -39,7 +40,7 @@ typedef struct s_word_d
 
 typedef struct s_word_lst
 {
-	t_word_d			*word_d;
+	t_word_d			*word;
 	struct s_word_lst	*next;
 }t_word_lst;
 
@@ -63,7 +64,7 @@ typedef struct s_command
 	t_command_type	type;
 	int				flags;
 	t_red			*reds;
-	t_command_elems	elems;
+	t_command_elems	elem;
 }t_command;
 
 typedef struct s_command_lst

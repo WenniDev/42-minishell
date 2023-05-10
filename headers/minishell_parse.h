@@ -3,8 +3,9 @@
 
 # include "minishell_command.h"
 # include "minishell_utils.h"
-# include "libft.h"
 # include "minishell_error.h"
+# include "libft.h"
+# include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -12,8 +13,6 @@
 # define PST_SUBSHELL		0x01
 # define PST_HEREDOC		0x02
 # define PST_END			0x04
-
-# define DEFAULT			(-1)
 
 # define HEREDOC_MAX		16
 
@@ -60,15 +59,16 @@ typedef struct s_parser
 	char			*line_ptr;
 	int				line;
 	int				state;
-	int				symc;
+	int				ssymc;
 	int				tk;
 	int				act;
 	int				pc;
 	t_word_d		word;
 	t_red			*hd_lst;
 	t_command_lst	*cmd_lst;
-	t_command_lst	*cmd_last;
-	t_command_lst	*cmd_curr;
+	t_command_lst	*cl_last;
+	t_command_lst	*cl_curr;
+	bool			eof;
 	int				status;
 }t_parser;
 
@@ -83,5 +83,6 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 void		parser_act(t_parser *p, int act);
 int			next_token(t_parser *p, int tk);
+void		reset_parser(t_parser *p);
 
 #endif

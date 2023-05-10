@@ -1,7 +1,5 @@
 #include "minishell_parse.h"
 
-static void	reset_parser(t_parser *p);
-
 static const char		*g_symbol_name[] = {
 	"invalid token", "<", ">", "<<", ">>", "|", "||", "&&", "(", ")", "\n",
 	"word", "simple_cmd", "subshell_cmd"
@@ -52,10 +50,8 @@ const char	*tk_translate(int tk)
 	return (g_symbol_name[tk_symbol(tk)]);
 }
 
-int	parse(t_parser *p, t_bool reset)
+int	parse(t_parser *p)
 {
-	if (reset)
-		reset_parser(p);
 	while (p->state != PST_END)
 	{
 		if (!p->cmd_lst)
@@ -63,20 +59,20 @@ int	parse(t_parser *p, t_bool reset)
 		p->tk = next_token(p, p->tk);
 		if (p->tk < 0)
 			break ;
-		p->symc += tk_symbol(p->tk);
-		p->act = g_act_table[p->symc];
+		p->ssymc += tk_symbol(p->tk);
+		p->act = g_act_table[p->ssymc];
 		if (p->act)
 		{
 			parser_act(p, p->act);
-			p->symc = 0;
+			p->ssymc = 0;
 		}
 	}
 	if (p->tk == EOF)
-		return (p->status);
-	return (parse(p, 1));
+		p->eof = true;
+	return (p->status);
 }
 
-static void	reset_parser(t_parser *p)
+void	reset_parser(t_parser *p)
 {
 	void	*tmp;
 

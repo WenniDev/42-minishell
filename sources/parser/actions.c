@@ -2,7 +2,7 @@
 
 void			add_word(t_parser *p, t_word_d wd);
 void			add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr);
-void			add_red(t_parser *p, t_word_d wd, int flags);
+void			add_red(t_parser *p, int src, t_word_d wd, int flags);
 void			add_simple_cmd(t_parser *p, int sep);
 
 void	parser_act(t_parser *p, int act)
@@ -10,13 +10,13 @@ void	parser_act(t_parser *p, int act)
 	if (act == 1)
 		add_word(p, p->word);
 	else if (act == 2)
-		add_red(p, p->word, r_input);
+		add_red(p, 0, p->word, r_input);
 	else if (act == 3)
-		add_red(p, p->word, r_output_tr);
+		add_red(p, 1, p->word, r_output_tr);
 	else if (act == 4)
-		add_red(p, p->word, r_heredoc);
+		add_red(p, 0, p->word, r_heredoc);
 	else if (act == 5)
-		add_red(p, p->word, r_output_ap);
+		add_red(p, 1, p->word, r_output_ap);
 	else if (act == 6)
 		add_simple_cmd(p, 0);
 	else if (act == 7)
@@ -26,9 +26,9 @@ void	parser_act(t_parser *p, int act)
 	else if (act == 9)
 		add_simple_cmd(p, AND_AND);
 	else if (act == 10)
-		add_subshell_cmd(p, p->cmd_curr);
+		add_subshell_cmd(p, p->cl_curr);
 	else if (act == 11)
-		p->cmd_curr = p->cmd_last;
+		p->cl_curr = p->cl_last;
 }
 
 void	add_simple_cmd(t_parser *p, int sep)
@@ -39,9 +39,9 @@ void	add_simple_cmd(t_parser *p, int sep)
 	new_cmd->cmd.type = simple_cmd;
 	if (sep == '|')
 	{
-		if (!(p->cmd_curr->cmd.flags & CMD_PIPE))
-			p->cmd_curr->cmd.flags |= CMD_STARTPIPE;
-		p->cmd_curr->cmd.flags &= ~CMD_ENDPIPE;
+		if (!(p->cl_curr->cmd.flags & CMD_PIPE))
+			p->cl_curr->cmd.flags |= CMD_STARTPIPE;
+		p->cl_curr->cmd.flags &= ~CMD_ENDPIPE;
 		new_cmd->cmd.flags |= CMD_PIPE;
 		new_cmd->cmd.flags |= CMD_ENDPIPE;
 	}
@@ -49,14 +49,14 @@ void	add_simple_cmd(t_parser *p, int sep)
 		new_cmd->cmd.flags |= CMD_EXECFALSE;
 	else if (sep == AND_AND)
 		new_cmd->cmd.flags |= CMD_EXECTRUE;
-	if (!p->cmd_lst)
-		p->cmd_lst = new_cmd;
-	else
+	if (p->cmd_lst)
 	{
-		p->cmd_curr->next = new_cmd;
-		new_cmd->prev = p->cmd_curr;
+		p->cl_curr->next = new_cmd;
+		new_cmd->prev = p->cl_curr;
 	}
-	p->cmd_curr = new_cmd;
+	else
+		p->cmd_lst = new_cmd;
+	p->cl_curr = new_cmd;
 }
 
 void	add_word(t_parser *p, t_word_d wd)
@@ -68,19 +68,25 @@ void	add_word(t_parser *p, t_word_d wd)
 	new_wl = (t_word_lst *)sfcalloc(1, sizeof (t_word_lst));
 	new_wd = (t_word_d *)sfcalloc(1, sizeof (t_word_d));
 	*new_wd = wd;
-	new_wl->word_d = new_wd;
-	wl = p->cmd_curr->cmd.elems.words;
+	new_wl->word = new_wd;
+	wl = p->cl_curr->cmd.elem.words;
 	if (wl)
 	{
+		if (!ft_strcmp(wl->word->lval, "export"))
+			new_wl->word->flags |= W_NOEXPAND;
 		while (wl->next)
 			wl = wl->next;
 		wl->next = new_wl;
 	}
 	else
-		p->cmd_curr->cmd.elems.words = new_wl;
+	{
+		p->cl_curr->cmd.elem.words = new_wl;
+		if (ft_strstr(BUILTINS, new_wl->word->lval))
+			p->cl_curr->cmd.flags |= CMD_BUILTIN;
+	}
 }
 
-void	add_red(t_parser *p, t_word_d wd, int flags)
+void	add_red(t_parser *p, int src, t_word_d wd, int flags)
 {
 	t_red		*red;
 	t_red		*new_red;
@@ -90,6 +96,7 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 	new_wd = (t_word_d *)sfcalloc(1, sizeof (t_word_d));
 	*new_wd = wd;
 	new_red->filename = new_wd;
+	new_red->src = src;
 	if (flags == r_input)
 		new_red->oflags = O_RDONLY;
 	if (flags == r_output_tr)
@@ -98,7 +105,7 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 		new_red->oflags = O_CREAT | O_WRONLY | O_APPEND;
 /*	if (flags == r_heredoc)
 		add_heredoc(p, new_red);*/
-	red = p->cmd_curr->cmd.reds;
+	red = p->cl_curr->cmd.reds;
 	if (red)
 	{
 		while (red->next)
@@ -106,7 +113,7 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 		red->next = new_red;
 	}
 	else
-		p->cmd_curr->cmd.reds = new_red;
+		p->cl_curr->cmd.reds = new_red;
 }
 
 void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)
@@ -122,6 +129,6 @@ void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)
 	else
 		p->cmd_lst = new_cmd;
 	cmd_curr->prev = NULL;
-	new_cmd->cmd.elems.cmds = cmd_curr;
-	p->cmd_last = new_cmd;
+	new_cmd->cmd.elem.cmds = cmd_curr;
+	p->cl_last = new_cmd;
 }

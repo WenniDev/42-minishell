@@ -7,8 +7,8 @@ void	clean_elems(t_word_lst *words, t_red *reds)
 	while (words)
 	{
 		tmp = words->next;
-		free(words->word_d->lval);
-		free(words->word_d);
+		free(words->word->lval);
+		free(words->word);
 		free(words);
 		words = (t_word_lst *)tmp;
 	}
@@ -27,16 +27,16 @@ void	clean_cmd(t_command_lst *cl)
 	void	*tmp;
 
 	if (cl->cmd.type == simple_cmd)
-		clean_elems(cl->cmd.elems.words, cl->cmd.reds);
+		clean_elems(cl->cmd.elem.words, cl->cmd.reds);
 	else if (cl->cmd.type == subshell_cmd)
 	{
 		clean_elems(NULL, cl->cmd.reds);
-		while (cl->cmd.elems.cmds)
+		while (cl->cmd.elem.cmds)
 		{
-			tmp = cl->cmd.elems.cmds->next;
-			clean_cmd(cl->cmd.elems.cmds);
-			free(cl->cmd.elems.cmds);
-			cl->cmd.elems.cmds = (t_command_lst *)tmp;
+			tmp = cl->cmd.elem.cmds->next;
+			clean_cmd(cl->cmd.elem.cmds);
+			free(cl->cmd.elem.cmds);
+			cl->cmd.elem.cmds = (t_command_lst *)tmp;
 		}
 	}
 }

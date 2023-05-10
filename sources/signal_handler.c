@@ -1,8 +1,7 @@
 #include "minishell.h"
+#include "minishell_parse.h"
 
 t_data	*g_msh;
-
-void	reset_parser(t_parser *p);
 
 void	handle_sigabrt(int signum)
 {

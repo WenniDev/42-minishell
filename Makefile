@@ -15,17 +15,19 @@ LIBINC		=	-lreadline
 #FILES
 LIBFT		=	$(PROJDIR)/libft/libft.a
 SRCS		=	$(SRCDIR)/main.c\
-				$(SRCDIR)/parser.c\
-				$(SRCDIR)/token.c\
-				$(SRCDIR)/actions.c\
+				$(SRCDIR)/parser/parse.c\
+				$(SRCDIR)/parser/token.c\
+				$(SRCDIR)/parser/actions.c\
+				$(SRCDIR)/parser/get_line.c\
+				$(SRCDIR)/parser/parse_utils.c\
+				$(SRCDIR)/execution/execute.c\
 				$(SRCDIR)/sfcalloc.c\
-				$(SRCDIR)/parse_utils.c\
-				$(SRCDIR)/parse_utils2.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\
 				$(SRCDIR)/cleanup.c
-INCS		=	$(INCDIR)/minishell_types.h\
+INCS		=	$(INCDIR)/minishell_parse.h\
 				$(INCDIR)/minishell_command.h\
+				$(INCDIR)/minishell_execute.h\
 				$(INCDIR)/minishell.h\
 				$(INCDIR)/minishell_error.h
 OBJS		=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
