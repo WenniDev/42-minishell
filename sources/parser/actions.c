@@ -84,8 +84,6 @@ void	add_word(t_parser *p, t_word_d wd)
 	wl = p->cl_curr->cmd.elem.words;
 	if (wl)
 	{
-		if (!ft_strcmp(wl->word->lval, "export"))
-			new_wl->word->flags |= W_NOEXPAND;
 		while (wl->next)
 			wl = wl->next;
 		wl->next = new_wl;
