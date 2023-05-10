@@ -22,6 +22,7 @@ int	next_token(t_parser *p, int tk)
 	int	tk_n;
 	int	tk_last;
 
+	ft_memset(&p->word, 0, sizeof (t_word_d));
 	tk_last = tk;
 	if ((!tk_last || tk_last == NEWLINE) && !get_line(p))
 		return (EOF);
