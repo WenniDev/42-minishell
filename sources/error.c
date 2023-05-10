@@ -35,3 +35,9 @@ int	syntax_error(char *error, int tk, char *lvl)
 	ft_putchar_fd('\n', 2);
 	return (EXS_ERROR);
 }
+
+void	msh_error(char *error)
+{
+	perror(error);
+	kill(0, SIGABRT);
+}

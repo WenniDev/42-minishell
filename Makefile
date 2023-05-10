@@ -20,7 +20,6 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
-				$(SRCDIR)/execution/execute.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\

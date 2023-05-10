@@ -5,6 +5,7 @@
 # include "minishell_utils.h"
 # include "minishell_error.h"
 # include "libft.h"
+# include <stdio.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>

@@ -1,0 +1,6 @@
+#ifndef MINISHELL_REDIRECT_H
+# define MINISHELL_REDIRECT_H
+
+
+
+#endif
