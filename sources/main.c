@@ -29,6 +29,14 @@ int	main(int argc, char **argv)
 	return (msh->status);
 }
 
+int execute(t_exec *exec, t_command_lst *command)
+{
+	(void)exec;
+	(void)command;
+
+	return (0);
+}
+
 int	parse_and_execute(t_data *msh)
 {
 	msh->status = parse(&msh->parser);
