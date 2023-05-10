@@ -20,6 +20,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
+				$(SRCDIR)/expand/expand.c\
 				$(SRCDIR)/execution/execute.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
@@ -28,6 +29,7 @@ SRCS		=	$(SRCDIR)/main.c\
 INCS		=	$(INCDIR)/minishell_parse.h\
 				$(INCDIR)/minishell_command.h\
 				$(INCDIR)/minishell_execute.h\
+				$(INCDIR)/minishell_expand.h\
 				$(INCDIR)/minishell.h\
 				$(INCDIR)/minishell_error.h
 OBJS		=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
