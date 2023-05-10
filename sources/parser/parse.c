@@ -94,4 +94,5 @@ void	reset_parser(t_parser *p)
 		p->hd_lst = (t_red *)tmp;
 	}
 	ft_memset(p, 0, sizeof (t_parser));
+	p->word.flags = 0;
 }
