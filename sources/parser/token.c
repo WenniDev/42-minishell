@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 18:08:39 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/10 18:08:39 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:45:48 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ static int	read_token_word(t_parser *p, char **line_ptr)
 			quote = c;
 			c = get_char(line_ptr);
 			while (c && c != quote)
+			{
+				if (c == '$')
+					p->word.flags |= W_DOLLAR;
 				c = get_char(line_ptr);
+			}
 			if (!c)
 				return (syntax_error(NULL, quote, NULL));
 		}
