@@ -8,7 +8,7 @@ DEPDIR		=	$(PROJDIR)/dependencies
 
 #COMPILER
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
 HDINC		=	-I $(INCDIR) -I $(PROJDIR)/libft/inc
 LIBINC		=	-lreadline
 
@@ -21,6 +21,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/expand/expand.c\
+				$(SRCDIR)/expand/environment.c\
 				$(SRCDIR)/execution/execute.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
