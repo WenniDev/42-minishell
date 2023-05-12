@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:01:23 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/10 17:17:17 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:51:36 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	parse_and_execute(t_data *msh)
 {
 	msh->status = parse(&msh->parser);
 	if (!msh->status)
-		msh->status = expand(msh->parser.cmd_lst);
+		msh->status = expand(msh->parser.cmd_lst->cmd.elem.words);
 	if (!msh->status)
 		msh->status = execute(&msh->exec, msh->parser.cmd_lst);
 	reset_parser(&msh->parser);
