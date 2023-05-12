@@ -36,8 +36,9 @@ int	syntax_error(char *error, int tk, char *lvl)
 	return (EXS_ERROR);
 }
 
-void	msh_error(char *error)
+int	msh_error(char *error)
 {
 	perror(error);
 	kill(0, SIGABRT);
+	return (EXIT_FAILURE);
 }

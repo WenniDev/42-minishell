@@ -1,6 +1,4 @@
-#include "minishell_execute.h"
-#include "minishell_redirect.h"
-#include "minishell_error.h"
+#include "minishell.h"
 
 /*static const t_builtin	g_builtin[] ={
 		{"env", b_env},
@@ -44,9 +42,6 @@ void	redirect(t_exec *e, t_red *r, int fdin, int fdout)
 	e->fd_map[5] = fdout;
 	while (r && !e->error)
 	{
-/*		e->error = expand_red(r);*/
-		if (e->error)
-			break ;
 		if (r->rflags & RED_IN && e->fd_map[4])
 			close_fd_map(e, 4, 1);
 /*		if (r->rflags & RED_HEREDOC)
@@ -58,7 +53,7 @@ void	redirect(t_exec *e, t_red *r, int fdin, int fdout)
 		if (r->rflags & RED_OUT)
 			e->fd_map[5] = open(r->filename->lval, r->oflags, 0664);
 		if (e->fd_map[4] == -1 || e->fd_map[5] == -1)
-			e->error = errno;
+			exit_prg()
 	}
 	if (dup2(e->fd_map[4], STDIN_FILENO) == -1
 		|| dup2(e->fd_map[5], STDOUT_FILENO) == -1)
@@ -66,7 +61,7 @@ void	redirect(t_exec *e, t_red *r, int fdin, int fdout)
 	close_fd_map(e, 4, 2);
 }
 
-void	execute_simple_cmd(t_exec *e, t_command cmd)
+void	execute_simple_cmd(t_data *msh, t_exec *e, t_command cmd)
 {
 	int	last_cmd_status;
 
@@ -82,9 +77,8 @@ void	execute_simple_cmd(t_exec *e, t_command cmd)
 		msh_error(EREXECVE);
 }
 
-void	execute_cmd(t_exec *e, t_command cmd, int fdin , int fdout)
+void	execute_cmd(t_data *msh, t_exec *e, t_command cmd, int fdin , int fdout)
 {
-	redirect(e, cmd.reds, fdin, fdout);
 /*	if (cmd.flags & CMD_BUILTIN && !(cmd.flags & CMD_PIPE))
 		return (execute_builtin_cmd(e, cmd));*/
 	e->pid_curr = fork();
@@ -92,12 +86,13 @@ void	execute_cmd(t_exec *e, t_command cmd, int fdin , int fdout)
 		msh_error(ERFORK);
 	if (!e->pid_curr)
 	{
+		redirect(e, cmd.reds, fdin, fdout);
 /*		if (cmd.flags & CMD_SUBSHELL)
 			return (execute_in_subshell(e, cmd));*/
 /*		else if (cmd.flags & CMD_BUILTIN)
 			return (execute_builtin_cmd(e, cmd));*/
 		if (cmd.flags & CMD_SIMPLE)
-			return (execute_simple_cmd(e, cmd));
+			return (execute_simple_cmd(msh, e, cmd));
 	}
 	else
 	{
@@ -107,7 +102,7 @@ void	execute_cmd(t_exec *e, t_command cmd, int fdin , int fdout)
 	reset_stdfd(e);
 }
 
-int	execute_cmds_lst(t_exec *e, t_command_lst *cl)
+int	execute_cmds_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	init_fd_map(e);
 	while (cl)
@@ -115,13 +110,13 @@ int	execute_cmds_lst(t_exec *e, t_command_lst *cl)
 		if (pipe(e->fd_map + 2) == -1)
 			msh_error(ERPIPE);
 		if (cl->cmd.flags & CMD_STARTPIPE)
-			execute_cmd(e, cl->cmd, e->fd_map[0], e->fd_map[3]);
+			execute_cmd(msh, e, cl->cmd, e->fd_map[0], e->fd_map[3]);
 		else if (cl->cmd.flags & CMD_ENDPIPE)
-			execute_cmd(e, cl->cmd, e->fd_map[2], e->fd_map[1]);
+			execute_cmd(msh, e, cl->cmd, e->fd_map[2], e->fd_map[1]);
 		else if (cl->cmd.flags & CMD_PIPE)
-			execute_cmd(e, cl->cmd, e->fd_map[2], e->fd_map[3]);
+			execute_cmd(msh, e, cl->cmd, e->fd_map[2], e->fd_map[3]);
 		else
-			execute_cmd(e, cl->cmd, e->fd_map[0], e->fd_map[1]);
+			execute_cmd(msh, e, cl->cmd, e->fd_map[0], e->fd_map[1]);
 		cl = cl->next;
 	}
 	return (e->status);

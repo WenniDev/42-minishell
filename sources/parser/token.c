@@ -3,7 +3,6 @@
 static int	check_syntax(t_parser *p, int tk, int tk_last);
 static int	read_token(t_parser *p, char **line_ptr);
 static int	get_token(t_parser *p, char c_char, char n_char, char **line_ptr);
-static int	read_token_word(t_parser *p, char **line_ptr);
 
 int	next_token(t_parser *p, int tk)
 {
@@ -66,36 +65,6 @@ static int	get_token(t_parser *p, char c_char, char n_char, char **line_ptr)
 	if (c_char == ')' && --(p->pc) == 0)
 		p->state &= ~PST_SUBSHELL;
 	return ((int)c_char);
-}
-
-static int	read_token_word(t_parser *p, char **line_ptr)
-{
-	char 		c;
-	char		quote;
-	char 		*word_start;
-
-	quote = 0;
-	word_start = *line_ptr;
-	c = get_char(line_ptr);
-	while (c && !is_meta(c))
-	{
-		if (c == '$')
-			p->word.flags |= W_DOLLAR;
-		if (c == '\'' || c == '"')
-		{
-			p->word.flags |= W_QUOTES;
-			quote = c;
-			c = get_char(line_ptr);
-			while (c && c != quote)
-				c = get_char(line_ptr);
-			if (!c)
-				return (syntax_error(NULL, quote, NULL));
-		}
-		c = get_char(line_ptr);
-	}
-	unget_char(line_ptr);
-	p->word.lval = ft_substr(word_start, 0, *line_ptr - word_start);
-	return (WORD);
 }
 
 static int	check_syntax(t_parser *p, int tk, int tk_last)

@@ -19,7 +19,6 @@
 # define ERPIPE				"pipe failed"
 # define ERDUP2				"dup2 failed"
 # define ERFORK				"fork failed"
-# define EROPEN				"open failed"
 # define ERCLOSE			"close failed"
 # define ERWAITPID			"waitpid failed"
 # define EREXECVE			"execve failed"
@@ -29,6 +28,6 @@
 int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
-void	msh_error(char *error);
+int 	msh_error(char *error);
 
 #endif

@@ -21,10 +21,7 @@ int	parse_and_execute(t_data *msh)
 {
 	msh->status = parse(&msh->parser);
 	if (!msh->status)
-	{
-		expand_words(msh->parser.cmd_lst);
-		msh->status = execute_cmds_lst(msh, msh->parser.cmd_lst);
-	}
+		msh->status = execute_cmds_lst(msh, &msh->exec, msh->parser.cmd_lst);
 	reset_parser(&msh->parser);
 	return (msh->status);
 }

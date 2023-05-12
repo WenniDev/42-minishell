@@ -17,9 +17,11 @@ LIBFT		=	$(PROJDIR)/libft/libft.a
 SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/parse.c\
 				$(SRCDIR)/parser/token.c\
+				$(SRCDIR)/parser/token_word.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
+				$(SRCDIR)/execution/execute_cmd.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\

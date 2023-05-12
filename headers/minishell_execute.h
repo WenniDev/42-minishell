@@ -8,15 +8,15 @@
 
 typedef struct s_exec
 {
-	char			*cmd_path;
-	char			**argv;
-	char			**env;
-	int				fd_map[7];
-	pid_t			pid_curr;
-	pid_t			pid_last;
-	int				to_wait;
-	int				error;
-	int				status;
+	int		flags;
+	char	*cmd_path;
+	char	**argv;
+	char	**env;
+	int		pipefd[2];
+	pid_t	pid_last;
+	pid_t	pid_curr;
+	int		to_wait;
+	int		status;
 }t_exec;
 
 typedef struct s_builtin

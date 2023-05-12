@@ -4,6 +4,7 @@
 # include "minishell_command.h"
 # include "minishell_parse.h"
 # include "minishell_execute.h"
+# include "minishell_redirect.h"
 # include "minishell_error.h"
 # include "libft.h"
 # include <signal.h>

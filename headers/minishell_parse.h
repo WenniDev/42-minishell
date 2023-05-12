@@ -84,6 +84,7 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 void		parser_act(t_parser *p, int act);
 int			next_token(t_parser *p, int tk);
+static int	read_token_word(t_parser *p, char **line_ptr);
 void		reset_parser(t_parser *p);
 
 #endif
