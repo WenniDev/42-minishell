@@ -2,6 +2,15 @@
 #include "minishell_redirect.h"
 #include "minishell_error.h"
 
+/*static const t_builtin	g_builtin[] ={
+		{"env", b_env},
+		{"pwd", b_pwd},
+		{"export", b_export},
+		{"unset", b_unset},
+		{"echo", b_echo},
+		{"exit", b_exit}
+};*/
+
 void	init_fd_map(t_exec *e)
 {
 	e->fd_map[0] = dup(STDIN_FILENO);
@@ -10,63 +19,110 @@ void	init_fd_map(t_exec *e)
 		msh_error(ERDUP);
 }
 
-void	do_red(t_exec *e, t_red *red)
+void	close_fd_map(t_exec *e, int fd, int nb)
 {
-	if (red->heredoc_eof)
-		e->fd_map[4] = get_heredoc(e, red);
-	else if (red->src == 0)
+	while (nb > 0)
 	{
-		e->fd_map[4] = open(red->filename->lval, red->oflags, 0664);
-		if (e->fd_map[4] == -1)
-			msh_error(EROPEN);
-	}
-	if (red->src == 1)
-	{
-		e->fd_map[5] = open(red->filename->lval, red->oflags, 0664);
-		if (e->fd_map[5] == -1)
-			msh_error(EROPEN);
-		if (red->next)
-			close(e->fd_map[5]);
+		if (close(e->fd_map[fd]) == -1)
+			msh_error(ERCLOSE);
+		e->fd_map[fd] = 0;
+		fd++;
+		nb--;
 	}
 }
 
-void	redirect(t_exec *e, t_command cmd)
+void	reset_stdfd(t_exec *e)
 {
-	e->fd_map[4] = dup(e->fd_map[0]);
-	e->fd_map[5] = dup(e->fd_map[1]);
-	if (e->fd_map[4] == -1 || e->fd_map[5] == -1)
-		msh_error(ERDUP);
-	if (cmd.flags & CMD_PIPE && !(cmd.flags & CMD_STARTPIPE))
+	if (dup2(e->fd_map[0], STDIN_FILENO) == -1
+		|| dup2(e->fd_map[1], STDOUT_FILENO) == -1)
+		msh_error(ERDUP2);
+}
+
+void	redirect(t_exec *e, t_red *r, int fdin, int fdout)
+{
+	e->fd_map[4] = fdin;
+	e->fd_map[5] = fdout;
+	while (r && !e->error)
 	{
-		close(e->fd_map[4]);
-		e->fd_map[4] = e->fd_map[2];
-	}
-	if (cmd.flags & CMD_PIPE && !(cmd.flags & CMD_ENDPIPE))
-	{
-		close(e->fd_map[5]);
-		e->fd_map[5] = e->fd_map[3];
-	}
-	while (cmd.reds)
-	{
-		do_red(e, cmd.reds);
-		cmd.reds = cmd.reds->next;
+/*		e->error = expand_red(r);*/
+		if (e->error)
+			break ;
+		if (r->rflags & RED_IN && e->fd_map[4])
+			close_fd_map(e, 4, 1);
+/*		if (r->rflags & RED_HEREDOC)
+			e->fd_map[4] = heredoc(r->heredoc_eof);*/
+		else if (r->rflags & RED_IN)
+			e->fd_map[4] = open(r->filename->lval, r->oflags, 0664);
+		if (r->rflags & RED_OUT && e->fd_map[5] > 1)
+			close_fd_map(e, 5, 1);
+		if (r->rflags & RED_OUT)
+			e->fd_map[5] = open(r->filename->lval, r->oflags, 0664);
+		if (e->fd_map[4] == -1 || e->fd_map[5] == -1)
+			e->error = errno;
 	}
 	if (dup2(e->fd_map[4], STDIN_FILENO) == -1
 		|| dup2(e->fd_map[5], STDOUT_FILENO) == -1)
 		msh_error(ERDUP2);
+	close_fd_map(e, 4, 2);
 }
 
-int	execute(t_exec *e, t_command_lst *cmds)
+void	execute_simple_cmd(t_exec *e, t_command cmd)
+{
+	int	last_cmd_status;
+
+	close_fd_map(e, 0, 7);
+	if (cmd.flags & CMD_EXECFALSE || cmd.flags & CMD_EXECTRUE)
+		if (waitpid(e->pid_last, &last_cmd_status, 0) == -1)
+			msh_error(ERWAITPID);
+	e->cmd_path = get_path(e, cmd.elem.words->word);
+	if (!e->cmd_path)
+		exit_prg(e->error);
+	e->argv = copy_word_lst(cmd.elem.words);
+	if (execve(cmd_path, e->argv, e->env) == -1)
+		msh_error(EREXECVE);
+}
+
+void	execute_cmd(t_exec *e, t_command cmd, int fdin , int fdout)
+{
+	redirect(e, cmd.reds, fdin, fdout);
+/*	if (cmd.flags & CMD_BUILTIN && !(cmd.flags & CMD_PIPE))
+		return (execute_builtin_cmd(e, cmd));*/
+	e->pid_curr = fork();
+	if (e->pid_curr == -1)
+		msh_error(ERFORK);
+	if (!e->pid_curr)
+	{
+/*		if (cmd.flags & CMD_SUBSHELL)
+			return (execute_in_subshell(e, cmd));*/
+/*		else if (cmd.flags & CMD_BUILTIN)
+			return (execute_builtin_cmd(e, cmd));*/
+		if (cmd.flags & CMD_SIMPLE)
+			return (execute_simple_cmd(e, cmd));
+	}
+	else
+	{
+		e->pid_last = e->pid_curr;
+		e->to_wait++;
+	}
+	reset_stdfd(e);
+}
+
+int	execute_cmds_lst(t_exec *e, t_command_lst *cl)
 {
 	init_fd_map(e);
-	while (cmds->next)
+	while (cl)
 	{
-		redirect(e, cmds->cmd);
-		if (cmds->cmd.type == subshell_cmd)
-			execute_in_subshell(e, cmds->cmd);
+		if (pipe(e->fd_map + 2) == -1)
+			msh_error(ERPIPE);
+		if (cl->cmd.flags & CMD_STARTPIPE)
+			execute_cmd(e, cl->cmd, e->fd_map[0], e->fd_map[3]);
+		else if (cl->cmd.flags & CMD_ENDPIPE)
+			execute_cmd(e, cl->cmd, e->fd_map[2], e->fd_map[1]);
+		else if (cl->cmd.flags & CMD_PIPE)
+			execute_cmd(e, cl->cmd, e->fd_map[2], e->fd_map[3]);
 		else
-			execute_simple_cmd(e, cmds->cmd);
-		cmds = cmds->next;
+			execute_cmd(e, cl->cmd, e->fd_map[0], e->fd_map[1]);
+		cl = cl->next;
 	}
 	return (e->status);
 }

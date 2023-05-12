@@ -21,6 +21,8 @@
 # define ERFORK				"fork failed"
 # define EROPEN				"open failed"
 # define ERCLOSE			"close failed"
+# define ERWAITPID			"waitpid failed"
+# define EREXECVE			"execve failed"
 
 # define ABRTMSG			"sigabrt"
 

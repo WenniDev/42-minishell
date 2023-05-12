@@ -20,10 +20,11 @@ int	main(int argc, char **argv)
 int	parse_and_execute(t_data *msh)
 {
 	msh->status = parse(&msh->parser);
-/*	if (!msh->status)
-		msh->status = expand(msh->parser.cmd_lst);
 	if (!msh->status)
-		msh->status = execute(&msh->exec, msh->parser.cmd_lst);*/
+	{
+		expand_words(msh->parser.cmd_lst);
+		msh->status = execute_cmds_lst(msh, msh->parser.cmd_lst);
+	}
 	reset_parser(&msh->parser);
 	return (msh->status);
 }

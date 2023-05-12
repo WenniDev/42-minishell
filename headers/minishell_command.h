@@ -9,28 +9,22 @@
 # define W_QUOTES		0x02	//quotes present
 # define W_NOEXPAND		0x04	//do not expand filenames
 
+/* values for redirection flags */
+# define RED_IN			0x01	//input red
+# define RED_OUT		0x02	//output red
+# define RED_TRUNC		0x04	//output red trunc
+# define RED_APPEND		0x08	//output red append
+# define RED_HEREDOC	0x10	//input red from heredoc
+
 /* values for command flags */
-# define CMD_SUBSHELL	0x01	//command wants subshell
-# define CMD_BUILTIN	0x02	//command is a builtin
-# define CMD_EXECTRUE	0x02	//execution command if previous is true
-# define CMD_EXECFALSE	0x04	//execution command if previous is false
-# define CMD_STARTPIPE	0x08	//command start a pipeline
-# define CMD_PIPE		0x10	//command is in a pipeline
-# define CMD_ENDPIPE	0x20	//command ends a pipeline
-
-typedef enum e_red_infos
-{
-	r_input,
-	r_output_tr,
-	r_output_ap,
-	r_heredoc
-}t_red_infos;
-
-typedef enum e_command_type
-{
-	simple_cmd,
-	subshell_cmd
-}t_command_type;
+# define CMD_SIMPLE		0x01	//command is a simple cmd
+# define CMD_SUBSHELL	0x02	//command is a subshell cmd
+# define CMD_BUILTIN	0x04	//command is a builtin
+# define CMD_EXECTRUE	0x08	//execution command if previous is true
+# define CMD_EXECFALSE	0x10	//execution command if previous is false
+# define CMD_STARTPIPE	0x20	//command start a pipeline
+# define CMD_PIPE		0x40	//command is in a pipeline
+# define CMD_ENDPIPE	0x80	//command ends a pipeline
 
 typedef struct s_word_d
 {
@@ -46,8 +40,8 @@ typedef struct s_word_lst
 
 typedef struct s_red
 {
+	int				rflags;
 	int				oflags;
-	int				src;
 	t_word_d		*filename;
 	char			*heredoc_eof;
 	struct s_red	*next;
@@ -61,7 +55,6 @@ typedef union u_command_elems
 
 typedef struct s_command
 {
-	t_command_type	type;
 	int				flags;
 	t_red			*reds;
 	t_command_elems	elem;

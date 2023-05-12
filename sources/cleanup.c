@@ -26,9 +26,9 @@ void	clean_cmd(t_command_lst *cl)
 {
 	void	*tmp;
 
-	if (cl->cmd.type == simple_cmd)
+	if (cl->cmd.flags & CMD_SIMPLE)
 		clean_elems(cl->cmd.elem.words, cl->cmd.reds);
-	else if (cl->cmd.type == subshell_cmd)
+	else if (cl->cmd.flags & CMD_SUBSHELL)
 	{
 		clean_elems(NULL, cl->cmd.reds);
 		while (cl->cmd.elem.cmds)

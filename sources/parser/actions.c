@@ -2,7 +2,7 @@
 
 void			add_word(t_parser *p, t_word_d wd);
 void			add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr);
-void			add_red(t_parser *p, int src, t_word_d wd, int flags);
+void			add_red(t_parser *p, t_word_d wd, int flags);
 void			add_simple_cmd(t_parser *p, int sep);
 
 void	parser_act(t_parser *p, int act)
@@ -10,13 +10,13 @@ void	parser_act(t_parser *p, int act)
 	if (act == 1)
 		add_word(p, p->word);
 	else if (act == 2)
-		add_red(p, 0, p->word, r_input);
+		add_red(p, p->word, RED_IN);
 	else if (act == 3)
-		add_red(p, 1, p->word, r_output_tr);
+		add_red(p, p->word, RED_OUT | RED_TRUNC);
 	else if (act == 4)
-		add_red(p, 0, p->word, r_heredoc);
+		add_red(p, p->word, RED_IN | RED_HEREDOC);
 	else if (act == 5)
-		add_red(p, 1, p->word, r_output_ap);
+		add_red(p, p->word, RED_OUT | RED_APPEND);
 	else if (act == 6)
 		add_simple_cmd(p, 0);
 	else if (act == 7)
@@ -36,7 +36,7 @@ void	add_simple_cmd(t_parser *p, int sep)
 	t_command_lst	*new_cmd;
 
 	new_cmd = (t_command_lst *)sfcalloc(1, sizeof (t_command_lst));
-	new_cmd->cmd.type = simple_cmd;
+	new_cmd->cmd.flags |= CMD_SIMPLE;
 	if (sep == '|')
 	{
 		if (!(p->cl_curr->cmd.flags & CMD_PIPE))
@@ -84,7 +84,7 @@ void	add_word(t_parser *p, t_word_d wd)
 	}
 }
 
-void	add_red(t_parser *p, int src, t_word_d wd, int flags)
+void	add_red(t_parser *p, t_word_d wd, int flags)
 {
 	t_red		*red;
 	t_red		*new_red;
@@ -94,15 +94,13 @@ void	add_red(t_parser *p, int src, t_word_d wd, int flags)
 	new_wd = (t_word_d *)sfcalloc(1, sizeof (t_word_d));
 	*new_wd = wd;
 	new_red->filename = new_wd;
-	new_red->src = src;
-	if (flags == r_input)
+	new_red->rflags = flags;
+	if (flags & RED_IN)
 		new_red->oflags = O_RDONLY;
-	if (flags == r_output_tr)
+	if (flags & (RED_OUT | RED_TRUNC))
 		new_red->oflags = O_CREAT | O_WRONLY | O_TRUNC;
-	if (flags == r_output_ap)
+	if (flags & (RED_OUT | RED_APPEND))
 		new_red->oflags = O_CREAT | O_WRONLY | O_APPEND;
-/*	if (flags == r_heredoc)
-		add_heredoc(p, new_red);*/
 	red = p->cl_curr->cmd.reds;
 	if (red)
 	{
@@ -119,7 +117,6 @@ void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)
 	t_command_lst	*new_cmd;
 
 	new_cmd = (t_command_lst *)sfcalloc(1, sizeof (t_command_lst));
-	new_cmd->cmd.type = subshell_cmd;
 	new_cmd->cmd.flags |= CMD_SUBSHELL;
 	new_cmd->prev = cmd_curr->prev;
 	if (cmd_curr->prev)
