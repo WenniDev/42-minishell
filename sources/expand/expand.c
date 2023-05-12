@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/11 14:24:52 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:51:05 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,55 @@
 # include "libft.h"
 # include "stdio.h"
 
-
 #define debug_print(fmt, ...) \
         do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE_NAME__, \
                                 __LINE__, __func__, __VA_ARGS__); } while (0)
 
-void	expand_wildcard(t_word_d *word, int *status)
-{
-	(void)word;
-	*status = 0;
-}
-
-void	expand_word(t_word_d *word, int *status)
+static void	expand_word(t_word_d *word, t_word_lst *word_lst, int *status)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status);
 	if (!(word->flags & W_NOEXPAND))
-		expand_wildcard(word, status);
+		expand_wildcard(&word_lst, status);
 }
 
-void expand_command_name(t_word_d *word, t_word_lst *sentence, int *status)
+static void expand_command_name(t_word_d *word, t_word_lst *word_lst, int *status)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status);
 	if (!(word->flags & W_NOEXPAND))
-		expand_wildcard(word, status);
-	if (ft_strcmp(word->lval, "export"))
+		expand_wildcard(&word_lst, status);
+	if (ft_strcmp(word_lst->word->lval, "export"))
 		return ;
-	sentence = sentence->next;
-	while (sentence)
+	word_lst = word_lst->next;
+	while (word_lst)
 	{
-		sentence->word->flags |= W_NOEXPAND;
-		sentence = sentence->next;
+		word_lst->word->flags |= W_NOEXPAND;
+		word_lst = word_lst->next;
 	}
 }
 
-int expand(t_command_lst *commands)
+int expand(t_word_lst *word_lst)
 {
-	t_word_lst	*word_lst;
 	int 		status;
+	t_word_lst	*begin;
 
 	status = 0;
-	word_lst = commands->cmd.elem.words;
 	expand_command_name(word_lst->word, word_lst, &status);
 	if (status)
 		return (status);
+	begin = word_lst;
 	word_lst = word_lst->next;
 	while (word_lst && !status)
 	{
 		if (!status)
-			expand_word(word_lst->word, &status);
+			expand_word(word_lst->word, word_lst, &status);
+		word_lst = word_lst->next;
+	}
+	word_lst = begin;
+	while (word_lst && !status)
+	{
+		debug_print("%s\n", word_lst->word->lval);
 		word_lst = word_lst->next;
 	}
 	return (status);
