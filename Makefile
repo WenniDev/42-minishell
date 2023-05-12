@@ -22,6 +22,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/expand/expand.c\
 				$(SRCDIR)/expand/environment.c\
+				$(SRCDIR)/expand/wildcard.c\
 				$(SRCDIR)/execution/execute.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
