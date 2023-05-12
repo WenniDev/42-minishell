@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/12 00:45:04 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:04:24 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,25 @@
         do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE__, \
                                 __LINE__, __func__, __VA_ARGS__); } while (0)
 
-int expand_mode(char c)
+#define M_DEFAULT 0x00
+#define M_SINGLE 0x01
+#define M_DOUBLE 0x02
+
+int get_mode(char c, int *curr_mode)
 {
+	int	new_mode;
+
+	new_mode = M_DEFAULT;
 	if (c == '\'')
-		return (1);
+		new_mode = M_SINGLE;
 	if (c == '"')
-		return (2);
-	return (0);
+		new_mode = M_DOUBLE;
+
+	if (new_mode != M_DEFAULT && *curr_mode == M_DEFAULT)
+		*curr_mode = new_mode;
+	else if (*curr_mode == new_mode)
+		*curr_mode = M_DEFAULT;
+	return (*curr_mode);
 }
 
 char	*add_res(char *str, char *tmp)
@@ -49,9 +61,9 @@ char	*get_str(char *str, int *index)
 	char	*res;
 
 	i = 0;
-	if (str[0] == '$' || expand_mode(str[i]))
+	if (str[0] == '$' || str[i] == '"' || str[i] == '\'')
 		++i;
-	while (str[i] && str[i] != '$' && !expand_mode(str[i]))
+	while (str[i] && str[i] != '$' && str[i] != '"' && str[i] != '\'')
 		++i;
 	res = sfcalloc(i + 1, sizeof(char));
 	ft_memcpy(res, str, i);
@@ -90,11 +102,8 @@ void	expand_env(t_word_d *word, int *status)
 	while (word->lval[i])
 	{
 		char c = word->lval[i]; (void)c;
-		if (expand_mode(word->lval[i]) && expand_mode(word->lval[i]) != mode)
-			mode = expand_mode(word->lval[i]);
-		else if (expand_mode(word->lval[i]) == mode)
-			mode = 0;
-		if (word->lval[i] == '$' && mode != 1)
+		get_mode(word->lval[i], &mode);
+		if (word->lval[i] == '$' && mode != M_SINGLE)
 			tmp = get_env(&word->lval[i], &i);
 		else
 			tmp = get_str(&word->lval[i], &i);
