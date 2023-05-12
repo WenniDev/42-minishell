@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/11 19:05:43 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/12 00:45:04 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "stdio.h"
 
 #define debug_print(fmt, ...) \
-        do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE_NAME__, \
+        do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE__, \
                                 __LINE__, __func__, __VA_ARGS__); } while (0)
 
 int expand_mode(char c)
@@ -29,7 +29,7 @@ int expand_mode(char c)
 	return (0);
 }
 
-char *add_res(char *str, char *tmp)
+char	*add_res(char *str, char *tmp)
 {
 	char	*res;
 
@@ -43,7 +43,7 @@ char *add_res(char *str, char *tmp)
 	return (res);
 }
 
-char *get_str(char *str, int *index)
+char	*get_str(char *str, int *index)
 {
 	int		i;
 	char	*res;
@@ -60,7 +60,7 @@ char *get_str(char *str, int *index)
 	return (res);
 }
 
-char *get_env(char *str, int *index)
+char	*get_env(char *str, int *index)
 {
 	int		i;
 	char	*res;
@@ -81,13 +81,13 @@ void	expand_env(t_word_d *word, int *status)
 {
 	int		i;
 	char	*res;
-	char 	*tmp;
+	char	*tmp;
 	int		mode;
 
 	i = 0;
 	res = NULL;
 	mode = 0;
-	while(word->lval[i])
+	while (word->lval[i])
 	{
 		char c = word->lval[i]; (void)c;
 		if (expand_mode(word->lval[i]) && expand_mode(word->lval[i]) != mode)
