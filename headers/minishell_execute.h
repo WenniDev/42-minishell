@@ -8,11 +8,12 @@
 
 typedef struct s_exec
 {
-	int		flags;
 	char	*cmd_path;
 	char	**argv;
 	char	**env;
 	int		pipefd[2];
+	int		infd;
+	int		outfd;
 	pid_t	pid_last;
 	pid_t	pid_curr;
 	int		to_wait;
