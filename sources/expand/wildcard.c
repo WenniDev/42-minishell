@@ -125,14 +125,14 @@ void	expand_wildcard(t_word_lst **word_lst, int *status)
 {
 	DIR				*dir;
 	struct dirent	*ent;
-	char 			*pattern;
-	int 			look_for_dir;
+	char			*pattern;
+	int				look_for_dir;
 	t_word_lst		*tmp_lst;
 
 	debug_print("word with wildcard: %s\n", (*word_lst)->word->lval);
 	dir = opendir(".");
 	if (!dir)
-		return (*status = 1, (void)NULL);
+		return (*status = 1, (void) NULL);
 	ent = (void *)1;
 	tmp_lst = NULL;
 	pattern = (*word_lst)->word->lval;
