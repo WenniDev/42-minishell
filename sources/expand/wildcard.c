@@ -97,8 +97,9 @@ static void	*add_file(t_word_lst **word_lst, int is_dir, struct dirent *ent)
 }
 
 
-// echo test* lol => test* test1 test2 test3 test4 lol    word_tmp: test*
-void insertList(t_word_lst **word_lst, t_word_lst *tmp)
+// test* lol => test* test1 test2 test3 test4 lol
+
+void	insertList(t_word_lst **word_lst, t_word_lst *tmp)
 {
 	t_word_lst	*next_word;
 	t_word_lst	*begin_tmp;
@@ -113,12 +114,10 @@ void insertList(t_word_lst **word_lst, t_word_lst *tmp)
 		while (begin_tmp->next)
 			begin_tmp = begin_tmp->next;
 		begin_tmp->next = next_word;
-
-		word_tmp = *word_lst;
-		*word_lst = tmp;
-		free((word_tmp)->word->lval);
-		free((word_tmp)->word);
-		free((word_tmp));
+		free((*word_lst)->word->lval);
+		free((*word_lst)->word);
+//		free((*word_lst)); //Error when free (?)
+		**word_lst = *tmp;
 	}
 }
 
@@ -151,6 +150,7 @@ void	expand_wildcard(t_word_lst **word_lst, int *status)
 		if (!add_file(&tmp_lst, look_for_dir, ent))
 			return ((void)closedir(dir));
 	}
-	insertList(word_lst, tmp_lst);
+	if (tmp_lst)
+		insertList(word_lst, tmp_lst);
 	*status = 0;
 }
