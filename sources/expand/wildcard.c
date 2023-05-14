@@ -103,7 +103,6 @@ void	insertList(t_word_lst **word_lst, t_word_lst *tmp)
 {
 	t_word_lst	*next_word;
 	t_word_lst	*begin_tmp;
-	t_word_lst	*word_tmp;
 
 	if (*word_lst == NULL)
 		*word_lst = tmp;
