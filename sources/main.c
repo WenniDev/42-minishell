@@ -2,7 +2,7 @@
 #include "minishell.h"
 
 int	parse_and_execute(t_data *msh);
-int	execute_cmd_lst(t_data *msh, t_command_lst *cl);
+int	execute_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -23,7 +23,7 @@ int	parse_and_execute(t_data *msh)
 {
 	msh->status = parse(&msh->parser);
 	if (!msh->status && !msh->parser.eof)
-		msh->status = execute_cmd_lst(msh, msh->parser.cmd_lst);
+		msh->status = execute_cmd_lst(msh, &msh->exec, msh->parser.cmd_lst);
 	if (!msh->parser.eof)
 		reset_parser(&msh->parser);
 	return (msh->status);

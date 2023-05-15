@@ -1,0 +1,47 @@
+tmpin = dup(STDIN)
+tmpout = dup(STDOUT)
+
+while (!cl end)
+	f = cl->cmd.flags
+	do_fork = (f & PIPE || f & !BUILTIN)
+	if (check_exec(f, pid_last))
+		cl = cl->next
+		continue
+	if (STARTPIPE)
+		infd = dup(tmpin)
+	while (red)
+		if (RED_IN)
+			close(infd)
+			infd = open(filename, flags)
+		red->next
+	dup2(infd, 0)
+	close(infd)
+	if (ENDPIPE)
+		outfd = dup(tmpout)
+	if (PIPE)
+		pipe(pipefd)
+		infd = pipe0
+		outfd = pipe1
+	while (red)
+		if (RED_OUT)
+			close(outfd)
+			outfd = open(filename, flags)
+		red->next
+	dup2(outfd, 1)
+	close(outfd)
+	if (f & PIPE)
+		pid_curr = fork()
+		if (!pid_curr)
+			close(tmpin)
+			close(tmpout)
+			if (f & SUBSHELL)
+				execute_cmd_lst(msh, e, cl->cmd.elem.cmds)
+			else
+				e->status = execute_simple_cmd(msh, e, cl)
+			exit_prg(msh, e->status)
+		else
+			pid_last = pid_curr
+			child_nb++
+	else
+		e->status = execute_simple_cmd(msh, e, cl)
+	cl->next

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		execute_cmd_lst(t_data *msh, t_command_lst *cl);
+int		execute_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 int		do_redirection(t_exec *e, t_command cmd);
 char	*get_path(t_data *msh, char *cmd_name);
 
@@ -48,7 +48,7 @@ char	**copy_word_list(t_word_lst *wl)
 	while (ft_strcmp(cmd.argv[0], g_builtin[i].cmd))
 		i++;
 	status = g_builtin[i].ft(e, cmd.argc, cmd.argv);
-*//*	clean_argv(&cmd, cmd.argv);*//*
+	clean_argv(&cmd, cmd.argv);
 	return (status);
 }*/
 
@@ -74,25 +74,8 @@ void	create_child(t_exec *e)
 	e->child_nb++;
 }
 
-int	check_exec(t_exec *e, t_command_lst *cl)
+/*void	execute_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
-	int	status;
-
-	if (cl->cmd.flags & (CMD_EXECTRUE | CMD_EXECFALSE))
-	{
-		if (waitpid(e->pid_last, &status, 0) == -1)
-			msh_error(ERWAITPID);
-		if ((cl->cmd.flags & CMD_EXECFALSE && !WEXITSTATUS(status))
-			|| (cl->cmd.flags & CMD_EXECTRUE && WEXITSTATUS(status)))
-			return (EXS_NOEXEC);
-	}
-	return (EXS_SUCCESS);
-}
-
-void	execute_cmd(t_data *msh, t_command_lst *cl)
-{
-	if (do_redirection(&msh->exec, cl->cmd) == EXS_ERROR)
-		return ;
 	if ((cl->cmd.flags & CMD_PIPE || !(cl->cmd.flags & CMD_BUILTIN))
 		&& !check_exec(&msh->exec, cl))
 	{
@@ -104,17 +87,17 @@ void	execute_cmd(t_data *msh, t_command_lst *cl)
 				msh_error(ERDUP2);
 			close_fds(&msh->exec, 1);
 			if (cl->cmd.flags & CMD_SUBSHELL)
-				execute_cmd_lst(msh, cl->cmd.elem.cmds);
+				execute_cmd_lst(msh, e, cl->cmd.elem.cmds);
 			else
-				msh->exec.status = execute_simple_cmd(msh, &msh->exec, cl);
-			exit_prg(msh, msh->exec.status);
+				e->status = execute_simple_cmd(msh, e, cl);
+			exit_prg(msh, e->status);
 		}
 	}
 	else
-		msh->exec.status = execute_simple_cmd(msh, &msh->exec, cl);
-}
+		e->status = execute_simple_cmd(msh, e, cl);
+}*/
 
-int	execute_cmd_lst(t_data *msh, t_command_lst *cl)
+/*int	execute_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	int	status;
 
@@ -123,7 +106,8 @@ int	execute_cmd_lst(t_data *msh, t_command_lst *cl)
 		msh_error(ERPIPE);
 	while (cl)
 	{
-		execute_cmd(msh, cl);
+		if (do_redirection(&msh->exec, cl->cmd) == EXIT_SUCCESS)
+			execute_cmd(msh, e, cl);
 		cl = cl->next;
 	}
 	close_fds(&msh->exec, 1);
@@ -132,4 +116,53 @@ int	execute_cmd_lst(t_data *msh, t_command_lst *cl)
 	while (--msh->exec.child_nb)
 		wait(0);
 	return (msh->exec.status);
+}*/
+
+int	check_exec(int f, pid_t pid_last)
+{
+	int	status;
+
+	if (f & (CMD_EXECTRUE | CMD_EXECFALSE))
+	{
+		if (waitpid(pid_last, &status, 0) == -1)
+			msh_error(ERWAITPID);
+		if ((f & CMD_EXECFALSE && !WEXITSTATUS(status))
+			|| (f & CMD_EXECTRUE && WEXITSTATUS(status)))
+			return (EXS_NOEXEC);
+	}
+	return (EXS_SUCCESS);
+}
+
+int	exec_cmd(t_data *msh, t_exec *e, t_command cmd)
+{
+	if (cmd.flags & CMD_PIPE || !(cmd.flags & CMD_BUILTIN))
+	{
+		create_child(e);
+		if (!msh->exec.pid_curr)
+		{
+			if (cmd.flags & CMD_SUBSHELL)
+				execute_cmd_lst(msh, e, cmd.elem.cmds);
+			else
+				msh->status = execute_simple_cmd(msh, e, cmd);
+			exit_prg(msh, msh->status);
+		}
+	}
+	else
+		 return (execute_simple_cmd(msh, e, cmd));
+}
+
+void    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
+{
+	while (cl)
+	{
+		if (check_exec(cl->cmd.flags, e->pid_last) || do_redir(e, cl->cmd))
+		{
+			cl = cl->next;
+			continue ;
+		}
+		msh->status = exec_cmd(msh, e, cl->cmd);
+		cl = cl->next;
+	}
+	reset_stdfd(e);
+	wait_cmds(e);
 }
