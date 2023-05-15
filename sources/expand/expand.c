@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/12 19:51:05 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:30:31 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
         do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE_NAME__, \
                                 __LINE__, __func__, __VA_ARGS__); } while (0)
 
-static void	expand_word(t_word_d *word, t_word_lst *word_lst, int *status)
+void	expand_word(t_word_d *word, t_word_lst *word_lst, int *status)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status);
@@ -27,7 +27,7 @@ static void	expand_word(t_word_d *word, t_word_lst *word_lst, int *status)
 		expand_wildcard(&word_lst, status);
 }
 
-static void expand_command_name(t_word_d *word, t_word_lst *word_lst, int *status)
+void expand_command_name(t_word_d *word, t_word_lst *word_lst, int *status)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status);

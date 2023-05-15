@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/12 17:30:26 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:38:36 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "signal.h"
 #include "stdio.h"
 
-static int get_mode(char c, int *curr_mode)
+static int	get_mode(char c, int *curr_mode)
 {
 	int	new_mode;
 
