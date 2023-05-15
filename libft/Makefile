@@ -1,6 +1,6 @@
 NAME = libft.a
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 SRCDIR = ./srcs
 FT_PRINTF_SRCDIR = ./srcs/ft_printf_srcs
 SRCS =	$(SRCDIR)/ft_isalpha.c\
