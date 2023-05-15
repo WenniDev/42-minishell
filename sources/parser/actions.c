@@ -1,36 +1,5 @@
 #include "minishell_parse.h"
 
-void			add_word(t_parser *p, t_word_d wd);
-void			add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr);
-void			add_red(t_parser *p, t_word_d wd, int flags);
-void			add_simple_cmd(t_parser *p, int sep);
-
-void	parser_act(t_parser *p, int act)
-{
-	if (act == 1)
-		add_word(p, p->word);
-	else if (act == 2)
-		add_red(p, p->word, RED_IN);
-	else if (act == 3)
-		add_red(p, p->word, RED_OUT | RED_TRUNC);
-	else if (act == 4)
-		add_red(p, p->word, RED_IN | RED_HEREDOC);
-	else if (act == 5)
-		add_red(p, p->word, RED_OUT | RED_APPEND);
-	else if (act == 6)
-		add_simple_cmd(p, 0);
-	else if (act == 7)
-		add_simple_cmd(p, '|');
-	else if (act == 8)
-		add_simple_cmd(p, OR_OR);
-	else if (act == 9)
-		add_simple_cmd(p, AND_AND);
-	else if (act == 10)
-		add_subshell_cmd(p, p->cl_curr);
-	else if (act == 11)
-		p->cl_curr = p->cl_last;
-}
-
 void	add_simple_cmd(t_parser *p, int sep)
 {
 	t_command_lst	*new_cmd;
@@ -40,10 +9,9 @@ void	add_simple_cmd(t_parser *p, int sep)
 	if (sep == '|')
 	{
 		if (!(p->cl_curr->cmd.flags & CMD_PIPE))
-			p->cl_curr->cmd.flags |= CMD_STARTPIPE;
+			p->cl_curr->cmd.flags |= (CMD_STARTPIPE | CMD_PIPE);
 		p->cl_curr->cmd.flags &= ~CMD_ENDPIPE;
-		new_cmd->cmd.flags |= CMD_PIPE;
-		new_cmd->cmd.flags |= CMD_ENDPIPE;
+		new_cmd->cmd.flags |= (CMD_PIPE | CMD_ENDPIPE);
 	}
 	else if (sep == OR_OR)
 		new_cmd->cmd.flags |= CMD_EXECFALSE;
@@ -110,6 +78,25 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 	}
 	else
 		p->cl_curr->cmd.reds = new_red;
+}
+
+void	add_heredoc(t_parser *p, t_red *r)
+{
+	t_red	*new;
+	t_red	*hd_red;
+
+	new = (t_red *)sfcalloc(1, sizeof (t_red));
+	new = r;
+	new->heredoc_eof = new->filename->lval;
+	hd_red = p->hd_lst;
+	if (!p->hd_lst)
+		p->hd_lst = new;
+	else
+	{
+		while (hd_red->next)
+			hd_red = hd_red->next;
+		hd_red->next = new;
+	}
 }
 
 void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)

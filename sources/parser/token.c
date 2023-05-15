@@ -3,6 +3,9 @@
 static int	check_syntax(t_parser *p, int tk, int tk_last);
 static int	read_token(t_parser *p, char **line_ptr);
 static int	get_token(t_parser *p, char c_char, char n_char, char **line_ptr);
+int			read_token_word(t_parser *p, char **line_ptr);
+int			is_redir(int tk);
+int			is_connector(int tk);
 
 int	next_token(t_parser *p, int tk)
 {

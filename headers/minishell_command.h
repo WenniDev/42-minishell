@@ -7,7 +7,6 @@
 /* values for word flags */
 # define W_DOLLAR		0x01	//dollar sign present
 # define W_QUOTES		0x02	//quotes present
-# define W_NOEXPAND		0x04	//do not expand filenames
 # define W_TILDE		0x08	//tilde is present
 
 /* values for redirection flags */
@@ -57,6 +56,9 @@ typedef union u_command_elems
 typedef struct s_command
 {
 	int				flags;
+	char			**argv;
+	int				argc;
+	char			*cmd_path;
 	t_red			*reds;
 	t_command_elems	elem;
 }t_command;

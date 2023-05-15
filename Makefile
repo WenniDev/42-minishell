@@ -22,6 +22,8 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/execution/execute_cmd.c\
+				$(SRCDIR)/execution/redirection.c\
+				$(SRCDIR)/execution/path.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\

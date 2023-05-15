@@ -5,6 +5,7 @@
 # include <signal.h>
 # include <errno.h>
 
+# define EXS_NOEXEC			(-2)
 # define EXS_ERROR			(-1)
 # define EXS_SUCCESS		0
 # define EXS_SYNTAX_ERROR	2
@@ -12,9 +13,16 @@
 # define EXS_SIGSEG			139
 
 # define EUNEOL				"unexpected EOL while looking for matching `"
-# define EMFAILED			"Malloc failed"
 # define EREOF				"unexpected end of file"
 # define ERTOK				"unexpected token: "
+
+# define CMDNOTF			"command not found"
+# define CMDPERMD			"permission denied"
+
+# define EROPEN			1
+# define ERAMBRED		2
+
+# define EMFAILED			"Malloc failed"
 # define ERDUP				"dup failed"
 # define ERPIPE				"pipe failed"
 # define ERDUP2				"dup2 failed"
@@ -29,5 +37,6 @@ int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
 int 	msh_error(char *error);
+void	print_error(char *error, char *infos);
 
 #endif

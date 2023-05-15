@@ -2,21 +2,20 @@
 # define MINISHELL_EXECUTE_H
 
 # include "minishell_command.h"
+# include "libft.h"
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
 typedef struct s_exec
 {
-	char	*cmd_path;
-	char	**argv;
 	char	**env;
 	int		pipefd[2];
 	int		infd;
 	int		outfd;
 	pid_t	pid_last;
 	pid_t	pid_curr;
-	int		to_wait;
+	int		child_nb;
 	int		status;
 }t_exec;
 

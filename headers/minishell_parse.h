@@ -18,7 +18,7 @@
 # define HEREDOC_MAX		16
 
 # define META_CHARACTERS	" \n<>|&()"
-# define BUILTINS			"echo unset pwd export cd env"
+# define BUILTINS			"echo unset export cd env exit"
 
 # define INPUT_RED			1
 # define OUTPUT_RED			2
@@ -73,18 +73,12 @@ typedef struct s_parser
 	int				status;
 }t_parser;
 
-int			is_redir(int tk);
-int			is_connector(int tk);
 int			is_meta(char c);
-int			tk_symbol(int tk);
 char		get_char(char **ptr);
-const char	*tk_translate(int tk);
 void		unget_char(char **ptr);
 void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
-void		parser_act(t_parser *p, int act);
 int			next_token(t_parser *p, int tk);
-static int	read_token_word(t_parser *p, char **line_ptr);
 void		reset_parser(t_parser *p);
 
 #endif

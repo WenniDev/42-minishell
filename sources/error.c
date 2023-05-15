@@ -1,5 +1,8 @@
+#include "minishell.h"
 #include "minishell_error.h"
 #include "minishell_parse.h"
+
+const char	*tk_translate(int tk);
 
 int	malloc_error(void)
 {
@@ -41,4 +44,13 @@ int	msh_error(char *error)
 	perror(error);
 	kill(0, SIGABRT);
 	return (EXIT_FAILURE);
+}
+
+void	print_error(char *error, char *infos)
+{
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(infos, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putchar_fd('\n', 2);
 }
