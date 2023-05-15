@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:57:48 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/12 19:21:19 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:52:42 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_word_lst
 typedef struct s_red
 {
 	int				oflags;
-	int				src;
+	int				rflags;
 	t_word_d		*filename;
 	char			*heredoc_eof;
 	struct s_red	*next;
