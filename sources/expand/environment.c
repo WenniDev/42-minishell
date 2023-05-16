@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/15 14:38:36 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/16 19:08:40 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static char	*get_env(char *str, int *index)
 	ft_memcpy(var, str + 1, i - 1);
 	res = ft_strdup(getenv(var));
 	*index += i;
+	free(var);
 	return (res);
 }
 
