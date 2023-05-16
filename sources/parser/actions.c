@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:26:40 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/10 18:09:51 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:58:38 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	add_red(t_parser *p, int src, t_word_d wd, int flags)
 	new_wd = (t_word_d *)sfcalloc(1, sizeof (t_word_d));
 	*new_wd = wd;
 	new_red->filename = new_wd;
-	new_red->src = src;
+	new_red->rflags = src;
 	if (flags == r_input)
 		new_red->oflags = O_RDONLY;
 	if (flags == r_output_tr)
