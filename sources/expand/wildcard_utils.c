@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:34:32 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/15 16:55:09 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/16 19:43:25 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,40 @@
 #include <sys/stat.h>
 #include "libft.h"
 
-void	insert_list(t_word_lst **word_lst, t_word_lst *tmp)
-{
-	t_word_lst	*next_word;
-	t_word_lst	*begin_tmp;
-
-	if (!tmp)
-		return ;
-	if (*word_lst == NULL)
-		*word_lst = tmp;
-	else
-	{
-		next_word = (*word_lst)->next;
-		begin_tmp = tmp;
-		while (begin_tmp->next)
-			begin_tmp = begin_tmp->next;
-		begin_tmp->next = next_word;
-		free((*word_lst)->word->lval);
-		free((*word_lst)->word);
-//		free((*word_lst)); //Error when free (?)
-		**word_lst = *tmp;
-	}
-}
+//void	insert_list(t_word_lst **word_lst, t_word_lst **begin, t_word_lst *tmp)
+//{
+//	t_word_lst	*next_word;
+//	t_word_lst	*begin_tmp;
+//	t_word_lst	*begin_word;
+//	t_word_lst	*to_free;
+//
+//	if (!tmp)
+//		return ;
+//	next_word = (*word_lst)->next;
+//	begin_tmp = tmp;
+//	while (begin_tmp->next)
+//		begin_tmp = begin_tmp->next;
+//	begin_tmp->next = next_word;
+//	begin_word = (*begin);
+//	if (!ft_strcmp((*word_lst)->word->lval, (*begin)->word->lval))
+//	{
+//		free(begin_word->word->lval); begin_word->word->lval = NULL;
+//		free(begin_word->word); begin_word->word = NULL;
+//		free(begin_word); begin_word = NULL;
+//		(*begin) = (*word_lst);
+//	}
+//	else
+//	{
+//		while (begin_word->next && ft_strcmp((*word_lst)->word->lval, begin_word->next->word->lval))
+//			begin_word = begin_word->next;
+//		to_free = begin_word->next;
+//		free(to_free->word->lval);
+//		free(to_free->word);
+//		free(to_free);
+//		begin_word->next = tmp;
+////		(*word_lst) = tmp;
+//	}
+//}
 
 void	free_word(t_word_d *word)
 {
