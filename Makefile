@@ -24,6 +24,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/execution/execute_cmd.c\
 				$(SRCDIR)/execution/redirection.c\
 				$(SRCDIR)/execution/path.c\
+				$(SRCDIR)/do_ft.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\

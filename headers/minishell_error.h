@@ -19,9 +19,6 @@
 # define CMDNOTF			"command not found"
 # define CMDPERMD			"permission denied"
 
-# define EROPEN			1
-# define ERAMBRED		2
-
 # define EMFAILED			"Malloc failed"
 # define ERDUP				"dup failed"
 # define ERPIPE				"pipe failed"
@@ -30,13 +27,12 @@
 # define ERCLOSE			"close failed"
 # define ERWAITPID			"waitpid failed"
 # define EREXECVE			"execve failed"
-
-# define ABRTMSG			"sigabrt"
+# define ERWAIT				"wait failed"
 
 int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
 int 	msh_error(char *error);
-void	print_error(char *error, char *infos);
+int		print_error(char *error, char *infos);
 
 #endif

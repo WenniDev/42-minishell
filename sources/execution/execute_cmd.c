@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-int		execute_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
-int		do_redirection(t_exec *e, t_command cmd);
+void    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
+int		do_redir(t_exec *e, t_command cmd);
 char	*get_path(t_data *msh, char *cmd_name);
 
 /*static const t_builtin	g_builtin[] ={
@@ -52,14 +52,14 @@ char	**copy_word_list(t_word_lst *wl)
 	return (status);
 }*/
 
-int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
+int	execute_simple_cmd(t_data *msh, t_exec *e, t_command cmd)
 {
 /*	expand_word_lst(msh, &cl->cmd.elem.words);*/
-	cl->cmd.argv = copy_word_list(cl->cmd.elem.words);
+	cmd.argv = copy_word_list(cmd.elem.words);
 /*	if (cl->cmd.flags & CMD_BUILTIN)
 		return (execute_builtin(e, cl->cmd));*/
-	cl->cmd.cmd_path = get_path(msh, cl->cmd.elem.words->word->lval);
-	execve(cl->cmd.cmd_path, cl->cmd.argv, e->env);
+	cmd.cmd_path = get_path(msh, cmd.elem.words->word->lval);
+	execve(cmd.cmd_path, cmd.argv, e->env);
 	msh_error(EREXECVE);
 	return (EXIT_FAILURE);
 }
@@ -73,50 +73,6 @@ void	create_child(t_exec *e)
 		e->pid_last = e->pid_curr;
 	e->child_nb++;
 }
-
-/*void	execute_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
-{
-	if ((cl->cmd.flags & CMD_PIPE || !(cl->cmd.flags & CMD_BUILTIN))
-		&& !check_exec(&msh->exec, cl))
-	{
-		create_child(&msh->exec);
-		if (!msh->exec.pid_curr)
-		{
-			if (dup2(msh->exec.infd, STDIN_FILENO) == -1
-				|| dup2(msh->exec.outfd, STDOUT_FILENO) == -1)
-				msh_error(ERDUP2);
-			close_fds(&msh->exec, 1);
-			if (cl->cmd.flags & CMD_SUBSHELL)
-				execute_cmd_lst(msh, e, cl->cmd.elem.cmds);
-			else
-				e->status = execute_simple_cmd(msh, e, cl);
-			exit_prg(msh, e->status);
-		}
-	}
-	else
-		e->status = execute_simple_cmd(msh, e, cl);
-}*/
-
-/*int	execute_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
-{
-	int	status;
-
-	cl = msh->parser.cmd_lst;
-	if (pipe(msh->exec.pipefd) == -1)
-		msh_error(ERPIPE);
-	while (cl)
-	{
-		if (do_redirection(&msh->exec, cl->cmd) == EXIT_SUCCESS)
-			execute_cmd(msh, e, cl);
-		cl = cl->next;
-	}
-	close_fds(&msh->exec, 1);
-	waitpid(msh->exec.pid_last, &status, 0);
-	msh->exec.status = WEXITSTATUS(status);
-	while (--msh->exec.child_nb)
-		wait(0);
-	return (msh->exec.status);
-}*/
 
 int	check_exec(int f, pid_t pid_last)
 {
@@ -141,7 +97,7 @@ int	exec_cmd(t_data *msh, t_exec *e, t_command cmd)
 		if (!msh->exec.pid_curr)
 		{
 			if (cmd.flags & CMD_SUBSHELL)
-				execute_cmd_lst(msh, e, cmd.elem.cmds);
+				exec_cmd_lst(msh, e, cmd.elem.cmds);
 			else
 				msh->status = execute_simple_cmd(msh, e, cmd);
 			exit_prg(msh, msh->status);
@@ -153,6 +109,11 @@ int	exec_cmd(t_data *msh, t_exec *e, t_command cmd)
 
 void    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
+	int	rtn_status;
+
+	e->pipefd = (int *)sfcalloc(2, sizeof (int));
+	do_ft(DUP, &e->tmpin, 0);
+	do_ft(DUP, &e->tmpout, 1);
 	while (cl)
 	{
 		if (check_exec(cl->cmd.flags, e->pid_last) || do_redir(e, cl->cmd))
@@ -163,6 +124,15 @@ void    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 		msh->status = exec_cmd(msh, e, cl->cmd);
 		cl = cl->next;
 	}
-	reset_stdfd(e);
-	wait_cmds(e);
+	do_ft(DUP2, &e->tmpin, 0);
+	do_ft(DUP2, &e->tmpout, 1);
+	if (e->child_nb)
+	{
+		if (waitpid(e->pid_last, &rtn_status, 0) == -1)
+			msh_error(ERWAITPID);
+		msh->status = WEXITSTATUS(rtn_status);
+		while (--e->child_nb >= 0)
+			if (wait(0) == -1)
+				msh_error(ERWAIT);
+	}
 }

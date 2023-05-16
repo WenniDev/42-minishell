@@ -9,9 +9,10 @@ void	add_simple_cmd(t_parser *p, int sep)
 	if (sep == '|')
 	{
 		if (!(p->cl_curr->cmd.flags & CMD_PIPE))
-			p->cl_curr->cmd.flags |= (CMD_STARTPIPE | CMD_PIPE);
+			p->cl_curr->cmd.flags |= CMD_STARTPIPE;
 		p->cl_curr->cmd.flags &= ~CMD_ENDPIPE;
-		new_cmd->cmd.flags |= (CMD_PIPE | CMD_ENDPIPE);
+		p->cl_curr->cmd.flags |= CMD_PIPE;
+		new_cmd->cmd.flags |= CMD_ENDPIPE;
 	}
 	else if (sep == OR_OR)
 		new_cmd->cmd.flags |= CMD_EXECFALSE;

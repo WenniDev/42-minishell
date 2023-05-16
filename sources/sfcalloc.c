@@ -1,3 +1,4 @@
+#include "minishell_error.h"
 #include <stdlib.h>
 #include <signal.h>
 #include "libft.h"
@@ -13,10 +14,7 @@ void	*sfcalloc(size_t n, size_t size)
 	else
 		ptr = malloc(total_size);
 	if (!ptr)
-	{
-		ft_putstr_fd("Malloc failed", 2);
-		kill(0, SIGABRT);
-	}
+		msh_error(EMFAILED);
 	ft_memset(ptr, 0, total_size);
 	return (ptr);
 }

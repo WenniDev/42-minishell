@@ -10,7 +10,9 @@
 typedef struct s_exec
 {
 	char	**env;
-	int		pipefd[2];
+	int		tmpin;
+	int		tmpout;
+	int		*pipefd;
 	int		infd;
 	int		outfd;
 	pid_t	pid_last;
