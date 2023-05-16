@@ -8,6 +8,7 @@
 # define DUP2	3
 # define PIPE	4
 
-void	close_fds(t_exec *e, bool all);
+void	close_all(t_exec *e);
+int		do_redir(t_exec *e, t_command cmd);
 
 #endif

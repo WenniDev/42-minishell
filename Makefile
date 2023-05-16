@@ -1,8 +1,8 @@
 #PROJECT
 PROJDIR		=	$(realpath $(CURDIR))
 TARGET		=	minishell
-INCDIR		=	$(PROJDIR)/headers
-SRCDIR		=	$(PROJDIR)/sources
+INCDIR		=	$(PROJDIR)/inc
+SRCDIR		=	$(PROJDIR)/srcs
 OBJDIR		=	$(PROJDIR)/objects
 DEPDIR		=	$(PROJDIR)/dependencies
 
@@ -24,6 +24,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/execution/execute_cmd.c\
 				$(SRCDIR)/execution/redirection.c\
 				$(SRCDIR)/execution/path.c\
+				$(SRCDIR)/execution/exec_utils.c\
 				$(SRCDIR)/do_ft.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\

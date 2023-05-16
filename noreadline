@@ -1,0 +1,6 @@
+{
+   <... wildcard usage>
+   Memcheck:Leak
+   ...
+   obj:*readline*
+}

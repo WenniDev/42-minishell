@@ -6,10 +6,9 @@ t_data	*g_msh;
 void	handle_sigabrt(int signum)
 {
 	(void)signum;
-/*	(void)signum;
-	ft_putstr_fd(ABRTMSG, 2);
+/*	ft_putstr_fd(ABRTMSG, 2);
 	ft_putchar_fd('\n', 2);*/
-	reset_parser(&g_msh->parser);
+	clean_all(g_msh);
 	exit(EXS_SIGSEG);
 }
 

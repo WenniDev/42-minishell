@@ -19,6 +19,8 @@
 # define CMDNOTF			"command not found"
 # define CMDPERMD			"permission denied"
 
+# define REDAMB				"ambiguous redirect"
+
 # define EMFAILED			"Malloc failed"
 # define ERDUP				"dup failed"
 # define ERPIPE				"pipe failed"

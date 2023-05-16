@@ -27,4 +27,7 @@ typedef struct s_builtin
 	int		(*ft)(t_exec *e, int argc, char **argv);
 }t_builtin;
 
+void	create_child(t_exec *e);
+char	**copy_word_list(t_word_lst *wl);
+
 #endif

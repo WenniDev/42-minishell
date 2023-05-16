@@ -43,6 +43,6 @@ char	*add_line(char *cmd_line, char *line, t_bool space)
 	if (space && len)
 		cmd_line[len] = SPACE;
 	ft_strlcat(cmd_line, line, size);
-	ft_free(tmp);
+	ft_free((void **)&	tmp);
 	return (cmd_line);
 }

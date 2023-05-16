@@ -105,19 +105,19 @@ void	reset_parser(t_parser *p)
 
 	if (p->cmd_line)
 		add_history(p->cmd_line);
-	ft_free(p->cmd_line);
-	ft_free(p->line_read);
+	ft_free((void **)&p->cmd_line);
+	ft_free((void **)&p->line_read);
 	while (p->cmd_lst)
 	{
 		tmp = p->cmd_lst->next;
 		clean_cmd(p->cmd_lst);
-		ft_free(p->cmd_lst);
+		ft_free((void **)&p->cmd_lst);
 		p->cmd_lst = (t_command_lst *)tmp;
 	}
 	while (p->hd_lst)
 	{
 		tmp = p->hd_lst->next;
-		ft_free(p->hd_lst);
+		ft_free((void **)&p->hd_lst);
 		p->hd_lst = (t_red *)tmp;
 	}
 	ft_memset(p, 0, sizeof (t_parser));

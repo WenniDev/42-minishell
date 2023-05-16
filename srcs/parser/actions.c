@@ -9,10 +9,9 @@ void	add_simple_cmd(t_parser *p, int sep)
 	if (sep == '|')
 	{
 		if (!(p->cl_curr->cmd.flags & CMD_PIPE))
-			p->cl_curr->cmd.flags |= CMD_STARTPIPE;
+			p->cl_curr->cmd.flags |= (CMD_PIPE | CMD_STARTPIPE);
 		p->cl_curr->cmd.flags &= ~CMD_ENDPIPE;
-		p->cl_curr->cmd.flags |= CMD_PIPE;
-		new_cmd->cmd.flags |= CMD_ENDPIPE;
+		new_cmd->cmd.flags |= (CMD_PIPE | CMD_ENDPIPE);
 	}
 	else if (sep == OR_OR)
 		new_cmd->cmd.flags |= CMD_EXECFALSE;
@@ -66,9 +65,9 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 	new_red->rflags = flags;
 	if (flags & RED_IN)
 		new_red->oflags = O_RDONLY;
-	if (flags & (RED_OUT | RED_TRUNC))
+	if (flags & (RED_TRUNC))
 		new_red->oflags = O_CREAT | O_WRONLY | O_TRUNC;
-	if (flags & (RED_OUT | RED_APPEND))
+	if (flags & (RED_APPEND))
 		new_red->oflags = O_CREAT | O_WRONLY | O_APPEND;
 	red = p->cl_curr->cmd.reds;
 	if (red)
