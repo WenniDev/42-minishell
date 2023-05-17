@@ -49,8 +49,8 @@ char	*get_path(t_data *msh, char *cmd_name)
 		bin = get_binary(paths, cmd_name);
 	free_split(paths);
 	if (!bin)
-		(print_error(CMDNOTF, cmd_name), exit_prg(msh, 127));
+		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
 	if (access(bin, X_OK) == EXS_ERROR)
-		(print_error(CMDPERMD, cmd_name), exit_prg(msh, 126));
+		(print_error(CMDPERMD, cmd_name, NULL), exit_prg(msh, 126));
 	return (bin);
 }

@@ -46,11 +46,16 @@ int	msh_error(char *error)
 	return (EXIT_FAILURE);
 }
 
-int	print_error(char *error, char *infos)
+int	print_error(char *error, char *infos, char *infos2)
 {
 	ft_putstr_fd("msh: ", 2);
 	ft_putstr_fd(infos, 2);
 	ft_putstr_fd(": ", 2);
+	if (infos2)
+	{
+		ft_putstr_fd(infos2, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	ft_putstr_fd(error, 2);
 	ft_putchar_fd('\n', 2);
 	return (-1);

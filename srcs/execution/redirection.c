@@ -45,7 +45,7 @@ void	do_pipe_red(t_exec *e, t_command cmd)
 int	mod_redir(t_exec *e, t_red *r)
 {
 /*	if (!expand_red(r->filename))
-		return (print_error(REDAMB, r->filename->lval));*/
+		return (print_error(REDAMB, r->filename->lval, NULL));*/
 	if (r->rflags & RED_IN)
 	{
 		if (e->infd)
@@ -55,7 +55,7 @@ int	mod_redir(t_exec *e, t_red *r)
 		else
 			e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)
-			return (print_error(strerror(errno), r->filename->lval));
+			return (print_error(strerror(errno), r->filename->lval, NULL));
 
 	}
 	if (r->rflags & RED_OUT)
@@ -64,7 +64,7 @@ int	mod_redir(t_exec *e, t_red *r)
 			do_ft(CLOSE, &e->outfd, 0);
 		e->outfd = open(r->filename->lval, r->oflags, 0664);
 		if (e->outfd == -1)
-			return (print_error(strerror(errno), r->filename->lval));
+			return (print_error(strerror(errno), r->filename->lval, NULL));
 	}
 	return (0);
 }

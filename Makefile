@@ -26,8 +26,10 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/execution/path.c\
 				$(SRCDIR)/execution/exec_utils.c\
 				$(SRCDIR)/execution/builtins/b_env.c\
+				$(SRCDIR)/execution/builtins/b_pwd.c\
 				$(SRCDIR)/env.c\
 				$(SRCDIR)/sfcalloc.c\
+				$(SRCDIR)/sfprint.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\
 				$(SRCDIR)/cleanup.c

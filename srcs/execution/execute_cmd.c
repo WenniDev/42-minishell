@@ -6,7 +6,7 @@ char	*get_path(t_data *msh, char *cmd_name);
 void	clean_argv(char **argv);
 
 static const t_builtin	g_builtin[] ={
-		{"env", b_env}/*, {"pwd", b_pwd}, {"export", b_export},*/
+		{"env", b_env}, {"pwd", b_pwd}/*, {"export", b_export},*/
 /*		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}*/
 };
 

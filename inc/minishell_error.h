@@ -35,6 +35,6 @@ int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
 int 	msh_error(char *error);
-int		print_error(char *error, char *infos);
+int		print_error(char *error, char *infos, char *infos2);
 
 #endif
