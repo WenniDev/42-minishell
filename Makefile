@@ -25,7 +25,8 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/execution/redirection.c\
 				$(SRCDIR)/execution/path.c\
 				$(SRCDIR)/execution/exec_utils.c\
-				$(SRCDIR)/do_ft.c\
+				$(SRCDIR)/execution/builtins/b_env.c\
+				$(SRCDIR)/env.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\
@@ -34,7 +35,9 @@ INCS		=	$(INCDIR)/minishell_parse.h\
 				$(INCDIR)/minishell_command.h\
 				$(INCDIR)/minishell_execute.h\
 				$(INCDIR)/minishell.h\
-				$(INCDIR)/minishell_error.h
+				$(INCDIR)/minishell_error.h\
+				$(INCDIR)/minishell_env.h\
+				$(INCDIR)/minishell_builtins.h
 OBJS		=	$(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
 DEPS		=	$(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SRCS:.c=.d))
 

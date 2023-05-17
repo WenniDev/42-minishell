@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	clean_argv(t_command *cmd, char **argv)
+void	clean_argv(char **argv)
 {
 	int	i;
 
@@ -10,7 +10,7 @@ void	clean_argv(t_command *cmd, char **argv)
 		ft_free((void **)&argv[i]);
 		i++;
 	}
-	ft_free((void **)&cmd->argv);
+	ft_free((void **)&argv);
 }
 
 void	clean_elems(t_word_lst *words, t_red *reds)
@@ -56,7 +56,10 @@ void	clean_cmd(t_command_lst *cl)
 
 void	clean_all(t_data *msh)
 {
+	if (!msh)
+		return ;
 	reset_parser(&msh->parser);
 	close_all(&msh->exec);
 	ft_free((void **)&msh->exec.pipefd);
+	clean_argv(msh->exec.env);
 }

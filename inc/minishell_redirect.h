@@ -10,5 +10,6 @@
 
 void	close_all(t_exec *e);
 int		do_redir(t_exec *e, t_command cmd);
+void 	set_fds(t_exec *e, int flag);
 
 #endif

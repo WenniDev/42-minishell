@@ -69,6 +69,22 @@ int	mod_redir(t_exec *e, t_red *r)
 	return (0);
 }
 
+void set_fds(t_exec *e, int flag)
+{
+	if (!flag)
+	{
+		if (!e->pipefd)
+			e->pipefd = (int *)sfcalloc(2, sizeof (int));
+		do_ft(DUP, &e->tmpin, 0);
+		do_ft(DUP, &e->tmpout, 1);
+	}
+	if (flag == 1)
+	{
+		do_ft(DUP2, &e->tmpin, 0);
+		do_ft(DUP2, &e->tmpout, 1);
+	}
+}
+
 void	close_all(t_exec *e)
 {
 	do_ft(CLOSE, &e->tmpin, 0);

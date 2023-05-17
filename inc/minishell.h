@@ -1,6 +1,7 @@
 #ifndef MINISHELL_TYPES_H
 # define MINISHELL_TYPES_H
 
+# include "minishell_env.h"
 # include "minishell_command.h"
 # include "minishell_parse.h"
 # include "minishell_execute.h"
