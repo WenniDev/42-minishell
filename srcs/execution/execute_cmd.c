@@ -6,7 +6,7 @@ char	*get_path(t_data *msh, char *cmd_name);
 void	clean_argv(char **argv);
 
 static const t_builtin	g_builtin[] ={
-		{"env", b_env}, {"pwd", b_pwd}/*, {"export", b_export},*/
+		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}/*, {"export", b_export},*/
 /*		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}*/
 };
 
@@ -23,16 +23,16 @@ int	execute_builtin(t_exec *e, t_command cmd)
 	return (status);
 }
 
-int	execute_simple_cmd(t_data *msh, t_exec *e, t_command cmd)
+int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 /*	expand_word_lst(msh, &cl->cmd.elem.words);*/
-	if (!cmd.elem.words->word->lval)
+	if (!cl->cmd.elem.words->word->lval)
 		return (EXIT_SUCCESS);
-	cmd.argv = copy_word_list(cmd.elem.words);
-	if (cmd.flags & CMD_BUILTIN)
-		return (execute_builtin(e, cmd));
-	cmd.cmd_path = get_path(msh, cmd.elem.words->word->lval);
-	execve(cmd.cmd_path, cmd.argv, e->env);
+	copy_word_list(cl);
+	if (cl->cmd.flags & CMD_BUILTIN)
+		return (execute_builtin(e, cl->cmd));
+	cl->cmd.cmd_path = get_path(msh, cl->cmd.elem.words->word->lval);
+	execve(cl->cmd.cmd_path, cl->cmd.argv, e->env);
 	msh_error(EREXECVE);
 	return (EXIT_FAILURE);
 }
@@ -52,24 +52,24 @@ int	check_exec(int f, pid_t pid_last)
 	return (EXS_SUCCESS);
 }
 
-void	exec_cmd(t_data *msh, t_exec *e, t_command cmd)
+void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
-	if (cmd.flags & CMD_PIPE || !(cmd.flags & CMD_BUILTIN))
+	if (cl->cmd.flags & CMD_PIPE || !(cl->cmd.flags & CMD_BUILTIN))
 	{
 		create_child(e);
 		if (!msh->exec.pid_curr)
 		{
 			e->child_nb = 0;
 			close_all(e);
-			if (cmd.flags & CMD_SUBSHELL)
-				exec_cmd_lst(msh, e, cmd.elem.cmds);
+			if (cl->cmd.flags & CMD_SUBSHELL)
+				exec_cmd_lst(msh, e, cl->cmd.elem.cmds);
 			else
-				e->status = execute_simple_cmd(msh, e, cmd);
+				e->status = execute_simple_cmd(msh, e, cl);
 			exit_prg(msh, e->status);
 		}
 	}
 	else
-		 e->status = execute_simple_cmd(msh, e, cmd);
+		 e->status = execute_simple_cmd(msh, e, cl);
 }
 
 int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
@@ -82,7 +82,7 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 			cl = cl->next;
 			continue ;
 		}
-		exec_cmd(msh, e, cl->cmd);
+		exec_cmd(msh, e, cl);
 		cl = cl->next;
 	}
 	set_fds(e, 1);

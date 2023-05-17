@@ -28,7 +28,7 @@ typedef struct s_builtin
 }t_builtin;
 
 void	create_child(t_exec *e);
-char	**copy_word_list(t_word_lst *wl);
+void	copy_word_list(t_command_lst *cl);
 void	wait_childs(t_exec *e);
 
 #endif

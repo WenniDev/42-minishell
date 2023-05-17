@@ -16,6 +16,8 @@
 # define EREOF				"unexpected end of file"
 # define ERTOK				"unexpected token: "
 
+# define ERHOME				"HOME not set"
+
 # define CMDNOTF			"command not found"
 # define CMDPERMD			"permission denied"
 

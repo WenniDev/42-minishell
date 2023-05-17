@@ -22,29 +22,27 @@ void	wait_childs(t_exec *e)
 			msh_error(ERWAIT);
 }
 
-char	**copy_word_list(t_word_lst *wl)
+void	copy_word_list(t_command_lst *cl)
 {
 	t_word_lst	*elem;
-	char		**argv;
 	int			i;
 
 	i = 0;
-	elem = wl;
+	elem = cl->cmd.elem.words;
 	while (elem)
 	{
 		elem = elem->next;
-		i++;
+		cl->cmd.argc++;
 	}
-	argv = (char **)sfcalloc(i + 1, sizeof (char *));
+	cl->cmd.argv = (char **)sfcalloc(cl->cmd.argc + 1, sizeof (char *));
 	i = 0;
-	elem = wl;
+	elem = cl->cmd.elem.words;
 	while (elem)
 	{
-		argv[i] = elem->word->lval;
+		cl->cmd.argv[i] = elem->word->lval;
 		elem = elem->next;
 		i++;
 	}
-	return (argv);
 }
 
 void	do_ft(int ft, int *ft_data1, int ft_data2)
