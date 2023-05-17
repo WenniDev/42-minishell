@@ -9,5 +9,6 @@
 int	b_env(t_exec *e, int argc, char **argv);
 int	b_pwd(t_exec *e, int argc, char **argv);
 int	b_cd(t_exec *e, int argc, char **argv);
+int	b_unset(t_exec *e, int argc, char **argv);
 
 #endif

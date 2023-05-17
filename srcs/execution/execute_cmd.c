@@ -6,8 +6,8 @@ char	*get_path(t_data *msh, char *cmd_name);
 void	clean_argv(char **argv);
 
 static const t_builtin	g_builtin[] ={
-		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}/*, {"export", b_export},*/
-/*		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}*/
+		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd},/*, {"export", b_export},*/
+		{"unset", b_unset}/*, {"echo", b_echo}, {"exit", b_exit}*/
 };
 
 int	execute_builtin(t_exec *e, t_command cmd)
@@ -77,7 +77,7 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 0);
 	while (cl)
 	{
-		if (check_exec(cl->cmd.flags, e->pid_last) || do_redir(e, cl->cmd))
+		if (/*check_exec(cl->cmd.flags, e->pid_last) || */do_redir(e, cl->cmd))
 		{
 			cl = cl->next;
 			continue ;
