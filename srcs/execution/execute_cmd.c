@@ -3,7 +3,6 @@
 
 int		exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 char	*get_path(t_data *msh, char *cmd_name);
-void	clean_argv(char **argv);
 
 static const t_builtin	g_builtin[] ={
 		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd},/*, {"export", b_export},*/
@@ -19,7 +18,7 @@ int	execute_builtin(t_exec *e, t_command cmd)
 	while (ft_strcmp(cmd.argv[0], g_builtin[i].cmd))
 		i++;
 	status = g_builtin[i].ft(e, cmd.argc, cmd.argv);
-	clean_argv(cmd.argv);
+	free(cmd.argv);
 	return (status);
 }
 

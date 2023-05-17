@@ -40,6 +40,8 @@ char	*get_path(t_data *msh, char *cmd_name)
 	char	**paths;
 	char	*bin;
 
+	if (!getenv("PATH"))
+		(print_error(strerror(2), cmd_name, NULL), exit_prg(msh, 127));
 	paths = ft_split(getenv("PATH"), ":");
 	if (!paths)
 		malloc_error();

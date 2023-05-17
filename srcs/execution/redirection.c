@@ -24,7 +24,6 @@ int	do_redir(t_exec *e, t_command cmd)
 	{
 		do_ft(DUP2, &e->outfd, STDOUT_FILENO);
 		do_ft(CLOSE, &e->outfd, 0);
-		e->pipefd[1] = 0;
 	}
 	return (0);
 }
@@ -93,5 +92,4 @@ void	close_all(t_exec *e)
 	do_ft(CLOSE, &e->infd, 0);
 	do_ft(CLOSE, &e->outfd, 0);
 	do_ft(CLOSE, &e->pipefd[0], 0);
-	do_ft(CLOSE, &e->pipefd[1], 0);
 }
