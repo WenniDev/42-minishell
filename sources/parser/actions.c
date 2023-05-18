@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:26:40 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 11:58:38 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/19 01:16:14 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,26 @@ void	add_word(t_parser *p, t_word_d wd)
 	}
 }
 
+void	add_heredoc(t_parser *p, t_red *r)
+{
+	t_red	*new;
+	t_red	*hd_red;
+
+	new = (t_red *)sfcalloc(1, sizeof (t_red));
+//	new = r;
+	ft_memcpy(&new, &r, sizeof (t_red *));
+	new->heredoc_eof = new->filename->lval;
+	hd_red = p->hd_lst;
+	if (!p->hd_lst)
+		p->hd_lst = new;
+	else
+	{
+		while (hd_red->next)
+			hd_red = hd_red->next;
+		hd_red->next = new;
+	}
+}
+
 void	add_red(t_parser *p, int src, t_word_d wd, int flags)
 {
 	t_red		*red;
@@ -113,8 +133,8 @@ void	add_red(t_parser *p, int src, t_word_d wd, int flags)
 		new_red->oflags = O_CREAT | O_WRONLY | O_TRUNC;
 	if (flags == r_output_ap)
 		new_red->oflags = O_CREAT | O_WRONLY | O_APPEND;
-/*	if (flags == r_heredoc)
-		add_heredoc(p, new_red);*/
+	if (flags == r_heredoc)
+		add_heredoc(p, new_red);
 	red = p->cl_curr->cmd.reds;
 	if (red)
 	{
