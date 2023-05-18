@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/18 02:40:49 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 02:59:41 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void check_cmd_name(t_word_lst **word_lst)
 	t_word_lst *begin;
 
 	begin = *word_lst;
-	if (ft_strcmp(begin->word->lval, "export"))
+	if (!begin || ft_strcmp(begin->word->lval, "export"))
 		return ;
 	begin = begin->next;
 	while (begin)
