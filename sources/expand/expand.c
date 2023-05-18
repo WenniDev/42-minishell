@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 19:42:30 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 02:40:49 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,44 @@
 # include "signal.h"
 
 #define debug_print(fmt, ...) \
-        do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE_NAME__,\
+        do { fprintf(stderr, "\e[1;34m%s\e[1;0m:\e[1;32m%d\e[1;0m:\e[1;0m\e[1;36m%s()\e[1;0m:	" fmt, __FILE__,\
                                 __LINE__, __func__, __VA_ARGS__); } while (0)
 
-void	expand_word(t_word_d *word, t_word_lst **word_lst,
-			t_word_lst **begin, int *status)
+void	skip_quotes(t_word_d *word)
+{
+	char	quote;
+	int		i;
+
+	i = 0;
+	while (word->lval && word->lval[i])
+	{
+		while (word->lval[i] && word->lval[i] != '\'' && word->lval[i] != '"')
+			i++;
+		quote = word->lval[i];
+		ft_memmove(&(word->lval[i]), &(word->lval[i + 1]), ft_strlen(&(word->lval[i])));
+		while (word->lval[i] && word->lval[i] != quote)
+			i++;
+		ft_memmove(&(word->lval[i]), &(word->lval[i + 1]), ft_strlen(&(word->lval[i])));
+	}
+}
+
+void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status);
-	if (!(word->flags & W_NOEXPAND))
-		expand_wildcard(word_lst, begin, status);
+	if (!(*status) && !(word->flags & W_NOEXPAND))
+		expand_wildcard(word, word_lst, status);
+	if (!(*status) && word->flags & W_QUOTES)
+		skip_quotes(word);
 }
 
-void expand_command_name(t_word_d *word, t_word_lst **word_lst, int *status)
+void check_cmd_name(t_word_lst **word_lst)
 {
 	t_word_lst *begin;
 
 	begin = *word_lst;
-	if (word->flags & W_DOLLAR)
-		expand_env(word, status);
-	if (!(word->flags & W_NOEXPAND))
-		expand_wildcard(word_lst, &begin, status);
-	if (ft_strcmp((*word_lst)->word->lval, "export"))
+	if (ft_strcmp(begin->word->lval, "export"))
 		return ;
-	begin = *word_lst;
 	begin = begin->next;
 	while (begin)
 	{
@@ -52,26 +66,22 @@ void expand_command_name(t_word_d *word, t_word_lst **word_lst, int *status)
 int expand(t_word_lst **word_lst)
 {
 	int 		status;
-	t_word_lst	*lst;
+	t_word_lst	*begin;
 
 	status = 0;
-	lst = (*word_lst);
-	expand_command_name((*word_lst)->word, word_lst, &status);
-	if (status)
-		return (status);
-	lst = lst->next;
-	while (lst && !status)
+	begin = (*word_lst);
+	check_cmd_name(word_lst);
+	while (begin && !status)
 	{
 		if (!status)
-			expand_word(lst->word, &lst, word_lst, &status);
-		lst = lst->next;
+			expand_word(begin->word, word_lst, &status);
+		begin = begin->next;
 	}
-	lst = (*word_lst);
-	while (lst && !status)
+	begin = (*word_lst);
+	while (begin && !status)
 	{
-		debug_print("%s\n", lst->word->lval);
-		lst = lst->next;
+		debug_print("%s\n", begin->word->lval);
+		begin = begin->next;
 	}
-	kill(0, SIGABRT);
 	return (status);
 }
