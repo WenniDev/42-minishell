@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:56:24 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 18:00:51 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 02:39:23 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 
 int		expand(t_word_lst **wold_lst);
 void	expand_env(t_word_d *word, int *status);
-void	expand_wildcard(t_word_lst **word_lst, t_word_lst **begin, int *status);
+void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status);
 void	*expand_red(t_word_d *filename);
 
 int		is_dir(struct dirent *ent);
-void	insert_list(t_word_lst **word_lst, t_word_lst **begin, t_word_lst *tmp);
+void	insert_list(t_word_d *word, t_word_lst **word_lst, t_word_lst **tmp);
 void	free_word_lst(t_word_lst *word_lst);
 void	free_word(t_word_d *word);
 int		is_dir_pattern(char *pattern);

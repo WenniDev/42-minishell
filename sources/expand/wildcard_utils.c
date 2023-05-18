@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:34:32 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 19:43:25 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 01:59:47 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,45 @@
 #include <sys/stat.h>
 #include "libft.h"
 
-//void	insert_list(t_word_lst **word_lst, t_word_lst **begin, t_word_lst *tmp)
-//{
-//	t_word_lst	*next_word;
-//	t_word_lst	*begin_tmp;
-//	t_word_lst	*begin_word;
-//	t_word_lst	*to_free;
-//
-//	if (!tmp)
-//		return ;
-//	next_word = (*word_lst)->next;
-//	begin_tmp = tmp;
-//	while (begin_tmp->next)
-//		begin_tmp = begin_tmp->next;
-//	begin_tmp->next = next_word;
-//	begin_word = (*begin);
-//	if (!ft_strcmp((*word_lst)->word->lval, (*begin)->word->lval))
-//	{
-//		free(begin_word->word->lval); begin_word->word->lval = NULL;
-//		free(begin_word->word); begin_word->word = NULL;
-//		free(begin_word); begin_word = NULL;
-//		(*begin) = (*word_lst);
-//	}
-//	else
-//	{
-//		while (begin_word->next && ft_strcmp((*word_lst)->word->lval, begin_word->next->word->lval))
-//			begin_word = begin_word->next;
-//		to_free = begin_word->next;
-//		free(to_free->word->lval);
-//		free(to_free->word);
-//		free(to_free);
-//		begin_word->next = tmp;
-////		(*word_lst) = tmp;
-//	}
-//}
+t_word_lst	*get_next_word(t_word_d *word, t_word_lst **word_lst)
+{
+	t_word_lst	*begin_lst;
+
+	begin_lst = (*word_lst);
+	while (begin_lst->next && word != begin_lst->word)
+		begin_lst = begin_lst->next;
+	return (begin_lst->next);
+}
+
+t_word_lst	*get_word(t_word_d *word, t_word_lst **word_lst)
+{
+	t_word_lst	*begin_lst;
+
+	begin_lst = (*word_lst);
+	while (begin_lst && word != begin_lst->word)
+		begin_lst = begin_lst->next;
+	return (begin_lst);
+}
+
+void	insert_list(t_word_d *word, t_word_lst **word_lst, t_word_lst **tmp_lst)
+{
+	t_word_lst	*begin_tmp;
+	t_word_lst	*curr_word;
+
+	if (!(*tmp_lst))
+		return ;
+	begin_tmp = *tmp_lst;
+	while (begin_tmp->next)
+		begin_tmp = begin_tmp->next;
+	begin_tmp->next = get_next_word(word, (word_lst));
+	curr_word = get_word(word, word_lst);
+	free(word->lval);
+	curr_word->word->lval = (*tmp_lst)->word->lval;
+	curr_word->word->flags = (*tmp_lst)->word->flags;
+	curr_word->next = (*tmp_lst)->next;
+	free((*tmp_lst)->word);
+	free((*tmp_lst));
+}
 
 void	free_word(t_word_d *word)
 {

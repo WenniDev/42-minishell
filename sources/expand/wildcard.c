@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 17:28:31 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 18:40:18 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:42:32 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ static void	*add_file(t_word_lst **word_lst, int is_dir, struct dirent *ent)
 		new_file->word->lval = ft_strdup(ent->d_name);
 	if (!new_file->word->lval)
 		return (0);
-	new_file->word->flags = 0x00;
+	new_file->word->flags = W_NOEXPAND;
 	new_file->next = NULL;
 	add_in_list(word_lst, new_file);
 	return (new_file);
 }
 
-void	expand_wildcard(t_word_lst **word_lst, t_word_lst **begin, int *status)
+void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -92,7 +92,7 @@ void	expand_wildcard(t_word_lst **word_lst, t_word_lst **begin, int *status)
 		return (*status = 1, (void) NULL);
 	ent = (void *)1;
 	tmp_lst = NULL;
-	pattern = (*word_lst)->word->lval;
+	pattern = word->lval;
 	look_for_dir = is_dir_pattern(pattern);
 	while (ent)
 	{
@@ -104,7 +104,7 @@ void	expand_wildcard(t_word_lst **word_lst, t_word_lst **begin, int *status)
 		if (!add_file(&tmp_lst, look_for_dir, ent))
 			return (*status = 1, closedir(dir), free_word_lst(tmp_lst));
 	}
-	insert_list(word_lst, begin, tmp_lst);
+	insert_list(word, word_lst, &tmp_lst);
 	closedir(dir);
 	*status = 0;
 }

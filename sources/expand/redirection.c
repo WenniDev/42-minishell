@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:01 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 17:53:51 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 02:28:23 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*expand_red(t_word_d *filename)
 	if (!tmp_lst)
 		(free_word(tmp_word), kill(0, SIGABRT));
 	tmp_lst->word = tmp_word;
-	expand_wildcard(&tmp_lst, &tmp_lst, &status);
+	expand_wildcard(tmp_lst->word, &tmp_lst, &status);
 	if (status)
 		(free_word_lst(tmp_lst), kill(0, SIGABRT));
 	if (ft_strchr(tmp_lst->word->lval, '*') || tmp_lst->next)
