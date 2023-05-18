@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:34:32 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/18 01:59:47 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/18 03:42:34 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_word_lst	*get_next_word(t_word_d *word, t_word_lst **word_lst)
 	return (begin_lst->next);
 }
 
-t_word_lst	*get_word(t_word_d *word, t_word_lst **word_lst)
+t_word_lst	*get_word_in_list(t_word_d *word, t_word_lst **word_lst)
 {
 	t_word_lst	*begin_lst;
 
@@ -46,8 +46,8 @@ void	insert_list(t_word_d *word, t_word_lst **word_lst, t_word_lst **tmp_lst)
 	while (begin_tmp->next)
 		begin_tmp = begin_tmp->next;
 	begin_tmp->next = get_next_word(word, (word_lst));
-	curr_word = get_word(word, word_lst);
-	free(word->lval);
+	curr_word = get_word_in_list(word, word_lst);
+	free(curr_word->word->lval);
 	curr_word->word->lval = (*tmp_lst)->word->lval;
 	curr_word->word->flags = (*tmp_lst)->word->flags;
 	curr_word->next = (*tmp_lst)->next;
