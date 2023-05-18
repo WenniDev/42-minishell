@@ -19,6 +19,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/token.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
+				$(SRCDIR)/parser/here_doc.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/expand/expand.c\
 				$(SRCDIR)/expand/environment.c\
