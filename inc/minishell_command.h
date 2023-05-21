@@ -7,7 +7,7 @@
 /* values for word flags */
 # define W_DOLLAR		0x01	//dollar sign present
 # define W_QUOTES		0x02	//quotes present
-# define W_TILDE		0x08	//tilde is present
+# define W_NOEXPAND		0x04	//do not expand filenames
 
 /* values for redirection flags */
 # define RED_IN			0x01	//input red
