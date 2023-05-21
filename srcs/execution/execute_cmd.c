@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/21 15:15:39 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/21 17:27:01 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "minishell_builtins.h"
+#include "minishell_expand.h"
 
 int		exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 char	*get_path(t_data *msh, char *cmd_name);
 
 static const t_builtin	g_builtin[] ={
-		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd},/*, {"export", b_export},*/
-		{"unset", b_unset}/*, {"echo", b_echo}, {"exit", b_exit}*/
+		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}, {"export", b_export},
+		{"unset", b_unset}, {"echo", b_echo},/* {"exit", b_exit}*/
 };
 
 int	execute_builtin(t_exec *e, t_command cmd)
@@ -24,8 +37,8 @@ int	execute_builtin(t_exec *e, t_command cmd)
 
 int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
-/*	expand_word_lst(msh, &cl->cmd.elem.words);*/
-	if (!cl->cmd.elem.words->word->lval)
+	expand(&cl->cmd.elem.words);
+	if (!cl->cmd.elem.words)
 		return (EXIT_SUCCESS);
 	copy_word_list(cl);
 	if (cl->cmd.flags & CMD_BUILTIN)

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/21 15:12:39 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/21 15:12:50 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+#include "minishell_expand.h"
 
 int		mod_redir(t_exec *e, t_red *r);
 void	do_pipe_red(t_exec *e, t_command cmd);
@@ -44,8 +57,8 @@ void	do_pipe_red(t_exec *e, t_command cmd)
 
 int	mod_redir(t_exec *e, t_red *r)
 {
-/*	if (!expand_red(r->filename))
-		return (print_error(REDAMB, r->filename->lval, NULL));*/
+	if (!expand_red(r->filename))
+		return (print_error(REDAMB, r->filename->lval, NULL));
 	if (r->rflags & RED_IN)
 	{
 		if (e->infd)

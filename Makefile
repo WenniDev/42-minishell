@@ -21,6 +21,11 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/parse_utils.c\
+				$(SRCDIR)/expand/expand.c\
+				$(SRCDIR)/expand/environment.c\
+				$(SRCDIR)/expand/redirection.c\
+				$(SRCDIR)/expand/wildcard.c\
+				$(SRCDIR)/expand/wildcard_utils.c\
 				$(SRCDIR)/execution/execute_cmd.c\
 				$(SRCDIR)/execution/redirection.c\
 				$(SRCDIR)/execution/path.c\
@@ -37,6 +42,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/cleanup.c
 INCS		=	$(INCDIR)/minishell_parse.h\
 				$(INCDIR)/minishell_command.h\
+				$(INCDIR)/minishell_expand.h\
 				$(INCDIR)/minishell_execute.h\
 				$(INCDIR)/minishell.h\
 				$(INCDIR)/minishell_error.h\
