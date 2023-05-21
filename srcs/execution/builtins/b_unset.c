@@ -16,10 +16,10 @@ int get_env_index(char **env, char *var)
 
 void	unset_var(t_exec *e, char *var)
 {
-	int	i;
-	int	j;
-	int env_size;
-	char **tmp_env;
+	int		i;
+	int		j;
+	int		env_size;
+	char	**tmp_env;
 
 	j = -1;
 	i = get_env_index(e->env, var);
