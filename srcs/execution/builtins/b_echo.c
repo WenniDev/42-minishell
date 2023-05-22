@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:35:46 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 17:40:47 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/22 11:56:26 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,14 @@ int	b_echo(t_exec *e, int argc, char **argv)
 			continue ;
 		}
 		info.param_end = 1;
-		printf("%s", argv[info.word]);
+		if (sfprint(argv[info.word], false) == -1)
+			return (-1);
 		if (info.word++ < argc - 1)
-			printf(" ");
+			if (sfprint(" ", false) == -1)
+				return (-1);
 	}
 	if (!info.no_new_line)
-		printf("\n");
+		if (sfprint("\n", false) == -1)
+			return (-1);
 	return (0);
 }
