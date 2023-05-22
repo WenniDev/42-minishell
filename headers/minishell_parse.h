@@ -84,5 +84,6 @@ char		*get_line(t_parser *p);
 void		parser_act(t_parser *p, int act);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
+int 		get_heredoc(t_parser *p, t_red *r);
 
 #endif

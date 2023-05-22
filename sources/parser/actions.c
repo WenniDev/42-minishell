@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:26:40 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/19 01:16:14 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:52:43 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void	add_heredoc(t_parser *p, t_red *r)
 	ft_memcpy(&new, &r, sizeof (t_red *));
 	new->heredoc_eof = new->filename->lval;
 	hd_red = p->hd_lst;
+	if (get_heredoc(p , r))
+		return ;
 	if (!p->hd_lst)
 		p->hd_lst = new;
 	else
