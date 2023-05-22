@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_unset.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/22 12:04:31 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/22 12:04:34 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_builtins.h"
 
-int get_env_index(char **env, char *var)
+static int	get_env_index(char **env, char *var)
 {
 	int	i;
 

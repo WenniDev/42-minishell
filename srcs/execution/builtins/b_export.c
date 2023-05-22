@@ -6,11 +6,25 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 18:54:24 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:06:58 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+
+static int	get_env_index(char **env, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strncmp(env[i], var, ft_strlen(var) + 1) == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 char	**edit_in_env(char *var, char *full_var, t_exec *e)
 {
@@ -52,7 +66,7 @@ char	**add_in_env(char *full_var, t_exec *e)
 	return (tmp_env);
 }
 
-void	msh_export_one(char *name, char *value, t_exec *e)
+void	export_var(char *name, char *value, t_exec *e)
 {
 	char	*full_var;
 	char	*tmp_full_var;
@@ -73,13 +87,6 @@ void	msh_export_one(char *name, char *value, t_exec *e)
 	__environ = e->env;
 }
 
-static int	is_env_name(char c)
-{
-	if (!ft_isalnum(c) && c != '_')
-		return (0);
-	return (1);
-}
-
 #define EXPORTFAIL "not a valid identifier"
 
 int	b_export(t_exec *e, int argc, char **argv)
@@ -95,11 +102,11 @@ int	b_export(t_exec *e, int argc, char **argv)
 		j = 0;
 		while (*argv[i] != '=')
 		{
-			if (!is_env_name(*argv[i]))
+			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
 				return (free(name), print_error(EXPORTFAIL, "export", NULL));
 			name[j++] = *argv[i]++;
 		}
-		msh_export_one(name, ++argv[i], e);
+		export_var(name, ++argv[i], e);
 		free(name);
 		i++;
 	}
