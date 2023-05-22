@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/16 19:08:40 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:22:08 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static char	*add_res(char *str, char *tmp)
 	char	*res;
 
 	res = ft_strjoin(str, tmp);
-	free(tmp);
+	ft_free((void **)&tmp);
+	ft_free((void **)&str);
 	if (!res)
 	{
 		ft_putstr_fd("Malloc failed", 2);
@@ -53,12 +54,13 @@ static char	*get_str(char *str, int *index)
 	char	*res;
 
 	i = 0;
-	if (str[0] == '$' || str[i] == '"' || str[i] == '\'')
+	if (str[0] == '$' || str[0] == '"' || str[0] == '\'')
 		++i;
 	while (str[i] && str[i] != '$' && str[i] != '"' && str[i] != '\'')
 		++i;
 	res = sfcalloc(i + 1, sizeof(char));
 	ft_memcpy(res, str, i);
+	res[i] = '\0';
 	*index += i;
 	return (res);
 }
@@ -75,8 +77,8 @@ static char	*get_env(char *str, int *index)
 	var = sfcalloc(i + 1, sizeof(char));
 	ft_memcpy(var, str + 1, i - 1);
 	res = ft_strdup(getenv(var));
-	*index += i;
 	free(var);
+	*index += i;
 	return (res);
 }
 
