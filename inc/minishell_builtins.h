@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_builtins.h                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/22 12:01:44 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/22 12:04:17 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_BUILTINS_H
 # define MINISHELL_BUILTINS_H
 
@@ -13,6 +25,7 @@ int	b_unset(t_exec *e, int argc, char **argv);
 int	b_echo(t_exec *e, int argc, char **argv);
 int	b_export(t_exec *e, int argc, char **argv);
 
-int get_env_index(char **env, char *var);
+void	export_var(char *name, char *value, t_exec *e);
+void	unset_var(t_exec *e, char *var);
 
 #endif
