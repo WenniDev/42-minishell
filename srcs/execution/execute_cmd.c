@@ -89,7 +89,7 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 0);
 	while (cl)
 	{
-		if (/*check_exec(cl->cmd.flags, e->pid_last) || */do_redir(e, cl->cmd))
+		if (check_exec(cl->cmd.flags, e->pid_last) || do_redir(e, cl->cmd))
 		{
 			cl = cl->next;
 			continue ;

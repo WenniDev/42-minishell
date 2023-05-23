@@ -33,6 +33,8 @@
 # define EREXECVE			"execve failed"
 # define ERWAIT				"wait failed"
 
+# define QUITMSG			"Quit (core dumped)"
+
 int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
