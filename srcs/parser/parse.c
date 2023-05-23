@@ -67,6 +67,7 @@ int	parse(t_parser *p)
 	}
 	if (p->tk == EOF)
 		p->eof = true;
+/*	gather_heredocs(p->hd_lst);*/
 	return (p->status);
 }
 
