@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 12:06:58 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:40:42 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	b_export(void *data, int argc, char **argv)
 				return (free(name), print_error(EXPORTFAIL, "export", NULL));
 			name[j++] = *argv[i]++;
 		}
-		export_var(name, ++argv[i], e);
+		export_var(name, ++argv[i], (t_exec *)data);
 		free(name);
 		i++;
 	}
