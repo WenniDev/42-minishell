@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_error.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/23 18:27:09 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/23 18:27:44 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_ERROR_H
 #define MINISHELL_ERROR_H
 
@@ -17,6 +29,7 @@
 # define ERTOK				"unexpected token: "
 
 # define ERHOME				"HOME not set"
+# define EXPORTFAIL			"not a valid identifier"
 
 # define CMDNOTF			"command not found"
 # define CMDPERMD			"permission denied"

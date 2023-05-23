@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 12:06:58 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:27:34 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ void	export_var(char *name, char *value, t_exec *e)
 		e->env = add_in_env(full_var, e);
 	__environ = e->env;
 }
-
-#define EXPORTFAIL "not a valid identifier"
 
 int	b_export(t_exec *e, int argc, char **argv)
 {
