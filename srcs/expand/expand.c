@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 16:30:16 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:43:54 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 #include "minishell_command.h"
 #include "minishell_expand.h"
 
-void	skip_quotes(t_word_d *word)
+void	skip_quotes(char *word)
 {
 	char	quote;
 	int		i;
 
 	i = 0;
-	while (word->lval && word->lval[i])
+	while (word && word[i])
 	{
-		while (word->lval[i] && word->lval[i] != '\'' && word->lval[i] != '"')
+		while (word[i] && word[i] != '\'' && word[i] != '"')
 			i++;
-		quote = word->lval[i];
-		ft_memmove(&(word->lval[i]), &(word->lval[i + 1]),
-			ft_strlen(&(word->lval[i])));
-		while (word->lval[i] && word->lval[i] != quote)
+		quote = word[i];
+		ft_memmove(&(word[i]), &(word[i + 1]),
+			ft_strlen(&(word[i])));
+		while (word[i] && word[i] != quote)
 			i++;
-		ft_memmove(&(word->lval[i]), &(word->lval[i + 1]),
-			ft_strlen(&(word->lval[i])));
+		ft_memmove(&(word[i]), &(word[i + 1]),
+			ft_strlen(&(word[i])));
 	}
 }
 
@@ -41,7 +41,7 @@ void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status)
 	if (!(*status) && !(word->flags & W_NOEXPAND))
 		expand_wildcard(word, word_lst, status);
 	if (!(*status) && word->flags & W_QUOTES)
-		skip_quotes(word);
+		skip_quotes(word->lval);
 }
 
 void	check_cmd_name(t_word_lst **word_lst)
