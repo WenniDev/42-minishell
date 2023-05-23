@@ -12,6 +12,7 @@ void	handle_sigabrt(int signum)
 
 void	handle_sig(int signum)
 {
+	reset_parser(&g_msh->parser);
 	if (g_msh->exec.child_nb)
 	{
 		if (g_msh->exec.child == false)
@@ -20,7 +21,6 @@ void	handle_sig(int signum)
 				printf("%s", QUITMSG);
 		printf("\n");
 		kill(0, SIGTERM);
-		reset_parser(&g_msh->parser);
 	}
 	else
 	{
