@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/23 14:08:38 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/23 19:04:56 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_parse.h"
 
 void	add_simple_cmd(t_parser *p, int sep)
@@ -86,8 +98,8 @@ void	add_heredoc(t_parser *p, t_red *r)
 	t_red	*hd_red;
 
 	new = (t_red *)sfcalloc(1, sizeof (t_red));
-	new = r;
-	new->heredoc_eof = new->filename->lval;
+	*new = *r;
+	new->heredoc_eof = r->filename->lval;
 	hd_red = p->hd_lst;
 	if (!p->hd_lst)
 		p->hd_lst = new;
