@@ -47,13 +47,13 @@ int	b_echo(t_exec *e, int argc, char **argv)
 		}
 		info.param_end = 1;
 		if (sfprint(argv[info.word], false) == -1)
-			return (-1);
+			return (print_error(strerror(errno), "echo", "write error"));
 		if (info.word++ < argc - 1)
 			if (sfprint(" ", false) == -1)
-				return (-1);
+				return (print_error(strerror(errno), "echo", "write error"));
 	}
 	if (!info.no_new_line)
 		if (sfprint("\n", false) == -1)
-			return (-1);
+			return (print_error(strerror(errno), "echo", "write error"));
 	return (0);
 }
