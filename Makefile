@@ -37,6 +37,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/execution/builtins/b_unset.c\
 				$(SRCDIR)/execution/builtins/b_export.c\
 				$(SRCDIR)/execution/builtins/b_echo.c\
+				$(SRCDIR)/execution/builtins/b_exit.c\
 				$(SRCDIR)/env.c\
 				$(SRCDIR)/sfcalloc.c\
 				$(SRCDIR)/sfprint.c\

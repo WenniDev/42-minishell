@@ -40,7 +40,11 @@ void	clean_cmd(t_command_lst *cl)
 	void	*tmp;
 
 	if (cl->cmd.flags & CMD_SIMPLE)
+	{
+		ft_free((void **)&cl->cmd.cmd_path);
 		clean_elems(cl->cmd.elem.words, cl->cmd.reds);
+		ft_free((void **)&cl->cmd.argv);
+	}
 	else if (cl->cmd.flags & CMD_SUBSHELL)
 	{
 		clean_elems(NULL, cl->cmd.reds);

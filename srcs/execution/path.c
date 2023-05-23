@@ -30,6 +30,7 @@ char *get_binary(char **paths, char *cmd_name)
 			(free_split(paths), malloc_error());;
 		if (access(bin, F_OK) == 0)
 			return (bin);
+		free(bin);
 		i++;
 	}
 	return (NULL);
@@ -53,6 +54,6 @@ char	*get_path(t_data *msh, char *cmd_name)
 	if (!bin)
 		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
 	if (access(bin, X_OK) == EXS_ERROR)
-		(print_error(CMDPERMD, cmd_name, NULL), exit_prg(msh, 126));
+		(free (bin), print_error(CMDPERMD, cmd_name, NULL), exit_prg(msh, 126));
 	return (bin);
 }

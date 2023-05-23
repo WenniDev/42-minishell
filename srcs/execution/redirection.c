@@ -64,9 +64,9 @@ int	mod_redir(t_exec *e, t_red *r)
 		if (e->infd)
 			do_ft(CLOSE, &e->infd, 0);
 /*		if (r->rflags & RED_HEREDOC)
-			e->infd = heredoc(r);*/
-		else
-			e->infd = open(r->filename->lval, r->oflags, 0664);
+			e->infd = heredoc;
+		else*/
+		e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)
 			return (print_error(strerror(errno), r->filename->lval, NULL));
 
