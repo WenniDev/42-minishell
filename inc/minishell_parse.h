@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_parse.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/23 14:07:45 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/23 17:12:08 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_PARSE_H
 # define MINISHELL_PARSE_H
 
@@ -80,5 +92,8 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
+
+void		gather_heredoc(t_parser *p);
+int			heredoc(t_red *r);
 
 #endif

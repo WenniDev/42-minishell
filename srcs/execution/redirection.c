@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:12:39 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 15:12:50 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:58:53 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	mod_redir(t_exec *e, t_red *r)
 	{
 		if (e->infd)
 			do_ft(CLOSE, &e->infd, 0);
-/*		if (r->rflags & RED_HEREDOC)
-			e->infd = heredoc;
-		else*/
-		e->infd = open(r->filename->lval, r->oflags, 0664);
+		if (r->rflags & RED_HEREDOC)
+			e->infd = heredoc(r);
+		else
+			e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)
 			return (print_error(strerror(errno), r->filename->lval, NULL));
 

@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:27:48 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 16:34:37 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:11:52 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,22 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int ft_random() {
+int ft_random()
+{
 	unsigned char	buffer[3];
-	int				randomInt;
-	ssize_t			bytesRead;
+	int				ran_int;
+	ssize_t			bytes_read;
 	int 			fd;
 
 	fd = open("/dev/random", O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	bytesRead = read(fd, buffer, 3);
-	if (bytesRead != 3)
+	bytes_read = read(fd, buffer, 3);
+	if (bytes_read != 3)
 		return (-1);
 	close(fd);
-	randomInt = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
-	return (randomInt);
+	ran_int = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
+	return (ran_int);
 }
 
 int is_expandable(char *str)
@@ -59,7 +60,7 @@ char *heredoc_expand(t_red *r, int *len)
 			*len = 0;
 		return (r->filename->lval);
 	}
-	if (r->heredoc_eof && is_expandable(r->heredoc_eof))
+	if (r->filename->flags & W_NOEXPAND)
 	{
 		if (len)
 			*len = (int)ft_strlen(r->filename->lval);
@@ -71,27 +72,67 @@ char *heredoc_expand(t_red *r, int *len)
 	return (r->filename->lval);
 }
 
-int read_heredoc(t_parser *p, t_red *r)
+int print_eof_error(char *eof)
 {
-	char *tmp;
-
-	while (1)
-	{
-		tmp = get_line(p);
-		if (!ft_strcmp(tmp, r->heredoc_eof))
-			break ;
-		r->filename->lval = ft_strjoin(r->filename->lval, "\n");
-		if (!r->filename->lval)
-			return (1);
-		r->filename->lval = ft_strjoin(r->filename->lval, tmp);
-		if (!r->filename->lval)
-			return (1);
-		free(tmp);
-	}
-	return (0);
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(HDERREOF, 2);
+	ft_putstr_fd(" (wanted \"", 2);
+	ft_putstr_fd(eof, 2);
+	ft_putstr_fd("\")\n", 2);
+	return (-1);
 }
 
-int create_tmp(char *content)
+char	*read_heredoc(t_parser *p, t_red *r)
+{
+	char	*line;
+	char	*res;
+	int		len;
+	int 	index;
+
+	index = 0;
+	res = NULL;
+	while (true)
+	{
+		line = get_line(p);
+		if (!line)
+		{
+			print_eof_error(r->heredoc_eof);
+			break;
+		}
+		if (!ft_strcmp(line, r->heredoc_eof))
+			break;
+		len = (int)ft_strlen(line);
+		if (res)
+			res = ft_realloc(res, ft_strlen(res) + len + 2, ft_strlen(res));
+		else
+			res = ft_realloc(res, len + 2, 0);
+		ft_memcpy(res + index++, line, len);
+		ft_memcpy(res + ft_strlen(res), "\n", 1);
+		index += len;
+	}
+	return (free(r->filename->lval), res);
+}
+
+void	gather_heredoc(t_parser *p)
+{
+	t_red *hd;
+
+	hd = p->hd_lst;
+	p->state |= PST_HEREDOC;
+	while (hd)
+	{
+		if (ft_strchr(hd->heredoc_eof, '\''))
+		{
+			hd->filename->flags |= W_NOEXPAND;
+			skip_quotes(hd->heredoc_eof);
+		}
+		hd->filename->lval = read_heredoc(p, hd);
+		hd = hd->next;
+	}
+	p->state &= ~PST_HEREDOC;
+}
+
+int create_tmp(char *content, t_red *r)
 {
 	char			*ran_char;
 	char 			*filename;
@@ -100,25 +141,27 @@ int create_tmp(char *content)
 	ran_char = ft_itoa(ft_random());
 	filename = ft_strjoin("/tmp/sh-thd-", ran_char);
 	free(ran_char);
-	fd = open(filename, O_CREAT | O_TRUNC | O_EXCL | O_WRONLY);
+	fd = open(filename, O_CREAT | O_EXCL | O_WRONLY, 0664);
 	if (fd == -1)
 		return (-1);
-	write(fd, content, ft_strlen(content));
+	if (write(fd, content, ft_strlen(content)) < 0)
+		return (-1);
 	if (close(fd))
 		return (-1);
 	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	unlink(filename);
+	r->filename->lval = filename;
 	return (fd);
 }
 
-int	heredoc(t_parser *p, t_red *r)
+int	heredoc(t_red *r)
 {
 	char	*document;
 	int 	document_len;
 	int 	fd;
 
-	p->state = PST_HEREDOC;
-	if (read_heredoc(p, r) == 1)
-		return (1);
 	document = heredoc_expand(r, &document_len);
 	if (document_len == 0)
 	{
@@ -127,6 +170,7 @@ int	heredoc(t_parser *p, t_red *r)
 			return (0);
 		return (fd);
 	}
-	fd = create_tmp(document);
+	fd = create_tmp(document, r);
+	free(document);
 	return (fd);
 }

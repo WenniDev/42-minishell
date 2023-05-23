@@ -28,6 +28,8 @@
 # define EREOF				"unexpected end of file"
 # define ERTOK				"unexpected token: "
 
+# define HDERREOF			"warning: here-document delimited by end-of-file"
+
 # define ERHOME				"HOME not set"
 # define EXPORTFAIL			"not a valid identifier"
 

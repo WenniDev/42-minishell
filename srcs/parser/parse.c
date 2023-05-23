@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/23 14:23:04 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/23 17:12:12 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_parse.h"
 
 void	parser_act(t_parser *p, int act);
@@ -67,6 +79,7 @@ int	parse(t_parser *p)
 	}
 	if (p->tk == EOF)
 		p->eof = true;
+	gather_heredoc(p);
 	return (p->status);
 }
 
