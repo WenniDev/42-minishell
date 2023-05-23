@@ -11,7 +11,7 @@ char	*get_line(t_parser *p)
 	else if (p->state & PST_HEREDOC)
 		p->line_read = readline("heredoc> ");
 	else
-		p->line_read = readline("PS1> ");
+		p->line_read = readline(getenv("PS1"));
 	if (!p->line_read)
 	{
 		if (p->state & PST_SUBSHELL)

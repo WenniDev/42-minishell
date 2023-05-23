@@ -43,7 +43,8 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/sfprint.c\
 				$(SRCDIR)/error.c\
 				$(SRCDIR)/signal_handler.c\
-				$(SRCDIR)/cleanup.c
+				$(SRCDIR)/cleanup.c\
+				$(SRCDIR)/prompt.c
 INCS		=	$(INCDIR)/minishell_parse.h\
 				$(INCDIR)/minishell_command.h\
 				$(INCDIR)/minishell_expand.h\
