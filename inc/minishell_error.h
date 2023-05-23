@@ -17,6 +17,8 @@
 # define ERTOK				"unexpected token: "
 
 # define ERHOME				"HOME not set"
+# define ERARGC				"too many arguments"
+# define ERNUMARG			"numeric argument required"
 
 # define CMDNOTF			"command not found"
 # define CMDPERMD			"permission denied"

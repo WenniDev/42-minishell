@@ -7,6 +7,8 @@ void	create_child(t_exec *e)
 	e->pid_curr = fork();
 	if (e->pid_curr == -1)
 		msh_error(ERFORK);
+	if (!e->pid_curr)
+		e->child = true;
 	if (e->pid_curr)
 		e->pid_last = e->pid_curr;
 	e->child_nb++;

@@ -18,12 +18,13 @@
 # include <errno.h>
 # include <string.h>
 
-int	b_env(t_exec *e, int argc, char **argv);
-int	b_pwd(t_exec *e, int argc, char **argv);
-int	b_cd(t_exec *e, int argc, char **argv);
-int	b_unset(t_exec *e, int argc, char **argv);
-int	b_echo(t_exec *e, int argc, char **argv);
-int	b_export(t_exec *e, int argc, char **argv);
+int	b_env(void *data, int argc, char **argv);
+int	b_pwd(void *data, int argc, char **argv);
+int	b_cd(void *data, int argc, char **argv);
+int	b_unset(void *data, int argc, char **argv);
+int	b_echo(void *data, int argc, char **argv);
+int	b_export(void *data, int argc, char **argv);
+int	b_exit(void *data, int argc, char **argv);
 
 void	export_var(char *name, char *value, t_exec *e);
 void	unset_var(t_exec *e, char *var);

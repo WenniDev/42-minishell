@@ -19,12 +19,13 @@ typedef struct s_exec
 	pid_t	pid_curr;
 	int		child_nb;
 	int		status;
+	bool	child;
 }t_exec;
 
 typedef struct s_builtin
 {
 	char	*cmd;
-	int		(*ft)(t_exec *e, int argc, char **argv);
+	int		(*ft)(void *data, int argc, char **argv);
 }t_builtin;
 
 void	create_child(t_exec *e);

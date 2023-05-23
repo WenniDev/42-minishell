@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include "minishell.h"
 
 static int	get_env_index(char **env, char *var)
 {
@@ -89,7 +90,7 @@ void	export_var(char *name, char *value, t_exec *e)
 
 #define EXPORTFAIL "not a valid identifier"
 
-int	b_export(t_exec *e, int argc, char **argv)
+int	b_export(void *data, int argc, char **argv)
 {
 	int		i;
 	int		j;
@@ -106,7 +107,7 @@ int	b_export(t_exec *e, int argc, char **argv)
 				return (free(name), print_error(EXPORTFAIL, "export", NULL));
 			name[j++] = *argv[i]++;
 		}
-		export_var(name, ++argv[i], e);
+		export_var(name, ++argv[i], &((t_data *)data)->exec);
 		free(name);
 		i++;
 	}

@@ -1,10 +1,10 @@
 #include "minishell_builtins.h"
 
-int	b_pwd(t_exec *e, int argc, char **argv)
+int	b_pwd(void *data, int argc, char **argv)
 {
 	char	*dir;
 
-	(void)e;
+	(void)data;
 	(void)argc;
 	(void)argv;
 	dir = getcwd((char *) NULL, 0);

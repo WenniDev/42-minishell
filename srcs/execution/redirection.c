@@ -95,6 +95,9 @@ void set_fds(t_exec *e, int flag)
 	{
 		do_ft(DUP2, &e->tmpin, 0);
 		do_ft(DUP2, &e->tmpout, 1);
+		do_ft(CLOSE, &e->tmpin, 0);
+		do_ft(CLOSE, &e->tmpout, 0);
+
 	}
 }
 

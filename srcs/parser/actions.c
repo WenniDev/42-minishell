@@ -86,8 +86,7 @@ void	add_heredoc(t_parser *p, t_red *r)
 	t_red	*hd_red;
 
 	new = (t_red *)sfcalloc(1, sizeof (t_red));
-	new = r;
-	new->heredoc_eof = new->filename->lval;
+	new->heredoc_eof = r->filename->lval;
 	hd_red = p->hd_lst;
 	if (!p->hd_lst)
 		p->hd_lst = new;

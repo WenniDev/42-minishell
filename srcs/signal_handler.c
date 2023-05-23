@@ -14,7 +14,7 @@ void	handle_sig(int signum)
 {
 	if (g_msh->exec.child_nb)
 	{
-		if (g_msh->exec.pid_curr)
+		if (g_msh->exec.child == false)
 			signal(SIGTERM, SIG_IGN);
 		if (signum == SIGQUIT)
 				printf("%s", QUITMSG);
