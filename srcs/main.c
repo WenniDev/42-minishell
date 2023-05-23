@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 		status = exec_cmd_lst(msh, &msh->exec, msh->parser.cmd_lst);
 	}
 	clean_all(msh);
-	free(msh);
 	return (status);
 }
 

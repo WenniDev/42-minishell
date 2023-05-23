@@ -62,4 +62,5 @@ void	clean_all(t_data *msh)
 	close_all(&msh->exec);
 	ft_free((void **)&msh->exec.pipefd);
 	clean_argv(msh->exec.env);
+	free(msh);
 }
