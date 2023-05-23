@@ -6,18 +6,11 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:35:46 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 11:56:26 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:26:30 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
-
-typedef struct s_echo
-{
-	int	word;
-	int	no_new_line;
-	int	param_end;
-}	t_echo;
 
 int	is_parameter(char *str, char param)
 {

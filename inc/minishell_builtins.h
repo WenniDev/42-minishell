@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:01:44 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 12:04:17 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:26:30 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include "minishell_error.h"
 # include <errno.h>
 # include <string.h>
+
+typedef struct s_echo
+{
+	int	word;
+	int	no_new_line;
+	int	param_end;
+}	t_echo;
 
 int	b_env(t_exec *e, int argc, char **argv);
 int	b_pwd(t_exec *e, int argc, char **argv);
