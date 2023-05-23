@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/23 18:42:49 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/23 18:42:49 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	clean_argv(char **argv)
@@ -43,7 +55,7 @@ void	clean_cmd(t_command_lst *cl)
 	{
 		ft_free((void **)&cl->cmd.cmd_path);
 		clean_elems(cl->cmd.elem.words, cl->cmd.reds);
-		ft_free((void **)&cl->cmd.argv);
+//		ft_free((void **)&cl->cmd.argv);
 	}
 	else if (cl->cmd.flags & CMD_SUBSHELL)
 	{
