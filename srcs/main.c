@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 	signal_handler(msh);
 	while (!msh->parser.eof)
 	{
+		set_prompt(msh);
 		reset_parser(&msh->parser);
 		status = parse(&msh->parser);
 		if (status)

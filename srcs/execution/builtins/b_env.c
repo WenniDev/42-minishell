@@ -1,11 +1,14 @@
 #include "minishell_builtins.h"
+#include "minishell.h"
 
-int	b_env(t_exec *e, int argc, char **argv)
+int	b_env(void *data, int argc, char **argv)
 {
 	int		i;
+	t_exec	*e;
 
 	(void)argc;
 	(void)argv;
+	e = &((t_data *)data)->exec;
 	i = 0;
 	while (e->env && e->env[i])
 	{

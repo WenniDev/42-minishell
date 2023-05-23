@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include "minishell.h"
 
-
-int	b_cd(t_exec *e, int argc, char **argv)
+int	b_cd(void *data, int argc, char **argv)
 {
 	char	*dir;
+	t_exec	*e;
 
-	(void)e;
+	e = &((t_data *)data)->exec;
 	dir = getcwd((char *) NULL, 0);
 	if (!dir)
 		malloc_error();

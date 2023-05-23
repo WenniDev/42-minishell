@@ -23,11 +23,11 @@ int	is_parameter(char *str, char param)
 	return (1);
 }
 
-int	b_echo(t_exec *e, int argc, char **argv)
+int	b_echo(void *data, int argc, char **argv)
 {
 	t_echo		info;
 
-	(void)e;
+	(void)data;
 	ft_memset(&info, 0, sizeof(t_echo));
 	info.word++;
 	while (info.word < argc)

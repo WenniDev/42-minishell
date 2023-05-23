@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:01:44 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/23 18:26:30 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:04:17 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ typedef struct s_echo
 	int	param_end;
 }	t_echo;
 
-int	b_env(t_exec *e, int argc, char **argv);
-int	b_pwd(t_exec *e, int argc, char **argv);
-int	b_cd(t_exec *e, int argc, char **argv);
-int	b_unset(t_exec *e, int argc, char **argv);
-int	b_echo(t_exec *e, int argc, char **argv);
-int	b_export(t_exec *e, int argc, char **argv);
+int	b_env(void *data, int argc, char **argv);
+int	b_pwd(void *data, int argc, char **argv);
+int	b_cd(void *data, int argc, char **argv);
+int	b_unset(void *data, int argc, char **argv);
+int	b_echo(void *data, int argc, char **argv);
+int	b_export(void *data, int argc, char **argv);
+int	b_exit(void *data, int argc, char **argv);
 
 void	export_var(char *name, char *value, t_exec *e);
 void	unset_var(t_exec *e, char *var);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include "minishell.h"
 
 static int	get_env_index(char **env, char *var)
 {
@@ -54,14 +55,14 @@ void	unset_var(t_exec *e, char *var)
 	__environ = tmp_env;
 }
 
-int	b_unset(t_exec *e, int argc, char **argv)
+int	b_unset(void *data, int argc, char **argv)
 {
 	int 	i;
 
 	i = 1;
 	while (i < argc && argv[i])
 	{
-		unset_var(e, argv[i]);
+		unset_var(&((t_data *)data)->exec, argv[i]);
 		i++;
 	}
 	return (0);

@@ -6,11 +6,12 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/23 18:27:34 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:06:58 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include "minishell.h"
 
 static int	get_env_index(char **env, char *var)
 {
@@ -87,7 +88,7 @@ void	export_var(char *name, char *value, t_exec *e)
 	__environ = e->env;
 }
 
-int	b_export(t_exec *e, int argc, char **argv)
+int	b_export(void *data, int argc, char **argv)
 {
 	int		i;
 	int		j;

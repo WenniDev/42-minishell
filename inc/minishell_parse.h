@@ -30,7 +30,7 @@
 # define HEREDOC_MAX		16
 
 # define META_CHARACTERS	" \n<>|&()"
-# define BUILTINS			"env pwd cd unset echo export"
+# define BUILTINS			"env pwd cd unset echo export exit"
 
 # define INPUT_RED			1
 # define OUTPUT_RED			2

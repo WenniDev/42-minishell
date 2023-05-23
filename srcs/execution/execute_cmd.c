@@ -19,10 +19,10 @@ char	*get_path(t_data *msh, char *cmd_name);
 
 static const t_builtin	g_builtin[] ={
 		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}, {"export", b_export},
-		{"unset", b_unset}, {"echo", b_echo},/* {"exit", b_exit}*/
+		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}
 };
 
-int	execute_builtin(t_exec *e, t_command cmd)
+int	execute_builtin(t_data *msh, t_command cmd)
 {
 	int			i;
 	int			status;
@@ -30,8 +30,7 @@ int	execute_builtin(t_exec *e, t_command cmd)
 	i = 0;
 	while (ft_strcmp(cmd.argv[0], g_builtin[i].cmd))
 		i++;
-	status = g_builtin[i].ft(e, cmd.argc, cmd.argv);
-	free(cmd.argv);
+	status = g_builtin[i].ft(msh, cmd.argc, cmd.argv);
 	return (status);
 }
 
@@ -42,7 +41,7 @@ int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 		return (EXIT_SUCCESS);
 	copy_word_list(cl);
 	if (cl->cmd.flags & CMD_BUILTIN)
-		return (execute_builtin(e, cl->cmd));
+		return (execute_builtin(msh, cl->cmd));
 	cl->cmd.cmd_path = get_path(msh, cl->cmd.elem.words->word->lval);
 	execve(cl->cmd.cmd_path, cl->cmd.argv, e->env);
 	msh_error(EREXECVE);
@@ -100,5 +99,6 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 1);
 	if (e->child_nb)
 		wait_childs(e);
+	msh->status = e->status;
 	return (e->status);
 }
