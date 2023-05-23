@@ -20,6 +20,7 @@ void	handle_sig(int signum)
 				printf("%s", QUITMSG);
 		printf("\n");
 		kill(0, SIGTERM);
+		reset_parser(&g_msh->parser);
 	}
 	else
 	{
