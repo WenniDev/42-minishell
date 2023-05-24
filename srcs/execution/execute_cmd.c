@@ -52,7 +52,7 @@ int	check_exec(int f, pid_t pid_last)
 {
 	int	status;
 
-	if (f & (CMD_EXECTRUE | CMD_EXECFALSE))
+	if (f & (CMD_EXECTRUE | CMD_EXECFALSE) && pid_last)
 	{
 		if (waitpid(pid_last, &status, 0) == -1)
 			msh_error(ERWAITPID);
