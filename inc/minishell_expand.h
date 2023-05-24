@@ -20,10 +20,10 @@
 #define M_SINGLE 0x01
 #define M_DOUBLE 0x02
 
-int		expand(t_word_lst **wold_lst);
-void	expand_env(t_word_d *word, int *status);
+int		expand(int status, t_word_lst **wold_lst);
+void	expand_env(t_word_d *word, int *status, int ls);
 void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status);
-void	*expand_red(t_word_d *filename);
+void	*expand_red(int ls, t_word_d *filename);
 void	skip_quotes(char *word);
 
 int		is_dir(struct dirent *ent);

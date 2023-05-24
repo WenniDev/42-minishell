@@ -46,7 +46,7 @@ t_word_d	*clone_word(t_word_d *src)
 	return (tmp_word);
 }
 
-void	*expand_red(t_word_d *filename)
+void	*expand_red(int ls, t_word_d *filename)
 {
 	int			status;
 	t_word_lst	*tmp_lst;
@@ -55,7 +55,7 @@ void	*expand_red(t_word_d *filename)
 	status = 0;
 	tmp_word = clone_word(filename);
 	if (tmp_word->flags & W_DOLLAR)
-		expand_env(tmp_word, &status);
+		expand_env(tmp_word, &status, ls);
 	if (status)
 		(free_word(tmp_word), kill(0, SIGABRT));
 	tmp_lst = ft_calloc(1, sizeof(t_word_lst));

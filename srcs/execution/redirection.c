@@ -13,10 +13,10 @@
 #include "minishell.h"
 #include "minishell_expand.h"
 
-int		mod_redir(t_exec *e, t_red *r);
+int		mod_redir(int status, t_exec *e, t_red *r);
 void	do_pipe_red(t_exec *e, t_command cmd);
 
-int	do_redir(t_exec *e, t_command cmd)
+int	do_redir(int status, t_exec *e, t_command cmd)
 {
 	do_ft(DUP2, &e->tmpin, STDIN_FILENO);
 	do_ft(DUP2, &e->tmpout, STDOUT_FILENO);
@@ -24,7 +24,7 @@ int	do_redir(t_exec *e, t_command cmd)
 		do_pipe_red(e, cmd);
 	while (cmd.reds)
 	{
-		if (mod_redir(e, cmd.reds))
+		if (mod_redir(status, e, cmd.reds))
 			return (-1);
 		cmd.reds = cmd.reds->next;
 	}
@@ -55,16 +55,16 @@ void	do_pipe_red(t_exec *e, t_command cmd)
 	}
 }
 
-int	mod_redir(t_exec *e, t_red *r)
+int	mod_redir(int status, t_exec *e, t_red *r)
 {
-	if (!expand_red(r->filename))
+	if (!expand_red(status, r->filename))
 		return (print_error(REDAMB, r->filename->lval, NULL));
 	if (r->rflags & RED_IN)
 	{
 		if (e->infd)
 			do_ft(CLOSE, &e->infd, 0);
 		if (r->rflags & RED_HEREDOC)
-			e->infd = heredoc(r);
+			e->infd = heredoc(r, status);
 		else
 			e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)

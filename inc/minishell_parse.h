@@ -95,6 +95,6 @@ int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
 t_red		*ft_last_red(t_red *r);
 
-int			heredoc(t_red *r);
+int			heredoc(t_red *r, int ls);
 
 #endif

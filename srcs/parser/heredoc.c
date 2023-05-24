@@ -56,7 +56,7 @@ int is_expandable(char *str)
 	return (1);
 }
 
-char *heredoc_expand(t_red *r, int *len)
+char *heredoc_expand(int ls, t_red *r, int *len)
 {
 	int status;
 
@@ -73,7 +73,7 @@ char *heredoc_expand(t_red *r, int *len)
 			*len = (int)ft_strlen(r->filename->lval);
 		return (r->filename->lval);
 	}
-	expand_env(r->filename, &status);
+	expand_env(r->filename, &status, ls);
 	if (len)
 		*len = (int)ft_strlen(r->filename->lval);
 	return (r->filename->lval);
@@ -161,13 +161,13 @@ int heredoc_to_fd(char *content, t_red *r)
 	return (fd);
 }
 
-int	heredoc(t_red *r)
+int	heredoc(t_red *r, int ls)
 {
 	char	*document;
 	int 	document_len;
 	int 	fd;
 
-	document = heredoc_expand(r, &document_len);
+	document = heredoc_expand(ls, r, &document_len);
 	if (document_len == 0)
 	{
 		fd = open("/dev/null", O_RDONLY);

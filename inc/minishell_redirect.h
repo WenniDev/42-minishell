@@ -9,7 +9,7 @@
 # define PIPE	4
 
 void	close_all(t_exec *e);
-int		do_redir(t_exec *e, t_command cmd);
+int		do_redir(int status, t_exec *e, t_command cmd);
 void 	set_fds(t_exec *e, int flag);
 void	do_ft(int ft, int *ft_data1, int ft_data2);
 

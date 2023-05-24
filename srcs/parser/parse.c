@@ -9,7 +9,7 @@ void	add_simple_cmd(t_parser *p, int sep);
 int		tk_symbol(int tk);
 
 static const char		*g_symbol_name[] = {
-	"invalid token", "<", ">", "<<", ">>", "|", "||", "&&", "(", ")", "\n",
+	"invalid token", "<", ">", "<<", ">>", "|", "||", "&&", "(", ")", "newline",
 	"word", "simple_cmd", "subshell_cmd"
 };
 

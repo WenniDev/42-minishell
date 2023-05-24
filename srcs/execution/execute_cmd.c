@@ -36,8 +36,8 @@ int	execute_builtin(t_data *msh, t_command cmd)
 
 int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
-	expand(&cl->cmd.elem.words);
-	if (!cl->cmd.elem.words)
+	expand(e->status, &cl->cmd.elem.words);
+	if (!cl->cmd.elem.words || !(*cl->cmd.elem.words->word->lval))
 		return (EXIT_SUCCESS);
 	copy_word_list(cl);
 	if (cl->cmd.flags & CMD_BUILTIN)
@@ -48,15 +48,16 @@ int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 	return (EXIT_FAILURE);
 }
 
-int	check_exec(t_exec *e, int f, pid_t pid_last)
+int	check_exec(t_exec *e, int f)
 {
 	int	status;
 
 	if (f & (CMD_EXECTRUE | CMD_EXECFALSE) && e->child_nb)
 	{
-		if (waitpid(pid_last, &status, 0) == -1)
+		if (waitpid(e->pid_last, &status, 0) == -1)
 			msh_error(ERWAITPID);
 		e->child_nb--;
+		e->status = WEXITSTATUS(status);
 		if ((f & CMD_EXECFALSE && !WEXITSTATUS(status))
 			|| (f & CMD_EXECTRUE && WEXITSTATUS(status)))
 			return (EXS_NOEXEC);
@@ -89,7 +90,7 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 0);
 	while (cl)
 	{
-		if (check_exec(e, cl->cmd.flags, e->pid_last) || do_redir(e, cl->cmd))
+		if (check_exec(e, cl->cmd.flags) || do_redir(e->status, e, cl->cmd))
 		{
 			cl = cl->next;
 			continue ;
@@ -100,5 +101,6 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 1);
 	if (e->child_nb)
 		wait_childs(e);
-	return (e->status);
+	msh->status = e->status;
+	return (msh->status);
 }

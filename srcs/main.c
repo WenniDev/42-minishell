@@ -7,7 +7,6 @@ void	init_env(t_exec *e);
 int	main(int argc, char **argv)
 {
 	t_data	*msh;
-	int		status;
 
 	if (argc != 1 || !argv)
 		return (EXIT_FAILURE);
@@ -18,16 +17,16 @@ int	main(int argc, char **argv)
 	{
 		set_prompt(msh);
 		reset_parser(&msh->parser);
+		msh->exec.status = msh->status;
 		msh->status = parse(&msh->parser);
 		gather_heredoc(msh, &msh->parser);
 		if (msh->status)
 			continue ;
 		msh->status = exec_cmd_lst(msh, &msh->exec, msh->parser.cmd_lst);
+		printf("%d\n", msh->status);
 	}
-	status = msh->status;
-	clean_all(msh);
 	printf("exit\n");
-	return (status);
+	return (exit_prg(msh, msh->status));
 }
 
 int	exit_prg(t_data *msh, int status)

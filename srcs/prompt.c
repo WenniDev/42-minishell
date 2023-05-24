@@ -11,6 +11,8 @@ void	set_prompt(t_data *msh)
 	char	*dir;
 	char	*tmp;
 
+	if (!getenv("USER"))
+		return ;
 	prompt = NULL;
 	dir = get_dir();
 	user = getenv("USER");

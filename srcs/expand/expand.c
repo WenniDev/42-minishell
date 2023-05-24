@@ -34,10 +34,10 @@ void	skip_quotes(char *word)
 	}
 }
 
-void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status)
+void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status, int ls)
 {
 	if (word->flags & W_DOLLAR)
-		expand_env(word, status);
+		expand_env(word, status, ls);
 	if (!(*status) && !(word->flags & W_NOEXPAND))
 		expand_wildcard(word, word_lst, status);
 	if (!(*status) && word->flags & W_QUOTES)
@@ -59,7 +59,7 @@ void	check_cmd_name(t_word_lst **word_lst)
 	}
 }
 
-int	expand(t_word_lst **word_lst)
+int	expand(int ls, t_word_lst **word_lst)
 {
 	int			status;
 	t_word_lst	*begin;
@@ -70,7 +70,7 @@ int	expand(t_word_lst **word_lst)
 	while (begin && !status)
 	{
 		if (!status)
-			expand_word(begin->word, word_lst, &status);
+			expand_word(begin->word, word_lst, &status, ls);
 		begin = begin->next;
 	}
 	begin = (*word_lst);

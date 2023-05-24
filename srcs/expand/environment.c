@@ -65,24 +65,45 @@ static char	*get_str(char *str, int *index)
 	return (res);
 }
 
-static char	*get_env(char *str, int *index)
+static char	*get_env(char *str, int *index, int ls)
 {
 	int		i;
 	char	*res;
 	char	*var;
 
 	i = 1;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-		i++;
-	var = sfcalloc(i + 1, sizeof(char));
-	ft_memcpy(var, str + 1, i - 1);
-	res = ft_strdup(getenv(var));
-	free(var);
+	if (str[i] == '?')
+	{
+		res = ft_itoa(ls);
+		++i;
+	}
+	else
+	{
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
+		var = sfcalloc(i + 1, sizeof(char));
+		ft_memcpy(var, str + 1, i - 1);
+		res = ft_strdup(getenv(var));
+		free(var);
+	}
 	*index += i;
 	return (res);
 }
 
-void	expand_env(t_word_d *word, int *status)
+int	expand_special(t_word_d *word)
+{
+	if (!ft_strcmp(word->lval, "$"))
+		return (1);
+	if (word->lval[0] != '$')
+		return (0);
+	if (word->lval[1] == '?')
+		return (0);
+	if (!(ft_isalnum(word->lval[1]) || word->lval[1] == '_'))
+		return (1);
+	return (0);
+}
+
+void	expand_env(t_word_d *word, int *status, int ls)
 {
 	int		i;
 	char	*res;
@@ -92,11 +113,13 @@ void	expand_env(t_word_d *word, int *status)
 	i = 0;
 	res = NULL;
 	mode = 0;
+	if (expand_special(word))
+		return ;
 	while (word->lval[i] && !*status)
 	{
 		get_mode(word->lval[i], &mode);
 		if (word->lval[i] == '$' && mode != M_SINGLE)
-			tmp = get_env(&word->lval[i], &i);
+			tmp = get_env(&word->lval[i], &i, ls);
 		else
 			tmp = get_str(&word->lval[i], &i);
 		if (!tmp)
