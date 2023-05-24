@@ -55,7 +55,7 @@ void	clean_cmd(t_command_lst *cl)
 	{
 		ft_free((void **)&cl->cmd.cmd_path);
 		clean_elems(cl->cmd.elem.words, cl->cmd.reds);
-//		ft_free((void **)&cl->cmd.argv);
+		ft_free((void **)&cl->cmd.argv);
 	}
 	else if (cl->cmd.flags & CMD_SUBSHELL)
 	{
