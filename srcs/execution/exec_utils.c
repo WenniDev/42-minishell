@@ -49,7 +49,7 @@ void	copy_word_list(t_command_lst *cl)
 
 void	do_ft(int ft, int *ft_data1, int ft_data2)
 {
-	if (ft == CLOSE)
+	if (ft == CLOSE && ft_data1)
 	{
 		if (*ft_data1 && close(*ft_data1) == -1)
 			msh_error(ERCLOSE);

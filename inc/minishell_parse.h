@@ -92,8 +92,8 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
+t_red		*ft_last_red(t_red *r);
 
-void		gather_heredoc(t_parser *p);
 int			heredoc(t_red *r);
 
 #endif

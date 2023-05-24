@@ -1,33 +1,25 @@
 #include "minishell.h"
 #include "minishell_builtins.h"
 
+char	*join_prompt(char *user, char *dir);
 char	*get_dir(void);
 
 void	set_prompt(t_data *msh)
 {
 	char	*prompt;
+	char	*user;
 	char	*dir;
 	char	*tmp;
 
 	prompt = NULL;
 	dir = get_dir();
-	if (!dir)
-		malloc_error();
-	prompt = getenv("USER");
-	prompt = ft_strjoin("\e[1;32m", prompt);
-	if (!prompt)
-		malloc_error();
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, dir);
-	free(tmp);
-	free(dir);
-	if (!prompt)
-		malloc_error();
+	user = getenv("USER");
+	prompt = join_prompt(user, dir);
 	tmp = prompt;
 	if (msh->status)
-		prompt = ft_strjoin(prompt, "\n\e[31m→ \e[0m");
+		prompt = ft_strjoin(prompt, "\e[1;30m$\e[31m> \e[0m");
 	else
-		prompt = ft_strjoin(prompt, "\n\e[32m→ \e[0m");
+		prompt = ft_strjoin(prompt, "\e[1;30m$\e[32m> \e[0m");
 	free(tmp);
 	if (!prompt)
 		malloc_error();
@@ -35,27 +27,47 @@ void	set_prompt(t_data *msh)
 	free(prompt);
 }
 
+char	*join_prompt(char *user, char *dir)
+{
+	char	*prompt;
+	char	*tmp;
+
+	prompt = ft_strjoin(user, ":");
+	if (!prompt)
+		malloc_error();
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, dir);
+	free(dir);
+	free(tmp);
+	if (!prompt)
+		malloc_error();
+	tmp = prompt;
+	prompt = ft_strjoin("\e[1;30m", prompt);
+	free(tmp);
+	if (!prompt)
+		malloc_error();
+	return (prompt);
+}
+
 char	*get_dir(void)
 {
 	char	*dir;
-	char	*dirpath;
 	char	*ptr;
+	char	*tmp;
 	size_t	len;
 
-	len = 0;
-	dirpath = getenv("PWD");
-	ptr = dirpath + ft_strlen(dirpath);
+	dir = getenv("PWD");
+	len = ft_strlen(dir);
+	ptr = dir + len;
 	while (*ptr != '/')
-	{
 		ptr--;
-		len++;
-	}
-	dir = ft_substr(dirpath, (unsigned int)(ptr - dirpath), len);
+	len = (dir + len) - ptr;
+	dir = ft_substr(dir, ptr - dir, len);
 	if (!dir)
 		malloc_error();
-	dirpath = dir;
+	tmp = dir;
 	dir = ft_strjoin("\e[1;34m", dir);
-	free(dirpath);
+	free(tmp);
 	if (!dir)
 		malloc_error();
 	return (dir);

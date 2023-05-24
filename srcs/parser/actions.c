@@ -82,12 +82,15 @@ void	add_red(t_parser *p, t_word_d wd, int flags)
 
 void	add_heredoc(t_parser *p, t_red *r)
 {
+	//	TODO
+	//		handle heredoc max
 	t_red	*new;
 	t_red	*hd_red;
 
 	new = (t_red *)sfcalloc(1, sizeof (t_red));
 	*new = *r;
 	new->heredoc_eof = r->filename->lval;
+	new->heredoc_eof = ft_strdup(r->filename->lval);
 	hd_red = p->hd_lst;
 	if (!p->hd_lst)
 		p->hd_lst = new;

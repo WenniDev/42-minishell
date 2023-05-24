@@ -22,6 +22,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/get_line.c\
 				$(SRCDIR)/parser/heredoc.c\
 				$(SRCDIR)/parser/parse_utils.c\
+				$(SRCDIR)/parser/parse_utils2.c\
 				$(SRCDIR)/expand/expand.c\
 				$(SRCDIR)/expand/environment.c\
 				$(SRCDIR)/expand/redirection.c\

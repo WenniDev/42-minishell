@@ -32,17 +32,17 @@ void	clean_elems(t_word_lst *words, t_red *reds)
 	while (words)
 	{
 		tmp = words->next;
-		free(words->word->lval);
-		free(words->word);
-		free(words);
+		ft_free((void **)&words->word->lval);
+		ft_free((void **)&words->word);
+		ft_free((void **)&words);
 		words = (t_word_lst *)tmp;
 	}
 	while (reds)
 	{
 		tmp = reds->next;
-		free(reds->filename->lval);
-		free(reds->filename);
-		free(reds);
+		ft_free((void **)&reds->filename->lval);
+		ft_free((void **)&reds->filename);
+		ft_free((void **)&reds);
 		reds = tmp;
 	}
 }
@@ -64,7 +64,7 @@ void	clean_cmd(t_command_lst *cl)
 		{
 			tmp = cl->cmd.elem.cmds->next;
 			clean_cmd(cl->cmd.elem.cmds);
-			free(cl->cmd.elem.cmds);
+			ft_free((void **)&cl->cmd.elem.cmds);
 			cl->cmd.elem.cmds = (t_command_lst *)tmp;
 		}
 	}
@@ -78,5 +78,5 @@ void	clean_all(t_data *msh)
 	close_all(&msh->exec);
 	ft_free((void **)&msh->exec.pipefd);
 	clean_argv(msh->exec.env);
-	free(msh);
+	ft_free((void **)&msh);
 }

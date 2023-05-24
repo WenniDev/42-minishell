@@ -18,12 +18,15 @@ int	main(int argc, char **argv)
 	{
 		set_prompt(msh);
 		reset_parser(&msh->parser);
-		status = parse(&msh->parser);
-		if (status)
+		msh->status = parse(&msh->parser);
+		gather_heredoc(msh, &msh->parser);
+		if (msh->status)
 			continue ;
-		status = exec_cmd_lst(msh, &msh->exec, msh->parser.cmd_lst);
+		msh->status = exec_cmd_lst(msh, &msh->exec, msh->parser.cmd_lst);
 	}
+	status = msh->status;
 	clean_all(msh);
+	printf("exit\n");
 	return (status);
 }
 

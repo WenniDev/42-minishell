@@ -16,8 +16,6 @@
 # define EREOF				"unexpected end of file"
 # define ERTOK				"unexpected token: "
 
-# define HDERREOF			"warning: here-document delimited by end-of-file"
-
 # define ERHOME				"HOME not set"
 # define EXPORTFAIL			"not a valid identifier"
 # define ERARGC				"too many arguments"
@@ -37,6 +35,7 @@
 # define ERWAITPID			"waitpid failed"
 # define EREXECVE			"execve failed"
 # define ERWAIT				"wait failed"
+# define ERREAD				"read failed"
 
 # define QUITMSG			"Quit (core dumped)"
 

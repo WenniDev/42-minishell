@@ -5,7 +5,7 @@ char	*add_line(char *cmd_line, char *line, t_bool space);
 char	*get_line(t_parser *p)
 {
 	if (p->line_read)
-		free(p->line_read);
+		ft_free((void **)&p->line_read);
 	if (p->state & PST_SUBSHELL)
 		p->line_read = readline("subcmd> ");
 	else if (p->state & PST_HEREDOC)

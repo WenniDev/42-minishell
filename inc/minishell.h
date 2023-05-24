@@ -25,5 +25,6 @@ int		parse(t_parser *p);
 int		exit_prg(t_data *msh, int status);
 void	clean_all(t_data *msh);
 void	set_prompt(t_data *msh);
+void	gather_heredoc(t_data *msh, t_parser *p);
 
 #endif

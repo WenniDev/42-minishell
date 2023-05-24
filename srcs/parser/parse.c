@@ -67,7 +67,6 @@ int	parse(t_parser *p)
 	}
 	if (p->tk == EOF)
 		p->eof = true;
-	gather_heredoc(p);
 	return (p->status);
 }
 
@@ -82,7 +81,7 @@ void	parser_act(t_parser *p, int act)
 	else if (act == 4)
 	{
 		add_red(p, p->word, RED_IN | RED_HEREDOC);
-		add_heredoc(p, p->cl_curr->cmd.reds);
+		add_heredoc(p, ft_last_red(p->cl_curr->cmd.reds));
 	}
 	else if (act == 5)
 		add_red(p, p->word, RED_OUT | RED_APPEND);
@@ -103,7 +102,9 @@ void	parser_act(t_parser *p, int act)
 void	reset_parser(t_parser *p)
 {
 	void	*tmp;
+	int		line;
 
+	line = p->line;
 	if (p->cmd_line)
 		add_history(p->cmd_line);
 	ft_free((void **)&p->cmd_line);
@@ -118,10 +119,12 @@ void	reset_parser(t_parser *p)
 	while (p->hd_lst)
 	{
 		tmp = p->hd_lst->next;
+		ft_free((void **)&p->hd_lst->heredoc_eof);
 		ft_free((void **)&p->hd_lst);
 		p->hd_lst = (t_red *)tmp;
 	}
 	ft_memset(p, 0, sizeof (t_parser));
+	p->line = line;
 }
 
 int	tk_symbol(int tk)
