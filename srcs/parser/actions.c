@@ -87,6 +87,8 @@ void	add_heredoc(t_parser *p, t_red *r)
 	t_red	*new;
 	t_red	*hd_red;
 
+	if (++p->hd_nb > HEREDOC_MAX)
+		msh_error(ERHDMAX);
 	new = (t_red *)sfcalloc(1, sizeof (t_red));
 	*new = *r;
 	new->heredoc_eof = r->filename->lval;

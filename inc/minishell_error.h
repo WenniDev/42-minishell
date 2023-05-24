@@ -15,6 +15,7 @@
 # define EUNEOL				"unexpected EOL while looking for matching `"
 # define EREOF				"unexpected end of file"
 # define ERTOK				"unexpected token: "
+# define ERHDMAX			"maximum here-document count exceeded"
 
 # define ERHOME				"HOME not set"
 # define EXPORTFAIL			"not a valid identifier"

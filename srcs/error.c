@@ -41,7 +41,14 @@ int	syntax_error(char *error, int tk, char *lvl)
 
 int	msh_error(char *error)
 {
-	perror(error);
+	ft_putstr_fd("msh: ", 2);
+	if (errno)
+		perror(error);
+	else
+	{
+		ft_putstr_fd(error, 2);
+		ft_putchar_fd('\n', 2);
+	}
 	kill(0, SIGABRT);
 	return (EXIT_FAILURE);
 }

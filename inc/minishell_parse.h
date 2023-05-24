@@ -78,6 +78,7 @@ typedef struct s_parser
 	int				pc;
 	t_word_d		word;
 	t_red			*hd_lst;
+	int				hd_nb;
 	t_command_lst	*cmd_lst;
 	t_command_lst	*cl_last;
 	t_command_lst	*cl_curr;
