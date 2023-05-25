@@ -1,0 +1,18 @@
+Crash avec les subshells
+    (ls)
+    (pwd && (ls))
+    (pwd && ls)
+
+Probleme de condition
+    pwd || ls && echo hola :
+       - bash:mnt/nfs/homes/jopadova/projects/git/minishell-main
+              hola
+
+       - msh: /mnt/nfs/homes/jopadova/projects/git/minishell-main
+              dependencies  error_test  inc  libft  Makefile	minishell  noreadline  objects	README.md  srcs
+              hola
+
+Weird comportement in env var
+    echo $*:
+       - bash:
+       - msh: $*
