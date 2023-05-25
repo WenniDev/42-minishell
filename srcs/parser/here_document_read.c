@@ -8,20 +8,20 @@ void	add_content(char **s, char *content);
 
 void	gather_heredoc(t_parser *p)
 {
-	t_red 	*hd;
+	t_hd 	*hd;
 	int		tmpin;
 
 	do_ft(DUP, &tmpin, STDIN_FILENO);
 	hd = p->hd_lst;
 	p->state |= PST_HEREDOC;
-	while (hd && hd->rflags & RED_HEREDOC && p->state & PST_HEREDOC)
+	while (hd && p->state & PST_HEREDOC)
 	{
-		if (ft_strchr(hd->heredoc_eof, '\''))
+		if (ft_strchr(hd->red->heredoc_eof, '\''))
 		{
-			hd->filename->flags |= W_NOEXPAND;
-			skip_quotes(hd->heredoc_eof);
+			hd->red->filename->flags |= W_NOEXPAND;
+			skip_quotes(hd->red->heredoc_eof);
 		}
-		if (here_document_read(p, hd) == -1)
+		if (here_document_read(p, hd->red) == -1)
 			break ;
 		hd = hd->next;
 	}
@@ -37,7 +37,7 @@ int	here_document_read(t_parser *p, t_red *hd)
 	line = NULL;
 	while (ft_strcmp(line, hd->heredoc_eof))
 	{
-		add_content(&hd->filename->lval, line);
+		add_content(&hd->hd_content, line);
 		line = get_line(p);
 		if (!(p->state & PST_HEREDOC))
 			return (-1);

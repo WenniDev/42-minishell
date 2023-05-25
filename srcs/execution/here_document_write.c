@@ -8,11 +8,10 @@ int ft_random();
 
 int	here_document_to_fd(t_red *hd, int status)
 {
-	char	*content;
 	int 	document_len;
 	int 	fd;
 
-	content = here_document_expand(status, hd, &document_len);
+	here_document_expand(status, hd, &document_len);
 	if (document_len == 0)
 	{
 		fd = open("/dev/null", O_RDONLY);
@@ -21,8 +20,7 @@ int	here_document_to_fd(t_red *hd, int status)
 		return (fd);
 	}
 	fd = create_tmp(hd);
-	write(fd, content, ft_strlen(content));
-	free(content);
+	write(fd, hd->hd_content, ft_strlen(hd->hd_content));
 	do_ft(CLOSE, &fd, 0);
 	fd = open(hd->filename->lval, O_RDONLY);
 	if (fd == -1)
@@ -38,6 +36,7 @@ int create_tmp(t_red *r)
 	ran_char = ft_itoa(ft_random());
 	if (!ran_char)
 		malloc_error();
+	ft_free((void **)&r->filename->lval);
 	r->filename->lval = ft_strjoin("/tmp/sh-thd-", ran_char);
 	free(ran_char);
 	if (!r->filename->lval)

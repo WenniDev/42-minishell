@@ -117,6 +117,12 @@ void	reset_parser(t_parser *p)
 		ft_free((void **)&p->cmd_lst);
 		p->cmd_lst = (t_command_lst *)tmp;
 	}
+	while (p->hd_lst)
+	{
+		tmp = p->hd_lst->next;
+		ft_free((void **)&p->hd_lst);
+		p->hd_lst = (t_hd *)tmp;
+	}
 	ft_memset(p, 0, sizeof (t_parser));
 	p->line = line;
 }

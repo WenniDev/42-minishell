@@ -3,23 +3,26 @@
 
 char *here_document_expand(int ls, t_red *r, int *len)
 {
-	int status;
+	int 		status;
+	t_word_d	tmp;
 
 	status = 0;
-	if (r->filename->lval == 0 || r->filename->lval[0] == '\0')
+	tmp.lval = r->hd_content;
+	if (r->hd_content == 0 || r->hd_content[0] == '\0')
 	{
 		if (len)
 			*len = 0;
-		return (r->filename->lval);
+		return (r->hd_content);
 	}
 	if (r->filename->flags & W_NOEXPAND)
 	{
 		if (len)
-			*len = (int)ft_strlen(r->filename->lval);
-		return (r->filename->lval);
+			*len = (int)ft_strlen(r->hd_content);
+		return (r->hd_content);
 	}
-	expand_env(r->filename, &status, ls);
+	expand_env(&tmp, &status, ls);
+	r->hd_content = tmp.lval;
 	if (len)
-		*len = (int)ft_strlen(r->filename->lval);
-	return (r->filename->lval);
+		*len = (int)ft_strlen(r->hd_content);
+	return (r->hd_content);
 }

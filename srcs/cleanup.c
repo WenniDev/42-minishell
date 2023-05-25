@@ -41,7 +41,7 @@ void	clean_elems(t_word_lst *words, t_red *reds)
 	{
 		tmp = reds->next;
 		ft_free((void **)&reds->filename->lval);
-		ft_free((void **)&reds->heredoc_eof);
+		ft_free((void **)&reds->hd_content);
 		ft_free((void **)&reds->filename);
 		ft_free((void **)&reds);
 		reds = tmp;

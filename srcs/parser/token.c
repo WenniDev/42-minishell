@@ -15,7 +15,7 @@ int	next_token(t_parser *p, int tk)
 	ft_memset(&p->word, 0, sizeof (t_word_d));
 	tk_last = tk;
 	if ((!tk_last || tk_last == NEWLINE) && !get_line(p))
-		return (EOF);
+		return (p->status = EOF);
 	tk_n = read_token(p, &p->line_ptr);
 	if (tk_n == TOKEN_ERROR || check_syntax(p, tk_n, tk_last) == EXS_ERROR)
 		return (p->status = EXS_SYNTAX_ERROR, TOKEN_ERROR);

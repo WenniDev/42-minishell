@@ -24,7 +24,7 @@ void	redisplay(int signum)
 
 void	handle_sig(int signum)
 {
-	if (g_msh->parser.state & PST_HEREDOC)
+	if (signum == SIGINT && g_msh->parser.state & PST_HEREDOC)
 		close(0);
 	if (g_msh->exec.child_nb)
 	{

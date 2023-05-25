@@ -65,6 +65,12 @@ typedef enum e_symbol_kind
 	SYM_SUBSHELL_CMD = 13
 }t_symbol_kind;
 
+typedef struct s_hd
+{
+	t_red		*red;
+	struct s_hd	*next;
+}t_hd;
+
 typedef struct s_parser
 {
 	char			*cmd_line;
@@ -77,7 +83,7 @@ typedef struct s_parser
 	int				act;
 	int				pc;
 	t_word_d		word;
-	t_red			*hd_lst;
+	t_hd			*hd_lst;
 	int				hd_nb;
 	t_command_lst	*cmd_lst;
 	t_command_lst	*cl_last;

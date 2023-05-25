@@ -44,6 +44,7 @@ typedef struct s_red
 	int				oflags;
 	t_word_d		*filename;
 	char			*heredoc_eof;
+	char			*hd_content;
 	struct s_red	*next;
 }t_red;
 
