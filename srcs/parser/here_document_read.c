@@ -16,7 +16,7 @@ void	gather_heredoc(t_parser *p)
 	p->state |= PST_HEREDOC;
 	while (hd && p->state & PST_HEREDOC)
 	{
-		if (ft_strchr(hd->red->heredoc_eof, '\''))
+		if (hd->red->filename->flags & W_QUOTES)
 		{
 			hd->red->filename->flags |= W_NOEXPAND;
 			skip_quotes(hd->red->heredoc_eof);
