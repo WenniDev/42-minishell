@@ -37,7 +37,7 @@ char	*add_line(char *cmd_line, char *line, t_bool nl)
 
 	tmp = cmd_line;
 	len = ft_strlen(cmd_line);
-	size = len + ft_strlen(line) + 1 + nl;
+	size = len + ft_strlen(line) + 1 + (len > 0) + nl;
 	cmd_line = (char *)sfcalloc(size, sizeof (char));
 	ft_strlcpy(cmd_line, tmp, size);
 	if (len && nl)
