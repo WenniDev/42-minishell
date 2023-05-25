@@ -36,7 +36,6 @@ int	execute_builtin(t_data *msh, t_command cmd)
 
 int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
-	expand(e->status, &cl->cmd.elem.words);
 	if (!cl->cmd.elem.words || !(*cl->cmd.elem.words->word->lval))
 		return (EXIT_SUCCESS);
 	copy_word_list(cl);
@@ -67,6 +66,9 @@ int	check_exec(t_exec *e, int f)
 
 void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
+	expand(e->status, &cl->cmd.elem.words);
+	if (ft_is_builtin(cl->cmd.elem.words->word->lval))
+		cl->cmd.flags |= CMD_BUILTIN;
 	if (cl->cmd.flags & CMD_PIPE || !(cl->cmd.flags & CMD_BUILTIN))
 	{
 		create_child(e);

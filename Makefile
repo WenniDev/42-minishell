@@ -8,7 +8,7 @@ DEPDIR		=	$(PROJDIR)/dependencies
 
 #COMPILER
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3
 HDINC		=	-I $(INCDIR) -I $(PROJDIR)/libft/inc
 LIBINC		=	-lreadline
 
