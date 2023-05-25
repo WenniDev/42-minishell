@@ -6,7 +6,7 @@
 /*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:07:14 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 12:07:27 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:24:22 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ int	b_cd(void *data, int argc, char **argv)
 	char	*dir;
 	t_exec	*e;
 
+	if (argc > 2)
+	{
+		print_error(ERARGC, "cd", NULL);
+		return (1);
+	}
 	e = &((t_data *)data)->exec;
 	dir = getcwd((char *) NULL, 0);
 	if (!dir)
