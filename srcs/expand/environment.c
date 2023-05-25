@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 13:22:08 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:17:53 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include "signal.h"
 #include "stdio.h"
 
-static int	get_mode(char c, int *curr_mode)
+static int	get_mode(int flag, char c, int *curr_mode)
 {
 	int	new_mode;
 
 	new_mode = M_DEFAULT;
+	if (flag & W_IGNORE)
+		return (0);
 	if (c == '\'')
 		new_mode = M_SINGLE;
 	if (c == '"')
@@ -117,7 +119,7 @@ void	expand_env(t_word_d *word, int *status, int ls)
 		return ;
 	while (word->lval[i] && !*status)
 	{
-		get_mode(word->lval[i], &mode);
+		get_mode(word->flags, word->lval[i], &mode);
 		if (word->lval[i] == '$' && mode != M_SINGLE)
 			tmp = get_env(&word->lval[i], &i, ls);
 		else

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_document_expand.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/25 19:13:25 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/25 19:14:57 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_command.h"
 #include "minishell_expand.h"
 
@@ -8,6 +20,7 @@ char *here_document_expand(int ls, t_red *r, int *len)
 
 	status = 0;
 	tmp.lval = r->hd_content;
+	tmp.flags = r->filename->flags;
 	if (r->hd_content == 0 || r->hd_content[0] == '\0')
 	{
 		if (len)

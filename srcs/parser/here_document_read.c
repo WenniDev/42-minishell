@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_document_read.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/25 19:06:49 by jopadova          #+#    #+#             */
+/*   Updated: 2023/05/25 19:10:49 by jopadova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_parse.h"
 #include "minishell_expand.h"
 #include "minishell.h"
@@ -21,6 +33,8 @@ void	gather_heredoc(t_parser *p)
 			hd->red->filename->flags |= W_NOEXPAND;
 			skip_quotes(hd->red->heredoc_eof);
 		}
+		else
+			hd->red->filename->flags |= W_IGNORE;
 		if (here_document_read(p, hd->red) == -1)
 			break ;
 		hd = hd->next;
