@@ -33,7 +33,7 @@ static int	read_token(t_parser *p, char **line_ptr)
 	c_char = get_char(line_ptr);
 	while (c_char == SPACE)
 		c_char = get_char(line_ptr);
-	if (!c_char)
+	if (!c_char || c_char == '\n')
 		return ('\n');
 	n_char = get_char(line_ptr);
 	if (is_meta(c_char))

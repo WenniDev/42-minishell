@@ -64,6 +64,8 @@ int	parse(t_parser *p)
 			parser_act(p, p->act);
 			p->ssymc = 0;
 		}
+		if (p->tk == NEWLINE)
+			p->ssymc = 0;
 	}
 	if (p->tk == EOF)
 		p->eof = true;

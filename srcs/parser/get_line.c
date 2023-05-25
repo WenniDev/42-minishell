@@ -23,13 +23,13 @@ char	*get_line(t_parser *p)
 	}
 	(p->line)++;
 	if (*p->line_read)
-		p->cmd_line = add_line(p->cmd_line, p->line_read, 1);
+		p->cmd_line = add_line(p->cmd_line, p->line_read, p->state & PST_HEREDOC);
 	p->line_ptr = p->line_read;
 	return (p->line_read);
 }
 
 /* add the new line to the full command line for later add to history */
-char	*add_line(char *cmd_line, char *line, t_bool space)
+char	*add_line(char *cmd_line, char *line, t_bool nl)
 {
 	char	*tmp;
 	size_t	len;
@@ -37,10 +37,12 @@ char	*add_line(char *cmd_line, char *line, t_bool space)
 
 	tmp = cmd_line;
 	len = ft_strlen(cmd_line);
-	size = len + ft_strlen(line) + 1 + space;
+	size = len + ft_strlen(line) + 1 + nl;
 	cmd_line = (char *)sfcalloc(size, sizeof (char));
 	ft_strlcpy(cmd_line, tmp, size);
-	if (space && len)
+	if (len && nl)
+		cmd_line[len] = NEWLINE;
+	else if (len)
 		cmd_line[len] = SPACE;
 	ft_strlcat(cmd_line, line, size);
 	ft_free((void **)&	tmp);
