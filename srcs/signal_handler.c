@@ -24,19 +24,16 @@ void	redisplay(int signum)
 
 void	handle_sig(int signum)
 {
+	if (g_msh->parser.state & PST_HEREDOC)
+		close(0);
 	if (g_msh->exec.child_nb)
 	{
-		if (signum == SIGQUIT && g_msh->parser.state & PST_HEREDOC)
-			return (redisplay(signum));
 		if (g_msh->exec.child == false)
 			signal(SIGTERM, SIG_IGN);
 		if (signum == SIGQUIT)
 				printf("%s", QUITMSG);
 		printf("\n");
-		if (g_msh->exec.child == true && g_msh->parser.state & PST_HEREDOC)
-			close(0);
-		else
-			kill(0, SIGTERM);
+		kill(0, SIGTERM);
 	}
 	else
 		redisplay(signum);

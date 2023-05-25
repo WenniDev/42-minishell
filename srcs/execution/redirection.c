@@ -57,14 +57,14 @@ void	do_pipe_red(t_exec *e, t_command cmd)
 
 int	mod_redir(int status, t_exec *e, t_red *r)
 {
-	if (!expand_red(status, r->filename))
+	if (r->filename->lval && !expand_red(status, r->filename))
 		return (print_error(REDAMB, r->filename->lval, NULL));
 	if (r->rflags & RED_IN)
 	{
 		if (e->infd)
 			do_ft(CLOSE, &e->infd, 0);
 		if (r->rflags & RED_HEREDOC)
-			e->infd = heredoc(r, status);
+			e->infd = here_document_to_fd(r, status);
 		else
 			e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)
@@ -97,7 +97,8 @@ void set_fds(t_exec *e, int flag)
 		do_ft(DUP2, &e->tmpout, 1);
 		do_ft(CLOSE, &e->tmpin, 0);
 		do_ft(CLOSE, &e->tmpout, 0);
-
+		e->infd = 0;
+		e->outfd = 0;
 	}
 }
 

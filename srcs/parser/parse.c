@@ -67,6 +67,7 @@ int	parse(t_parser *p)
 	}
 	if (p->tk == EOF)
 		p->eof = true;
+	gather_heredoc(p);
 	return (p->status);
 }
 
@@ -115,13 +116,6 @@ void	reset_parser(t_parser *p)
 		clean_cmd(p->cmd_lst);
 		ft_free((void **)&p->cmd_lst);
 		p->cmd_lst = (t_command_lst *)tmp;
-	}
-	while (p->hd_lst)
-	{
-		tmp = p->hd_lst->next;
-		ft_free((void **)&p->hd_lst->heredoc_eof);
-		ft_free((void **)&p->hd_lst);
-		p->hd_lst = (t_red *)tmp;
 	}
 	ft_memset(p, 0, sizeof (t_parser));
 	p->line = line;

@@ -20,7 +20,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/token_word.c\
 				$(SRCDIR)/parser/actions.c\
 				$(SRCDIR)/parser/get_line.c\
-				$(SRCDIR)/parser/heredoc.c\
+				$(SRCDIR)/parser/here_document_read.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/parser/parse_utils2.c\
 				$(SRCDIR)/expand/expand.c\
@@ -28,10 +28,12 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/expand/redirection.c\
 				$(SRCDIR)/expand/wildcard.c\
 				$(SRCDIR)/expand/wildcard_utils.c\
+				$(SRCDIR)/expand/here_document_expand.c\
 				$(SRCDIR)/execution/execute_cmd.c\
 				$(SRCDIR)/execution/redirection.c\
 				$(SRCDIR)/execution/path.c\
 				$(SRCDIR)/execution/exec_utils.c\
+				$(SRCDIR)/execution/here_document_write.c\
 				$(SRCDIR)/execution/builtins/b_env.c\
 				$(SRCDIR)/execution/builtins/b_pwd.c\
 				$(SRCDIR)/execution/builtins/b_cd.c\

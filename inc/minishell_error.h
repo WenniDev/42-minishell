@@ -4,6 +4,7 @@
 # include "libft.h"
 # include <signal.h>
 # include <errno.h>
+# include <string.h>
 
 # define EXS_NOEXEC			(-2)
 # define EXS_ERROR			(-1)

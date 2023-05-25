@@ -24,6 +24,7 @@ int		expand(int status, t_word_lst **wold_lst);
 void	expand_env(t_word_d *word, int *status, int ls);
 void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status);
 void	*expand_red(int ls, t_word_d *filename);
+char 	*here_document_expand(int ls, t_red *r, int *len);
 void	skip_quotes(char *word);
 
 int		is_dir(struct dirent *ent);

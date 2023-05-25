@@ -88,6 +88,7 @@ void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	set_fds(e, 0);
+	e->status = msh->status;
 	while (cl)
 	{
 		if (check_exec(e, cl->cmd.flags) || do_redir(e->status, e, cl->cmd))
@@ -101,6 +102,5 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 1);
 	if (e->child_nb)
 		wait_childs(e);
-	msh->status = e->status;
-	return (msh->status);
+	return (e->status);
 }

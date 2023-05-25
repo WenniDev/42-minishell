@@ -12,5 +12,6 @@ void	close_all(t_exec *e);
 int		do_redir(int status, t_exec *e, t_command cmd);
 void 	set_fds(t_exec *e, int flag);
 void	do_ft(int ft, int *ft_data1, int ft_data2);
+int		here_document_to_fd(t_red *hd, int status);
 
 #endif
