@@ -100,6 +100,7 @@ char		*get_line(t_parser *p);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
 t_red		*ft_last_red(t_red *r);
+int			ft_is_builtin(char *s);
 
 void		gather_heredoc(t_parser *p);
 

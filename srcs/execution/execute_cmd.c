@@ -94,6 +94,7 @@ int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 		if (check_exec(e, cl->cmd.flags) || do_redir(e->status, e, cl->cmd))
 		{
 			cl = cl->next;
+			set_fds(e, 2);
 			continue ;
 		}
 		exec_cmd(msh, e, cl);
