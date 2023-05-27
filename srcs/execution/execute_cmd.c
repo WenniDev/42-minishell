@@ -51,7 +51,7 @@ int	check_exec(t_exec *e, int f)
 {
 	int	status;
 
-	if (f & (CMD_EXECTRUE | CMD_EXECFALSE) && e->child_nb)
+	if (e->child_nb && f & (CMD_EXECTRUE | CMD_EXECFALSE))
 	{
 		if (waitpid(e->pid_last, &status, 0) == -1)
 			msh_error(ERWAITPID);
@@ -59,6 +59,12 @@ int	check_exec(t_exec *e, int f)
 		e->status = WEXITSTATUS(status);
 		if ((f & CMD_EXECFALSE && !WEXITSTATUS(status))
 			|| (f & CMD_EXECTRUE && WEXITSTATUS(status)))
+			return (EXS_NOEXEC);
+	}
+	else if ((f & (CMD_EXECTRUE | CMD_EXECFALSE)))
+	{
+		if ((f & CMD_EXECTRUE && e->status)
+			|| ( f & CMD_EXECFALSE && !e->status))
 			return (EXS_NOEXEC);
 	}
 	return (EXS_SUCCESS);
