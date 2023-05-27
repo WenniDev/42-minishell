@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 10:51:30 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/05/27 10:51:31 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/27 13:01:11 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ void	add_heredoc(t_parser *p, t_red *r)
 		hd_red->next = new;
 	}
 }
+
+/*
+ * TODO: leak when ((ls))
+ */
 
 void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)
 {
