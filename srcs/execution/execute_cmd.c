@@ -17,7 +17,7 @@
 int		exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 char	*get_path(t_data *msh, char *cmd_name);
 
-static const t_builtin	g_builtin[] ={
+static const t_builtin	g_builtin[7] ={
 		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}, {"export", b_export},
 		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}
 };

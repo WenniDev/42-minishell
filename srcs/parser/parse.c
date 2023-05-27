@@ -8,12 +8,12 @@ void	add_heredoc(t_parser *p, t_red *r);
 void	add_simple_cmd(t_parser *p, int sep);
 int		tk_symbol(int tk);
 
-static const char		*g_symbol_name[] = {
+static const char		*g_symbol_name[14] = {
 	"invalid token", "<", ">", "<<", ">>", "|", "||", "&&", "(", ")", "newline",
 	"word", "simple_cmd", "subshell_cmd"
 };
 
-static const u_int8_t	g_symbol_num[] = {
+static const u_int8_t	g_symbol_num[261] = {
 	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 	10,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
@@ -43,7 +43,7 @@ static const u_int8_t	g_symbol_num[] = {
 	11
 };
 
-static const u_int8_t	g_act_table[] = {
+static const u_int8_t	g_act_table[20] = {
 	0,	0,	0,	0,	0,	7,	8,	9,	10,	11,
 	0,	1,	2,	3,	4,	5,	0,	0,	0,	0,
 };
