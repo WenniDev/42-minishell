@@ -1,5 +1,17 @@
-#ifndef MINISHELL_TYPES_H
-# define MINISHELL_TYPES_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:40:02 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:40:23 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "minishell_env.h"
 # include "minishell_command.h"

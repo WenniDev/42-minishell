@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:13:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 15:13:18 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:58:18 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	read_quotes(t_parser *p, char quote, char **line_ptr);
 
 int	read_token_word(t_parser *p, char **line_ptr)
 {
-	char 		c;
-	char 		*word_start;
+	char	c;
+	char	*word_start;
 
 	word_start = *line_ptr;
 	c = get_char(line_ptr);

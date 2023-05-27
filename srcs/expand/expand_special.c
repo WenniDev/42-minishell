@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   expand_special.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/27 11:02:00 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/05/27 11:02:01 by rsabbah          ###   ########.fr       */
+/*   Created: 2023/05/27 10:46:58 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:47:21 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_command.h"
+#include "minishell_expand.h"
+#include "minishell_utils.h"
 #include "libft.h"
+#include "signal.h"
+#include "stdio.h"
 
-char	*ft_strstr(const char *big, const char *small)
+int	expand_special(t_word_d *word)
 {
-	int		i;
-	size_t	slen;
-
-	i = 0;
-	slen = ft_strlen(small);
-	if (!big || !small || !*small)
-		return (NULL);
-	while (big[i])
-	{
-		if (!ft_strncmp(big + i, small, slen))
-			return ((char *)big + i);
-		i++;
-	}
-	return (NULL);
+	if (!ft_strcmp(word->lval, "$"))
+		return (1);
+	if (word->lval[0] != '$')
+		return (0);
+	if (word->lval[1] == '?')
+		return (0);
+	if (!(ft_isalnum(word->lval[1]) || word->lval[1] == '_'))
+		return (1);
+	return (0);
 }

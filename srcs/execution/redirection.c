@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:12:39 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 15:12:50 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 11:02:48 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	mod_redir(int status, t_exec *e, t_red *r)
 			e->infd = open(r->filename->lval, r->oflags, 0664);
 		if (e->infd == -1)
 			return (print_error(strerror(errno), r->filename->lval, NULL));
-
 	}
 	if (r->rflags & RED_OUT)
 	{
@@ -82,7 +81,7 @@ int	mod_redir(int status, t_exec *e, t_red *r)
 	return (0);
 }
 
-void set_fds(t_exec *e, int flag)
+void	set_fds(t_exec *e, int flag)
 {
 	if (!flag)
 	{

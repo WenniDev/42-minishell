@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_line.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:51:40 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:52:48 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_parse.h"
 
 char	*add_line(char *cmd_line, char *line, t_bool space);
@@ -23,7 +35,8 @@ char	*get_line(t_parser *p)
 	}
 	(p->line)++;
 	if (*p->line_read)
-		p->cmd_line = add_line(p->cmd_line, p->line_read, p->state & PST_HEREDOC);
+		p->cmd_line = add_line(p->cmd_line, p->line_read,
+				p->state & PST_HEREDOC);
 	p->line_ptr = p->line_read;
 	return (p->line_read);
 }
@@ -45,6 +58,6 @@ char	*add_line(char *cmd_line, char *line, t_bool nl)
 	else if (len)
 		cmd_line[len] = SPACE;
 	ft_strlcat(cmd_line, line, size);
-	ft_free((void **)&	tmp);
+	ft_free((void **)&tmp);
 	return (cmd_line);
 }

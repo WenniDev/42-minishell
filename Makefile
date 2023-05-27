@@ -24,6 +24,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/parser/parse_utils.c\
 				$(SRCDIR)/parser/parse_utils2.c\
 				$(SRCDIR)/expand/expand.c\
+				$(SRCDIR)/expand/expand_special.c\
 				$(SRCDIR)/expand/environment.c\
 				$(SRCDIR)/expand/redirection.c\
 				$(SRCDIR)/expand/wildcard.c\

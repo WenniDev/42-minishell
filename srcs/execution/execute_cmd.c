@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:15:39 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 17:27:01 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:44:05 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 int		exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
 char	*get_path(t_data *msh, char *cmd_name);
 
-static const t_builtin	g_builtin[7] ={
-		{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}, {"export", b_export},
-		{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}
+static const t_builtin	g_builtin[7] = {
+{"env", b_env}, {"pwd", b_pwd}, {"cd", b_cd}, {"export", b_export},
+{"unset", b_unset}, {"echo", b_echo}, {"exit", b_exit}
 };
 
 int	execute_builtin(t_data *msh, t_command cmd)
@@ -64,7 +64,7 @@ int	check_exec(t_exec *e, int f)
 	else if ((f & (CMD_EXECTRUE | CMD_EXECFALSE)))
 	{
 		if ((f & CMD_EXECTRUE && e->status)
-			|| ( f & CMD_EXECFALSE && !e->status))
+			|| (f & CMD_EXECFALSE && !e->status))
 			return (EXS_NOEXEC);
 	}
 	return (EXS_SUCCESS);
@@ -93,10 +93,10 @@ void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 		}
 	}
 	else
-		 e->status = execute_simple_cmd(msh, e, cl);
+		e->status = execute_simple_cmd(msh, e, cl);
 }
 
-int    exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
+int	exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	set_fds(e, 0);
 	e->status = msh->status;

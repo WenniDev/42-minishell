@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:59:59 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 11:00:08 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_env.h"
 #include "minishell_execute.h"
 
 void	new_environ(t_exec *e)
 {
-	char *path;
+	char	*path;
 
 	e->env = ft_split(DEFAULT_ENV, ENV_SEP);
 	if (!e->env)
@@ -17,8 +29,8 @@ void	new_environ(t_exec *e)
 
 void	copy_environ(t_exec *e)
 {
-	int i;
-	int env_size;
+	int	i;
+	int	env_size;
 
 	i = 0;
 	env_size = 0;

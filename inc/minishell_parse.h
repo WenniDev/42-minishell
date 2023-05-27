@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parse.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:07:45 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/23 17:12:08 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:58:01 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "libft.h"
 # include <stdio.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:04:31 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/22 12:04:34 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:42:39 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	unset_var(t_exec *e, char *var)
 
 int	b_unset(void *data, int argc, char **argv)
 {
-	int 	i;
+	int	i;
 
 	i = 1;
 	while (i < argc && argv[i])

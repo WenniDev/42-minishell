@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_error.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:38:42 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:38:53 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_ERROR_H
-#define MINISHELL_ERROR_H
+# define MINISHELL_ERROR_H
 
 # include "libft.h"
 # include <signal.h>
@@ -44,7 +56,7 @@
 int		quote_error(char quote);
 int		malloc_error(void);
 int		syntax_error(char *error, int tk, char *lval);
-int 	msh_error(char *error);
+int		msh_error(char *error);
 int		print_error(char *error, char *infos, char *infos2);
 
 #endif

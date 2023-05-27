@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:45:18 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:45:29 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_split(char **split)
@@ -12,10 +24,10 @@ void	free_split(char **split)
 	free(split);
 }
 
-char *get_binary(char **paths, char *cmd_name)
+char	*get_binary(char **paths, char *cmd_name)
 {
 	int		i;
-	char 	*tmp;
+	char	*tmp;
 	char	*bin;
 
 	i = 0;
@@ -27,7 +39,7 @@ char *get_binary(char **paths, char *cmd_name)
 		bin = ft_strjoin(tmp, cmd_name);
 		free(tmp);
 		if (!bin)
-			(free_split(paths), malloc_error());;
+			(free_split(paths), malloc_error());
 		if (access(bin, F_OK) == 0)
 			return (bin);
 		free(bin);

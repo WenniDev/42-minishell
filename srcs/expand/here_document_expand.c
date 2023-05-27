@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   here_document_expand.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:13:25 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/25 19:14:57 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:50:26 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_command.h"
 #include "minishell_expand.h"
 
-char *here_document_expand(int ls, t_red *r, int *len)
+char	*here_document_expand(int ls, t_red *r, int *len)
 {
-	int 		status;
+	int			status;
 	t_word_d	tmp;
 
 	status = 0;

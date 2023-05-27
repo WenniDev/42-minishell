@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:54:28 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:54:42 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_parse.h"
 
 static const char	*g_builtins[7] = {
@@ -18,7 +30,7 @@ int	ft_is_builtin(char *s)
 	int	i;
 
 	i = 0;
-	while(i < 7)
+	while (i < 7)
 	{
 		if (!ft_strcmp(s, g_builtins[i]))
 			return (1);

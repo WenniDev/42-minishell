@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_document_write.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:44:21 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:45:10 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_execute.h"
 #include "minishell_error.h"
 #include "minishell_expand.h"
 #include "minishell_redirect.h"
 
-int create_tmp(t_red *r);
-int ft_random();
+int	create_tmp(t_red *r);
+int	ft_random(void);
 
 int	here_document_to_fd(t_red *hd, int status)
 {
-	int 	document_len;
-	int 	fd;
+	int	document_len;
+	int	fd;
 
 	here_document_expand(status, hd, &document_len);
 	if (document_len == 0)
@@ -28,10 +40,10 @@ int	here_document_to_fd(t_red *hd, int status)
 	return (fd);
 }
 
-int create_tmp(t_red *r)
+int	create_tmp(t_red *r)
 {
-	char			*ran_char;
-	int 			fd;
+	char	*ran_char;
+	int		fd;
 
 	ran_char = ft_itoa(ft_random());
 	if (!ran_char)
@@ -47,12 +59,12 @@ int create_tmp(t_red *r)
 	return (fd);
 }
 
-int ft_random()
+int	ft_random(void)
 {
 	unsigned char	buffer[3];
 	int				ran_int;
 	ssize_t			bytes_read;
-	int 			fd;
+	int				fd;
 
 	fd = open("/dev/random", O_RDONLY);
 	if (fd == -1)

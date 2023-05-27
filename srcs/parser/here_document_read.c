@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_document_read.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:06:49 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/25 19:10:49 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:53:11 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include "minishell.h"
 
 int		here_document_read(t_parser *p, t_red *hd);
-int 	here_document_warning(t_parser *p, char *eof);
+int		here_document_warning(t_parser *p, char *eof);
 void	add_content(char **s, char *content);
 
 void	gather_heredoc(t_parser *p)
 {
-	t_hd 	*hd;
+	t_hd	*hd;
 	int		tmpin;
 
 	do_ft(DUP, &tmpin, STDIN_FILENO);
@@ -77,7 +77,7 @@ void	add_content(char **s, char *content)
 	ft_free((void **)&tmp);
 }
 
-int here_document_warning(t_parser *p, char *eof)
+int	here_document_warning(t_parser *p, char *eof)
 {
 	char	*line;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_command.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <jopadova@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:10:19 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/25 19:10:42 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 11:01:38 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # define W_QUOTES		0x02	//quotes present
 # define W_NOEXPAND		0x04	//do not expand filenames
 # define W_IGNORE		0x08	//ignore all flags
-
 
 /* values for redirection flags */
 # define RED_IN			0x01	//input red

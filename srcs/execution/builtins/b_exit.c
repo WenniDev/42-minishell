@@ -1,14 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_exit.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 10:41:26 by rsabbah           #+#    #+#             */
+/*   Updated: 2023/05/27 10:41:43 by rsabbah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_builtins.h"
 #include "minishell.h"
 #include <limits.h>
-
-/*
- * print "exit\n" (even when not exiting) when not in fork
- * if no arg ==> exit with last exit status
- * if arg is alpha ==> exit with error message
- * if argc > 1 ==> error message
- * if arg > 255 ==> restart from 0 (unsigned char)
- * */
 
 #define LL_MAX 0x7FFFFFFFFFFFFFFF
 #define LL_MIN 0x8000000000000000

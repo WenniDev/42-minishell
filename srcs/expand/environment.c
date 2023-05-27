@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/25 19:17:53 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:47:18 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,6 @@ static char	*get_env(char *str, int *index, int ls)
 	}
 	*index += i;
 	return (res);
-}
-
-int	expand_special(t_word_d *word)
-{
-	if (!ft_strcmp(word->lval, "$"))
-		return (1);
-	if (word->lval[0] != '$')
-		return (0);
-	if (word->lval[1] == '?')
-		return (0);
-	if (!(ft_isalnum(word->lval[1]) || word->lval[1] == '_'))
-		return (1);
-	return (0);
 }
 
 void	expand_env(t_word_d *word, int *status, int ls)
