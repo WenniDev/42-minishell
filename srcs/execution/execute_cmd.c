@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:15:39 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/27 10:44:05 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/27 13:04:20 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,15 @@ int	check_exec(t_exec *e, int f)
 	return (EXS_SUCCESS);
 }
 
+/*
+ * don't fork when empty
+ * TODO: check fix
+ */
+
 void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
+	if (!cl->cmd.elem.words)
+		return ;
 	if (!(cl->cmd.flags & CMD_SUBSHELL))
 	{
 		expand(e->status, &cl->cmd.elem.words);
