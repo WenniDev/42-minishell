@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/27 10:42:08 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/27 12:53:35 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	b_export(void *data, int argc, char **argv)
 		while (*argv[i] != '=')
 		{
 			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
-				return (free(name), print_error(EXPORTFAIL, "export", NULL));
+				return (free(name), print_error(EXPORTFAIL, "export", argv[i]));
 			name[j++] = *argv[i]++;
 		}
 		export_var(name, ++argv[i], &((t_data *)data)->exec);
