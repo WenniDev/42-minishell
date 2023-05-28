@@ -117,18 +117,29 @@ void	add_heredoc(t_parser *p, t_red *r)
  * TODO: leak when ((ls))
  */
 
-void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr)
+void	add_subshell_cmd(t_parser *p, t_command_lst *cl_curr)
 {
 	t_command_lst	*new_cmd;
+	t_addr_lst		*new_sub;
 
 	new_cmd = (t_command_lst *)sfcalloc(1, sizeof (t_command_lst));
+	new_sub = (t_addr_lst *)sfcalloc(1, sizeof (t_addr_lst));
 	new_cmd->cmd.flags |= CMD_SUBSHELL;
-	new_cmd->prev = cmd_curr->prev;
-	if (cmd_curr->prev)
-		cmd_curr->prev->next = new_cmd;
-	else
+	new_cmd->prev = cl_curr->prev;
+	if (cl_curr->prev)
+		cl_curr->prev->next = new_cmd;
+	else if (p->cmd_lst == cl_curr)
 		p->cmd_lst = new_cmd;
-	cmd_curr->prev = NULL;
-	new_cmd->cmd.elem.cmds = cmd_curr;
-	p->cl_last = new_cmd;
+	else
+		p->sub_lst->addr->cmd.elem.cmds = new_cmd;
+	cl_curr->prev = NULL;
+	new_cmd->cmd.elem.cmds = cl_curr;
+	new_sub->addr = new_cmd;
+	if (!p->sub_lst)
+		p->sub_lst = new_sub;
+	else
+	{
+		new_sub->prev = p->sub_lst;
+		p->sub_lst = new_sub;
+	}
 }

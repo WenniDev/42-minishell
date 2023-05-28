@@ -72,6 +72,12 @@ typedef struct s_hd
 	struct s_hd	*next;
 }t_hd;
 
+typedef struct s_addr_lst
+{
+	t_command_lst		*addr;
+	struct s_addr_lst	*prev;
+}t_addr_lst;
+
 typedef struct s_parser
 {
 	char			*cmd_line;
@@ -89,6 +95,7 @@ typedef struct s_parser
 	t_command_lst	*cmd_lst;
 	t_command_lst	*cl_last;
 	t_command_lst	*cl_curr;
+	t_addr_lst		*sub_lst;
 	bool			eof;
 	int				status;
 }t_parser;
@@ -100,6 +107,7 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
+void		end_subshell_cmd(t_parser *p);
 t_red		*ft_last_red(t_red *r);
 int			ft_is_builtin(char *s);
 

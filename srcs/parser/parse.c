@@ -14,7 +14,7 @@
 
 void	parser_act(t_parser *p, int act);
 void	add_word(t_parser *p, t_word_d wd);
-void	add_subshell_cmd(t_parser *p, t_command_lst *cmd_curr);
+void	add_subshell_cmd(t_parser *p, t_command_lst *cl_curr);
 void	add_red(t_parser *p, t_word_d wd, int flags);
 void	add_heredoc(t_parser *p, t_red *r);
 void	add_simple_cmd(t_parser *p, int sep);
@@ -111,7 +111,7 @@ void	parser_act(t_parser *p, int act)
 	else if (act == 10)
 		add_subshell_cmd(p, p->cl_curr);
 	else if (act == 11)
-		p->cl_curr = p->cl_last;
+		end_subshell_cmd(p);
 }
 
 void	reset_parser(t_parser *p)
