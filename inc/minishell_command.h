@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:10:19 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/27 11:01:38 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/28 19:22:29 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # define W_DOLLAR		0x01	//dollar sign present
 # define W_QUOTES		0x02	//quotes present
 # define W_NOEXPAND		0x04	//do not expand filenames
-# define W_IGNORE		0x08	//ignore all flags
+# define W_CHECKISF		0x08	//check ISF before filenames
+# define W_IGNORE		0x10	//ignore all flags
 
 /* values for redirection flags */
 # define RED_IN			0x01	//input red

@@ -6,12 +6,13 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 10:59:59 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/05/27 11:00:08 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/28 17:11:33 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_env.h"
 #include "minishell_execute.h"
+#include "minishell_builtins.h"
 
 void	new_environ(t_exec *e)
 {
@@ -53,4 +54,5 @@ void	init_env(t_exec *e)
 	else
 		copy_environ(e);
 	__environ = e->env;
+	export_var("IFS", "\n\t ", e);
 }

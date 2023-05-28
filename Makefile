@@ -26,6 +26,7 @@ SRCS		=	$(SRCDIR)/main.c\
 				$(SRCDIR)/expand/expand.c\
 				$(SRCDIR)/expand/expand_special.c\
 				$(SRCDIR)/expand/environment.c\
+				$(SRCDIR)/expand/word_splitting.c\
 				$(SRCDIR)/expand/redirection.c\
 				$(SRCDIR)/expand/wildcard.c\
 				$(SRCDIR)/expand/wildcard_utils.c\

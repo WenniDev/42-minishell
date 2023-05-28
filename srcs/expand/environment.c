@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/27 10:47:18 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/28 18:45:43 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,6 @@ void	expand_env(t_word_d *word, int *status, int ls)
 	}
 	free(word->lval);
 	word->lval = res;
+	word->flags |= W_CHECKISF;
 	*status = 0;
 }
