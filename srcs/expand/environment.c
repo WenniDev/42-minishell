@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/28 18:45:43 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:35:17 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*get_str(char *str, int *index)
 	return (res);
 }
 
-static char	*get_env(char *str, int *index, int ls)
+static char	*get_env(char *str, int *index, int *flags, int ls)
 {
 	int		i;
 	char	*res;
@@ -86,6 +86,8 @@ static char	*get_env(char *str, int *index, int ls)
 		var = sfcalloc(i + 1, sizeof(char));
 		ft_memcpy(var, str + 1, i - 1);
 		res = ft_strdup(getenv(var));
+		if (ft_strpbrk(getenv(var), getenv("IFS")))
+			*flags |= W_CHECKISF;
 		free(var);
 	}
 	*index += i;
@@ -108,7 +110,7 @@ void	expand_env(t_word_d *word, int *status, int ls)
 	{
 		get_mode(word->flags, word->lval[i], &mode);
 		if (word->lval[i] == '$' && mode != M_SINGLE)
-			tmp = get_env(&word->lval[i], &i, ls);
+			tmp = get_env(&word->lval[i], &i, &word->flags, ls);
 		else
 			tmp = get_str(&word->lval[i], &i);
 		if (!tmp)
@@ -118,6 +120,5 @@ void	expand_env(t_word_d *word, int *status, int ls)
 	}
 	free(word->lval);
 	word->lval = res;
-	word->flags |= W_CHECKISF;
 	*status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:53:18 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/28 19:29:18 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:15:54 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status, int ls)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status, ls);
-	if (!(*status))
+	if (!(*status) && word->flags & W_CHECKISF)
 		word_splitting(word, word_lst, status);
 	if (!(*status) && !(word->flags & W_NOEXPAND))
 		expand_wildcard(word, word_lst, status);

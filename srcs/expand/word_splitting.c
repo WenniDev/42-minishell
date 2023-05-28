@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 19:04:27 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/28 19:49:00 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:12:25 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	word_splitting(t_word_d *word, t_word_lst **word_lst, int *status)
 	int			i;
 	char		**splitted;
 
-	if (!(word->flags & W_CHECKISF))
-		return ;
 	if (!getenv("IFS"))
 		return ;
 	if (!ft_strpbrk(word->lval, getenv("IFS")))
