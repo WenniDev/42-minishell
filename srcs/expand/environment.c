@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/28 20:35:17 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/29 01:01:31 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	*get_env(char *str, int *index, int *flags, int ls)
 		var = sfcalloc(i + 1, sizeof(char));
 		ft_memcpy(var, str + 1, i - 1);
 		res = ft_strdup(getenv(var));
-		if (ft_strpbrk(getenv(var), getenv("IFS")))
+		if (getenv("IFS") && ft_strpbrk(getenv(var), getenv("IFS")))
 			*flags |= W_CHECKISF;
 		free(var);
 	}
