@@ -31,7 +31,7 @@ char	*get_binary(char **paths, char *cmd_name)
 	char	*bin;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		if (!tmp)
@@ -48,6 +48,24 @@ char	*get_binary(char **paths, char *cmd_name)
 	return (NULL);
 }
 
+char	*no_path(t_data *msh, char *cmd_name)
+{
+	char	*bin;
+
+	bin = ft_strdup(cmd_name);
+	if (!bin)
+		malloc_error();
+	if (access(bin, X_OK) == EXS_ERROR)
+	{
+		print_error(strerror(errno), cmd_name, NULL);
+		if (errno == ENOENT)
+			exit_prg(msh, 127);
+		if (errno == EACCES)
+			exit_prg(msh, 126);
+	}
+	return (bin);
+}
+
 char	*get_path(t_data *msh, char *cmd_name)
 {
 	char	**paths;
@@ -56,7 +74,7 @@ char	*get_path(t_data *msh, char *cmd_name)
 
 	pth = (*cmd_name == '.' || *cmd_name == '/' || *cmd_name == '~');
 	if (!getenv("PATH"))
-		(print_error(strerror(2), cmd_name, NULL), exit_prg(msh, 127));
+		return (no_path(msh, cmd_name));
 	paths = ft_split(getenv("PATH"), ":");
 	if (!paths)
 		malloc_error();
