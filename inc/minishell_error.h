@@ -31,7 +31,7 @@
 # define ERHDMAX			"maximum here-document count exceeded"
 
 # define ERHOME				"HOME not set"
-# define EXPORTFAIL			"not a valid identifier"
+# define EXPFAIL			"not a valid identifier"
 # define ERARGC				"too many arguments"
 # define ERNUMARG			"numeric argument required"
 
