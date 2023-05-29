@@ -26,7 +26,8 @@
 /* values for the parser state */
 # define PST_SUBSHELL		0x01
 # define PST_HEREDOC		0x02
-# define PST_END			0x04
+# define PST_CMD			0x04
+# define PST_END			0x08
 
 # define HEREDOC_MAX		16
 

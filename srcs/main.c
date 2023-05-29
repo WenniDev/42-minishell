@@ -29,6 +29,8 @@ int	main(int argc, char **argv)
 	{
 		set_prompt(msh);
 		reset_parser(&msh->parser);
+		if (msh->parser_status)
+			msh->status = msh->parser_status;
 		msh->parser_status = parse(&msh->parser);
 		if (msh->parser_status)
 			continue ;

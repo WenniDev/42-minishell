@@ -53,7 +53,7 @@ char	*ft_strpbrk(char *str1, char *str2)
 	char	*p_str2;
 
 	p_str1 = str1;
-	while (*p_str1 != '\0')
+	while (p_str1 && *p_str1 != '\0')
 	{
 		p_str2 = str2;
 		while (*p_str2 != '\0')
