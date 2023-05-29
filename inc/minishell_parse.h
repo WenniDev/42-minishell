@@ -66,12 +66,14 @@ typedef enum e_symbol_kind
 	SYM_SUBSHELL_CMD = 13
 }t_symbol_kind;
 
+/* struct to store the heredocs reds */
 typedef struct s_hd
 {
 	t_red		*red;
 	struct s_hd	*next;
 }t_hd;
 
+/* struct to store the the subshel cmds */
 typedef struct s_addr_lst
 {
 	t_command_lst		*addr;
@@ -86,14 +88,13 @@ typedef struct s_parser
 	int				line;
 	int				state;
 	int				ssymc;
-	int				tk;
+	int				tk;	
 	int				act;
 	int				pc;
 	t_word_d		word;
 	t_hd			*hd_lst;
 	int				hd_nb;
 	t_command_lst	*cmd_lst;
-	t_command_lst	*cl_last;
 	t_command_lst	*cl_curr;
 	t_addr_lst		*sub_lst;
 	bool			eof;
