@@ -15,7 +15,7 @@
 
 # include "minishell_error.h"
 
-# define DEFAULT_ENV	"PATH=NULL:PS1=>"
+# define DEFAULT_ENV	"PATH=NULL:PS1=$> "
 # define ENV_SEP		":"
 
 # define PTH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"

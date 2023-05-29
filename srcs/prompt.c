@@ -23,6 +23,7 @@ void	set_prompt(t_data *msh)
 	char	*dir;
 	char	*tmp;
 
+	export_var("PS1", "$> ", &msh->exec);
 	if (!getenv("USER"))
 		return ;
 	prompt = NULL;
