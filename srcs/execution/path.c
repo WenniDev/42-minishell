@@ -52,19 +52,23 @@ char	*get_path(t_data *msh, char *cmd_name)
 {
 	char	**paths;
 	char	*bin;
+	bool	pth;
 
+	pth = (*cmd_name == '.' || *cmd_name == '/' || *cmd_name == '~');
 	if (!getenv("PATH"))
 		(print_error(strerror(2), cmd_name, NULL), exit_prg(msh, 127));
 	paths = ft_split(getenv("PATH"), ":");
 	if (!paths)
 		malloc_error();
-	if (*cmd_name == '.' || *cmd_name == '/' || *cmd_name == '~')
+	if (pth)
 		bin = ft_strdup(cmd_name);
 	else
 		bin = get_binary(paths, cmd_name);
 	free_split(paths);
 	if (!bin)
 		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
+	if (pth && access(bin, X_OK) == EXS_ERROR)
+		(print_error(strerror(errno), cmd_name, NULL), exit_prg(msh, 127));
 	if (access(bin, X_OK) == EXS_ERROR)
 		(free (bin), print_error(CMDPERMD, cmd_name, NULL), exit_prg(msh, 126));
 	return (bin);

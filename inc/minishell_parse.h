@@ -88,7 +88,7 @@ typedef struct s_parser
 	int				line;
 	int				state;
 	int				ssymc;
-	int				tk;	
+	int				tk;
 	int				act;
 	int				pc;
 	t_word_d		word;
