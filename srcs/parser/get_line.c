@@ -16,8 +16,7 @@ char	*add_line(char *cmd_line, char *line);
 
 char	*get_line(t_parser *p)
 {
-	if (p->line_read)
-		ft_free((void **)&p->line_read);
+	ft_free((void **)&p->line_read);
 	if (p->state & PST_CMD)
 		p->line_read = readline("cmd> ");
 	if (p->state & PST_SUBSHELL)
@@ -33,7 +32,7 @@ char	*get_line(t_parser *p)
 			p->status = EXS_SYNTAX_ERROR;
 			syntax_error(EREOF, 0, NULL);
 		}
-		return (NULL);
+		return (p->line_read);
 	}
 	(p->line)++;
 	if (*p->line_read && !(p->state & PST_HEREDOC))

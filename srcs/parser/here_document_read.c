@@ -17,6 +17,7 @@
 int		here_document_read(t_parser *p, t_red *hd);
 int		here_document_warning(t_parser *p, char *eof);
 void	add_content(char **s, char *content);
+void	remove_newline(char *s);
 
 void	gather_heredoc(t_parser *p)
 {
@@ -46,17 +47,22 @@ void	gather_heredoc(t_parser *p)
 
 int	here_document_read(t_parser *p, t_red *hd)
 {
-	char	*line;
+	char	buffer[1024];
+	int		n;
 
-	line = NULL;
-	while (ft_strcmp(line, hd->heredoc_eof))
+	ft_memset((void *)buffer, 0, 1024);
+	while (ft_strcmp((char *)buffer, hd->heredoc_eof))
 	{
-		add_content(&hd->hd_content, line);
-		line = get_line(p);
-		if (!(p->state & PST_HEREDOC))
-			return (-1);
-		if (!line)
+		ft_putstr_fd("heredoc> ", 1);
+		add_content(&hd->hd_content, (char *)buffer);
+		ft_memset((void *)buffer, 0, 1024);
+		n = (int)read(0, buffer, 1024);
+		if (n == -1)
+			return (p->status = 130, -1);
+		if (!n)
 			return (here_document_warning(p, hd->heredoc_eof));
+		p->line++;
+		remove_newline((char *)buffer);
 	}
 	return (0);
 }
@@ -66,7 +72,7 @@ void	add_content(char **s, char *content)
 	char	*tmp;
 	size_t	size;
 
-	if (!content)
+	if (!content || !(*content))
 		return ;
 	tmp = *s;
 	size = ft_strlen(tmp) + ft_strlen(content) + 2;
@@ -82,6 +88,7 @@ int	here_document_warning(t_parser *p, char *eof)
 	char	*line;
 
 	line = ft_itoa(p->line);
+	ft_putchar_fd('\n', 2);
 	ft_putstr_fd("msh: ", 2);
 	ft_putstr_fd("warning: here-document at line ", 2);
 	ft_putstr_fd(line, 2);
@@ -91,4 +98,15 @@ int	here_document_warning(t_parser *p, char *eof)
 	ft_putstr_fd(eof, 2);
 	ft_putstr_fd("\")\n", 2);
 	return (0);
+}
+
+void	remove_newline(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i] && s[i] != '\n')
+		i++;
+	if (s && s[i])
+		s[i] = '\0';
 }

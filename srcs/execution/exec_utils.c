@@ -49,7 +49,6 @@ void	copy_word_list(t_command_lst *cl)
 		cl->cmd.argc++;
 	}
 	cl->cmd.argv = (char **)sfcalloc(cl->cmd.argc + 1, sizeof (char *));
-	i = 0;
 	elem = cl->cmd.elem.words;
 	while (elem)
 	{
