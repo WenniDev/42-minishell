@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:53:29 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/29 16:06:33 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/30 22:57:12 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	b_export(void *data, int argc, char **argv)
 		j = 0;
 		while (*argv[i] != '=')
 		{
-			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
+			if (ft_isdigit(argv[i][0]) || (!ft_isalnum(*argv[i])
+				&& *argv[i] != '_'))
 				return (free(name), print_error(EXPFAIL, "export", argv[i]), 1);
 			name[j++] = *argv[i]++;
 		}
