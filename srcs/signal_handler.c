@@ -18,14 +18,9 @@ t_data	*g_msh;
 void	redisplay(int signum)
 {
 	if (signum == SIGINT)
-	{
-		rl_replace_line("", 0);
 		printf("\n");
-	}
-	if (signum == SIGQUIT)
-		printf("\r\e[K");
-	rl_on_new_line();
-	rl_redisplay();
+	set_prompt(g_msh);
+	printf("\r\e[K%s", getenv("PS1"));
 }
 
 void	handle_sigabrt(int signum)
@@ -37,23 +32,28 @@ void	handle_sigabrt(int signum)
 
 void	handle_sigint(int signum)
 {
+	g_msh->status = 130;
 	if (g_msh->parser.state & PST_HEREDOC)
 	{
 		printf("\n");
-		rl_on_new_line();
 		close(STDIN_FILENO);
+		g_msh->parser.state &= ~PST_HEREDOC;
 	}
-	if (!g_msh->exec.child_nb)
+	else if (!g_msh->exec.child_nb)
 		redisplay(signum);
-	g_msh->status = 130;
-	g_msh->parser.state &= ~PST_HEREDOC;
+	else
+		printf("\b\b");
 }
 
 void	handle_sigquit(int signum)
 {
-	(void)signum;
 	if (!g_msh->exec.child_nb)
 		redisplay(signum);
+	else
+	{
+		g_msh->status = 131;
+		printf("\b\b");
+	}
 }
 
 void	signal_handler(t_data *msh)

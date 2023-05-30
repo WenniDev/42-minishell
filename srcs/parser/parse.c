@@ -119,6 +119,8 @@ void	reset_parser(t_parser *p)
 	void	*tmp;
 	int		line;
 
+	while (end_subshell_cmd(p))
+		;
 	line = p->line;
 	if (p->cmd_line)
 		add_history(p->cmd_line);

@@ -39,12 +39,17 @@ int	ft_is_builtin(char *s)
 	return (0);
 }
 
-void	end_subshell_cmd(t_parser *p)
+int	end_subshell_cmd(t_parser *p)
 {
 	t_addr_lst	*tmp;
 
-	p->cl_curr = p->sub_lst->addr;
-	tmp = p->sub_lst->prev;
-	ft_free((void **)&p->sub_lst);
-	p->sub_lst = tmp;
+	if (p->sub_lst)
+	{
+		p->cl_curr = p->sub_lst->addr;
+		tmp = p->sub_lst->prev;
+		ft_free((void **) &p->sub_lst);
+		p->sub_lst = tmp;
+		return (1);
+	}
+	return (0);
 }

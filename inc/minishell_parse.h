@@ -109,7 +109,7 @@ void		clean_cmd(t_command_lst *cl);
 char		*get_line(t_parser *p);
 int			next_token(t_parser *p, int tk);
 void		reset_parser(t_parser *p);
-void		end_subshell_cmd(t_parser *p);
+int			end_subshell_cmd(t_parser *p);
 t_red		*ft_last_red(t_red *r);
 int			ft_is_builtin(char *s);
 

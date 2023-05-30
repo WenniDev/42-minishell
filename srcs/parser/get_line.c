@@ -19,7 +19,7 @@ char	*get_line(t_parser *p)
 	ft_free((void **)&p->line_read);
 	if (p->state & PST_CMD)
 		p->line_read = readline("cmd> ");
-	if (p->state & PST_SUBSHELL)
+	else if (p->state & PST_SUBSHELL)
 		p->line_read = readline("subcmd> ");
 	else if (p->state & PST_HEREDOC)
 		p->line_read = readline("heredoc> ");

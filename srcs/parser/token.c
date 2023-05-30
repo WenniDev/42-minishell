@@ -31,7 +31,11 @@ int	next_token(t_parser *p, int tk)
 	tk_n = read_token(p, &p->line_ptr);
 	if (tk_n == TOKEN_ERROR || check_syntax(p, tk_n, tk_last) == EXS_ERROR)
 		return (p->status = EXS_SYNTAX_ERROR, TOKEN_ERROR);
-	if (tk_n == '\n' && !p->state && !is_connector(tk_last))
+	if (tk_n == NEWLINE && p->state & PST_CMD && !is_connector(tk_last))
+		p->state &= ~PST_CMD;
+	if (tk_n == NEWLINE && is_connector(tk_last))
+		p->state |= PST_CMD;
+	if (tk_n == NEWLINE && !p->state && !is_connector(tk_last))
 		p->state = PST_END;
 	return (tk_n);
 }
@@ -89,9 +93,12 @@ static int	check_syntax(t_parser *p, int tk, int tk_last)
 	if (tk == '(')
 		(p->pc)++;
 	if ((!tk_last && is_connector(tk))
+		|| (p->state & PST_CMD && tk_last == '\n' && tk == ')')
+		|| (tk_last == NEWLINE && (is_connector(tk) || tk == '('))
 		|| (tk_last == WORD && tk == '(')
-		|| (is_connector(tk_last) && is_connector(tk))
-		|| (is_redir(tk_last) && (is_connector(tk) || tk == '\n'))
+		|| (is_connector(tk_last) && (is_connector(tk) || tk == ')'))
+		|| (is_redir(tk_last)
+			&& (is_redir(tk) || is_connector(tk) || tk == '\n'))
 		|| (tk_last == '(' && tk == ')')
 		|| (tk_last == ')' && tk == WORD))
 		return (syntax_error(ERTOK, tk, p->word.lval));
