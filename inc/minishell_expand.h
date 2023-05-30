@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:56:24 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/28 20:30:31 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/30 23:18:24 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void	free_word_lst(t_word_lst *word_lst);
 void	free_word(t_word_d *word);
 int		is_dir_pattern(char *pattern);
 char	*ft_strpbrk(char *str1, char *str2);
+
+typedef struct s_expand
+{
+	char		*res;
+	int			mode;
+	t_word_d	*word;
+}t_expand;
 
 int		expand_special(t_word_d *word);
 

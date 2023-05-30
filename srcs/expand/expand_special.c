@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 10:46:58 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/05/27 10:47:21 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/30 22:35:26 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,22 @@
 
 int	expand_special(t_word_d *word)
 {
-	if (!ft_strcmp(word->lval, "$"))
+	char	*str;
+
+	str = word->lval;
+	while (str && *str && (*str == '\'' || *str == '"'))
+		str++;
+	if (!ft_strcmp(str, "$"))
 		return (1);
-	if (word->lval[0] != '$')
+	if (str[0] == '$' && (str[1] == '\'' || str[1] == '"'))
 		return (0);
-	if (word->lval[1] == '?')
+	if (str[0] != '$')
 		return (0);
-	if (!(ft_isalnum(word->lval[1]) || word->lval[1] == '_'))
+	if (str[1] == '?')
+		return (0);
+	if (word->flags & W_QUOTES && (str[1] == '\'' || str[1] == '"'))
+		return (1);
+	if (!(ft_isalnum(str[1]) || str[1] == '_'))
 		return (1);
 	return (0);
 }
