@@ -16,6 +16,8 @@
 
 int	sfprint(char *s, bool newline)
 {
+	if (!s || !(*s))
+		return (0);
 	if (write(STDOUT_FILENO, s, ft_strlen(s)) == -1)
 		return (-1);
 	if (newline)

@@ -41,7 +41,7 @@ int	b_echo(void *data, int argc, char **argv)
 		info.param_end = 1;
 		if (sfprint(argv[info.word], false) == -1)
 			return (print_error(strerror(errno), "echo", "write error"), 1);
-		if (info.word++ < argc - 1)
+		if (info.word++ < argc - 1 && *argv[info.word - 1])
 			if (sfprint(" ", false) == -1)
 				return (print_error(strerror(errno), "echo", "write error"), 1);
 	}
