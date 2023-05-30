@@ -36,7 +36,6 @@
 # define ERNUMARG			"numeric argument required"
 
 # define CMDNOTF			"command not found"
-# define CMDPERMD			"permission denied"
 
 # define REDAMB				"ambiguous redirect"
 
@@ -49,7 +48,6 @@
 # define ERWAITPID			"waitpid failed"
 # define EREXECVE			"execve failed"
 # define ERWAIT				"wait failed"
-# define ERREAD				"read failed"
 
 # define QUITMSG			"Quit (core dumped)"
 

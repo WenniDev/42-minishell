@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 typedef struct s_exec
 {
@@ -43,5 +44,6 @@ typedef struct s_builtin
 void	create_child(t_exec *e);
 void	copy_word_list(t_command_lst *cl);
 void	wait_childs(t_exec *e);
+int		is_reg_file(char *file);
 
 #endif

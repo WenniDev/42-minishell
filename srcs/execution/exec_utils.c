@@ -84,3 +84,20 @@ void	do_ft(int ft, int *ft_data1, int ft_data2)
 			msh_error(ERPIPE);
 	}
 }
+
+int	is_reg_file(char *file)
+{
+	struct stat	infos;
+
+	if (stat(file, &infos) == -1)
+		return (0);
+	if (!S_ISREG(infos.st_mode))
+	{
+		if (S_ISDIR(infos.st_mode))
+			errno = EISDIR;
+		else
+			errno = EACCES;
+		return (0);
+	}
+	return (1);
+}

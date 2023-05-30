@@ -55,12 +55,12 @@ char	*no_path(t_data *msh, char *cmd_name)
 	bin = ft_strdup(cmd_name);
 	if (!bin)
 		malloc_error();
-	if (access(bin, X_OK) == EXS_ERROR)
+	if (!is_reg_file(bin) || access(bin, X_OK) == EXS_ERROR)
 	{
 		print_error(strerror(errno), cmd_name, NULL);
 		if (errno == ENOENT)
 			exit_prg(msh, 127);
-		if (errno == EACCES)
+		if (errno == EACCES || errno == EISDIR)
 			exit_prg(msh, 126);
 	}
 	return (bin);
@@ -86,8 +86,10 @@ char	*get_path(t_data *msh, char *cmd_name)
 	if (!bin)
 		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
 	if (pth && access(bin, X_OK) == EXS_ERROR)
-		(print_error(strerror(errno), cmd_name, NULL), exit_prg(msh, 127));
-	if (access(bin, X_OK) == EXS_ERROR)
-		(free (bin), print_error(CMDPERMD, cmd_name, NULL), exit_prg(msh, 126));
+		(free(bin), print_error(strerror(errno), cmd_name, NULL),
+			exit_prg(msh, 127));
+	if (!is_reg_file(bin) || access(bin, X_OK) == EXS_ERROR)
+		(free (bin), print_error(strerror(errno), cmd_name, NULL),
+			exit_prg(msh, 126));
 	return (bin);
 }

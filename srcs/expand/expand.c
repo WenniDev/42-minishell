@@ -38,7 +38,7 @@ void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status, int ls)
 {
 	if (word->flags & W_DOLLAR)
 		expand_env(word, status, ls);
-	if (!(*status) && word->flags & W_CHECKISF)
+	if (!(*status) && word->flags & W_CHECKISF && !(word->flags & W_NOEXPAND))
 		word_splitting(word, word_lst, status);
 	if (!(*status) && !(word->flags & W_NOEXPAND))
 		expand_wildcard(word, word_lst, status);
