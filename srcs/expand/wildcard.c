@@ -6,7 +6,7 @@
 /*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 17:28:31 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/21 16:31:10 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/30 22:33:42 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status)
 	ent = (void *)1;
 	tmp_lst = NULL;
 	look_for_dir = is_dir_pattern(word->lval);
+	skip_quotes(word->lval);
+	word->flags &= ~W_QUOTES;
 	while (ent)
 	{
 		ent = readdir(dir);
@@ -103,6 +105,5 @@ void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status)
 			return (*status = 1, closedir(dir), free_word_lst(tmp_lst));
 	}
 	insert_list(word, word_lst, &tmp_lst);
-	closedir(dir);
-	*status = 0;
+	return (*status = 0, (void)closedir(dir));
 }
