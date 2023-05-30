@@ -18,12 +18,13 @@ t_data	*g_msh;
 void	redisplay(int signum)
 {
 	if (signum == SIGINT)
+	{
+		rl_replace_line("", 0);
 		printf("\n");
+	}
 	if (signum == SIGQUIT)
 		printf("\r\e[K");
 	rl_on_new_line();
-	if (signum == SIGINT)
-		rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -39,16 +40,10 @@ void	handle_sigint(int signum)
 	if (g_msh->parser.state & PST_HEREDOC)
 	{
 		printf("\n");
+		rl_on_new_line();
 		close(STDIN_FILENO);
 	}
-	if (g_msh->exec.child_nb)
-	{
-		if (g_msh->exec.child == false)
-			signal(SIGTERM, SIG_IGN);
-		printf("\n");
-		kill(0, SIGTERM);
-	}
-	else if (!(g_msh->parser.state & PST_HEREDOC))
+	if (!g_msh->exec.child_nb)
 		redisplay(signum);
 	g_msh->status = 130;
 	g_msh->parser.state &= ~PST_HEREDOC;
@@ -56,17 +51,9 @@ void	handle_sigint(int signum)
 
 void	handle_sigquit(int signum)
 {
-	if (g_msh->exec.child_nb)
-	{
-		if (g_msh->exec.child == false)
-			signal(SIGTERM, SIG_IGN);
-		printf("%s", QUITMSG);
-		printf("\n");
-		kill(0, SIGTERM);
-	}
-	else
+	(void)signum;
+	if (!g_msh->exec.child_nb)
 		redisplay(signum);
-	g_msh->status = 131;
 }
 
 void	signal_handler(t_data *msh)
