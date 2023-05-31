@@ -106,7 +106,7 @@ int	b_export(void *data, int argc, char **argv)
 		{
 			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
 				return (free(name),
-						print_error(EXPFAIL, "export", argv[i] - j), 1);
+					print_error(EXPFAIL, "export", argv[i] - j), 1);
 			name[j++] = *argv[i]++;
 		}
 		export_var(name, ++argv[i], &((t_data *)data)->exec);
