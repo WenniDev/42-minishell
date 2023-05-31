@@ -13,6 +13,14 @@
 #include "minishell_builtins.h"
 #include "minishell.h"
 
+int	chdir_custom_error(char *dir)
+{
+	if (errno == ESTALE)
+		errno = ENOENT;
+	print_error(strerror(errno), "cd", dir);
+	return (1);
+}
+
 int	b_cd(void *data, t_word_lst *wl, int wnb)
 {
 	char	*dir;
@@ -26,7 +34,7 @@ int	b_cd(void *data, t_word_lst *wl, int wnb)
 	if (wnb == 1 && chdir(getenv("HOME")) == -1)
 		return (print_error(ERHOME, "cd", NULL), 1);
 	if (wnb > 1 && chdir(wl->next->word->lval) != 0)
-		return (print_error(strerror(ENOENT), "cd", wl->next->word->lval), 1);
+		return (chdir_custom_error(wl->next->word->lval));
 	dir = getcwd((char *) NULL, 0);
 	if (!dir)
 		malloc_error();

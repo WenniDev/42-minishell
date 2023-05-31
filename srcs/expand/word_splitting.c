@@ -13,79 +13,99 @@
 #include "libft.h"
 #include "minishell_command.h"
 #include "minishell_expand.h"
+#include "minishell_error.h"
 
-static void	clean_elems(t_word_lst *words)
+int			get_wnb(char *s, char *sep);
+int			get_wlen(char *s, char *sep);
+t_word_lst 	*new_elem(char *s);
+
+void	word_splitting(t_word_d *w, t_word_lst **wl, int *status)
 {
-	void	*tmp;
-
-	while (words)
-	{
-		tmp = words->next;
-		ft_free((void **) &words->word->lval);
-		ft_free((void **) &words->word);
-		ft_free((void **) &words);
-		words = (t_word_lst *) tmp;
-	}
-}
-
-static int	add_word(t_word_lst **word_lst, char *lval)
-{
-	t_word_lst	*new_file;
-
-	new_file = ft_calloc(1, sizeof(t_word_lst));
-	if (!new_file)
-		return (0);
-	new_file->word = ft_calloc(1, sizeof(t_word_d));
-	if (!new_file->word)
-		return (0);
-	new_file->word->lval = lval;
-	if (!new_file->word->lval)
-		return (0);
-	new_file->word->flags = 0;
-	new_file->next = NULL;
-	add_in_list(word_lst, new_file);
-	return (1);
-}
-
-char	*ft_strpbrk(char *str1, char *str2)
-{
-	char	*p_str1;
-	char	*p_str2;
-
-	p_str1 = str1;
-	while (p_str1 && *p_str1 != '\0')
-	{
-		p_str2 = str2;
-		while (*p_str2 != '\0')
-		{
-			if (*p_str1 == *p_str2)
-				return (p_str1);
-			p_str2++;
-		}
-		p_str1++;
-	}
-	return (NULL);
-}
-
-void	word_splitting(t_word_d *word, t_word_lst **word_lst, int *status)
-{
-	t_word_lst	*tmp_lst;
+	int			wnb;
 	int			i;
-	char		**splitted;
+	t_word_lst	*elem;
+	t_word_lst	*tmp;
 
+	(void)status;
+	i = 0;
+	tmp = NULL;
 	if (!getenv("IFS"))
 		return ;
-	if (!ft_strpbrk(word->lval, getenv("IFS")))
-		return ;
-	tmp_lst = NULL;
-	splitted = ft_split(word->lval, getenv("IFS"));
-	if (!splitted)
-		return (*status = 1, (void) NULL);
+	wnb = get_wnb(w->lval, getenv("IFS"));
+	while (i < wnb)
+	{
+		elem = new_elem(w->lval);
+		add_in_list(&tmp, elem);
+		i++;
+	}
+	insert_list(w, wl, &tmp);
+}
+
+t_word_lst 	*new_elem(char *s)
+{
+	t_word_lst	*elem;
+	t_word_d	*new_w;
+	static int	i;
+	int			wlen;
+
+	while (ft_strchr(getenv("IFS"), s[i]))
+		i++;
+	elem = (t_word_lst *)sfcalloc(1, sizeof (t_word_lst));
+	new_w = (t_word_d *)sfcalloc(1, sizeof (t_word_d));
+	elem->word = new_w;
+	wlen = get_wlen(s + i, getenv("IFS"));
+	new_w->lval = ft_substr(s + i, 0, wlen);
+	if (!new_w->lval)
+		malloc_error();
+	i += wlen;
+	if (!s[i])
+		i = 0;
+	return (elem);
+}
+
+int	get_wlen(char *s, char *sep)
+{
+	int	len;
+
+	len = 0;
+	while (s[len] && (!ft_strchr(sep, s[len]) || s[len] == '"'))
+	{
+		if (s[len] == '"')
+		{
+			len++;
+			while (s[len] != '"')
+				len++;
+		}
+		len++;
+	}
+	return (len);
+}
+
+int	get_wnb(char *s, char *sep)
+{
+	int	i;
+	int	wnb;
+
+	wnb = 0;
 	i = 0;
-	while (splitted[i])
-		if (!add_word(&tmp_lst, splitted[i++]))
-			return (*status = 1, free_word_lst(tmp_lst), clean_elems(tmp_lst));
-	insert_list(word, word_lst, &tmp_lst);
-	ft_free((void **) &splitted);
-	*status = 0;
+	while (s[i])
+	{
+		if (!ft_strchr(sep, s[i]))
+		{
+			wnb++;
+			while (s[i] && (!ft_strchr(sep, s[i]) || s[i] == '"'))
+			{
+				if (s[i] == '"')
+				{
+					i++;
+					while (s[i] != '"')
+						i++;
+				}
+				i++;
+			}
+		}
+		else
+			i++;
+	}
+	return (wnb);
 }

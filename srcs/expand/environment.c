@@ -85,7 +85,7 @@ static char	*get_env(char *str, int *index, t_expand *exp, int ls)
 		var = sfcalloc(i + 1, sizeof(char));
 		ft_memcpy(var, str + 1, i - 1);
 		res = ft_strdup(getenv(var));
-		if (getenv("IFS") && ft_strpbrk(getenv(var), getenv("IFS")))
+		if (getenv("IFS"))
 			exp->word->flags |= W_CHECKISF;
 		free(var);
 	}

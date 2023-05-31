@@ -15,6 +15,8 @@
 
 # include "minishell_execute.h"
 # include "minishell_error.h"
+# include "sys/types.h"
+# include "sys/stat.h"
 # include <errno.h>
 # include <string.h>
 

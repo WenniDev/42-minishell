@@ -28,8 +28,17 @@ void	create_child(t_exec *e)
 
 void	wait_childs(t_exec *e)
 {
+	int	sig;
+
+	sig = 0;
 	if (waitpid(e->pid_last, &e->status, 0) == -1)
 		msh_error(ERWAITPID);
+	if (WIFSIGNALED(e->status))
+		sig = WTERMSIG(e->status);
+	if (sig == SIGINT)
+		printf("\n");
+	if (sig == SIGQUIT)
+		printf("%s\n", QUITMSG);
 	e->status = WEXITSTATUS(e->status);
 	while (--e->child_nb)
 		if (wait(0) == -1)

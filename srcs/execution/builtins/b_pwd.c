@@ -21,9 +21,7 @@ int	b_pwd(void *data, t_word_lst *wl, int wnb)
 	(void)wl;
 	(void)wnb;
 	msh = (t_data *)data;
-	dir = getenv("PWD");
-	if (!dir)
-		dir = msh->xpwd;
+	dir = msh->xpwd;
 	if (sfprint(dir, 1) == -1)
 		return (print_error(strerror(errno), "pwd", "write error"), 1);
 	return (EXIT_SUCCESS);

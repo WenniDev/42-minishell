@@ -18,9 +18,14 @@ t_data	*g_msh;
 void	redisplay(int signum)
 {
 	if (signum == SIGINT)
+	{
 		printf("\n");
-	set_prompt(g_msh);
-	printf("\r\e[K%s", getenv("PS1"));
+		rl_replace_line("", 0);
+	}
+	if (signum == SIGQUIT)
+		printf("\r\e[K");
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	handle_sigabrt(int signum)

@@ -76,7 +76,7 @@ char	*get_dir(void)
 		return (NULL);
 	len = ft_strlen(dir);
 	ptr = dir + len;
-	while (*ptr != '/')
+	while (*ptr != '/' && (ptr >= dir))
 		ptr--;
 	len = (dir + len) - ptr;
 	dir = ft_substr(dir, ptr - dir, len);
