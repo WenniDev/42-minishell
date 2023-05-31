@@ -134,7 +134,7 @@ int	b_export(void *data, t_word_lst *wl, int wnb)
 				|| (!ft_isalnum(w->word->lval[i]) && w->word->lval[i] != '_'))
 				return (print_error(EXPFAIL, "export", w->word->lval), 1);
 		}
-		val = ft_substr(w->word->lval, i, ft_strlen(w->word->lval + i));
+		val = ft_substr(w->word->lval, i + 1, ft_strlen(w->word->lval + i));
 		if (!val)
 			malloc_error();
 		name = ft_substr(w->word->lval, 0, i);
