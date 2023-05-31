@@ -29,7 +29,7 @@ int		b_env(void *data, t_word_lst *wl, int wnb);
 int		b_pwd(void *data, t_word_lst *wl, int wnb);
 int		b_cd(void *data, t_word_lst *wl, int wnb);
 int		b_unset(void *data, t_word_lst *wl, int wnb);
-int		b_echo(void *data, int argc, char **argv);
+int		b_echo(void *data, t_word_lst *wl, int wnb);
 int		b_export(void *data, t_word_lst *wl, int wnb);
 int		b_exit(void *data, t_word_lst *wl, int wnb);
 
