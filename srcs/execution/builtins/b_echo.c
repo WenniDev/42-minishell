@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:35:46 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/27 10:42:22 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/31 13:22:29 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_parameter(char *str, char param)
 {
+	if (!str || !*str)
+		return (0);
 	if (*str++ != '-')
 		return (0);
 	while (*str == param)
@@ -23,30 +25,31 @@ int	is_parameter(char *str, char param)
 	return (1);
 }
 
-int	b_echo(void *data, int argc, char **argv)
+int	b_echo(void *data, t_word_lst *wl, int wnb)
 {
 	t_echo		info;
 
-	(void)data;
 	ft_memset(&info, 0, sizeof(t_echo));
 	info.word++;
-	while (info.word < argc)
+	wl = wl->next;
+	while (wl)
 	{
-		if (is_parameter(argv[info.word], 'n') && !info.param_end)
+		if (is_parameter(wl->word->lval, 'n') && !info.param_end)
 		{
 			info.word++;
+			wl = wl->next;
 			info.no_new_line = 1;
 			continue ;
 		}
 		info.param_end = 1;
-		if (sfprint(argv[info.word], false) == -1)
+		if (sfprint(wl->word->lval, false) == -1)
 			return (print_error(strerror(errno), "echo", "write error"), 1);
-		if (info.word++ < argc - 1 && *argv[info.word - 1])
+		if (info.word++ < wnb - 1 && wl->word->lval)
 			if (sfprint(" ", false) == -1)
 				return (print_error(strerror(errno), "echo", "write error"), 1);
+		wl = wl->next;
 	}
-	if (!info.no_new_line)
-		if (sfprint("\n", false) == -1)
-			return (print_error(strerror(errno), "echo", "write error"), 1);
-	return (0);
+	if (!info.no_new_line && sfprint("\n", false) == -1)
+		return (print_error(strerror(errno), "echo", "write error"), 1);
+	return ((void)data, 0);
 }

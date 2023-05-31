@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jopadova <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:45:15 by jopadova          #+#    #+#             */
-/*   Updated: 2023/05/30 23:18:11 by jopadova         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:30:59 by jopadova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void	expand_env(t_word_d *word, int *status, int ls)
 	t_expand	exp;
 
 	i = 0;
-	exp.res = NULL;
-	exp.mode = 0;
+	ft_memset(&exp, 0, sizeof(t_expand));
 	exp.word = word;
 	if (expand_special(word))
 		return ;
@@ -118,6 +117,7 @@ void	expand_env(t_word_d *word, int *status, int ls)
 			exp.res = add_res(exp.res, tmp);
 	}
 	free(word->lval);
+	if (!(*exp.res))
+		return (free(exp.res), (void)(word->lval = NULL));
 	word->lval = exp.res;
-	*status = 0;
 }
