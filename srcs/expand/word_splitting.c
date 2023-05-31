@@ -17,7 +17,7 @@
 
 int			get_wnb(char *s, char *sep);
 int			get_wlen(char *s, char *sep);
-t_word_lst 	*new_elem(char *s);
+t_word_lst	*new_elem(char *s);
 
 void	word_splitting(t_word_d *w, t_word_lst **wl, int *status)
 {
@@ -41,7 +41,7 @@ void	word_splitting(t_word_d *w, t_word_lst **wl, int *status)
 	insert_list(w, wl, &tmp);
 }
 
-t_word_lst 	*new_elem(char *s)
+t_word_lst	*new_elem(char *s)
 {
 	t_word_lst	*elem;
 	t_word_d	*new_w;
