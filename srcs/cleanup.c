@@ -78,6 +78,7 @@ void	clean_all(t_data *msh)
 	reset_parser(&msh->parser);
 	close_all(&msh->exec);
 	ft_free((void **)&msh->exec.pipefd);
+	ft_free((void **)&msh->xpwd);
 	clean_argv(msh->exec.env);
 	ft_free((void **)&msh);
 }

@@ -13,27 +13,26 @@
 #include "minishell_builtins.h"
 #include "minishell.h"
 
-int	b_cd(void *data, int argc, char **argv)
+int	b_cd(void *data, t_word_lst *wl, int wnb)
 {
 	char	*dir;
 	t_exec	*e;
 
-	if (argc > 2)
+	if (wnb > 2)
 		return (print_error(ERARGC, "cd", NULL), 1);
 	e = &((t_data *)data)->exec;
-	dir = getcwd((char *) NULL, 0);
-	if (!dir)
-		malloc_error();
+	dir = getenv("PWD");
 	export_var("OLDPWD", dir, e);
-	free(dir);
-	if (argc == 1 && chdir(getenv("HOME")) == -1)
+	if (wnb == 1 && chdir(getenv("HOME")) == -1)
 		return (print_error(ERHOME, "cd", NULL), 1);
-	if (argc > 1 && chdir(argv[1]) != 0)
-		return (print_error(strerror(errno), "cd", argv[1]), 1);
+	if (wnb > 1 && chdir(wl->next->word->lval) != 0)
+		return (print_error(strerror(ENOENT), "cd", wl->next->word->lval), 1);
 	dir = getcwd((char *) NULL, 0);
 	if (!dir)
 		malloc_error();
 	export_var("PWD", dir, e);
+	ft_free((void **)&((t_data *)data)->xpwd);
+	((t_data *)data)->xpwd = ft_strdup(getenv("PWD"));
 	free(dir);
 	return (0);
 }

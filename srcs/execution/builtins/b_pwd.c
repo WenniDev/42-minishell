@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include "minishell.h"
 
-int	b_pwd(void *data, int argc, char **argv)
+int	b_pwd(void *data, t_word_lst *wl, int wnb)
 {
 	char	*dir;
+	t_data	*msh;
 
-	(void)data;
-	(void)argc;
-	(void)argv;
-	dir = getcwd((char *) NULL, 0);
-	if (dir == NULL)
-		malloc_error();
+	(void)wl;
+	(void)wnb;
+	msh = (t_data *)data;
+	dir = getenv("PWD");
+	if (!dir)
+		dir = msh->xpwd;
 	if (sfprint(dir, 1) == -1)
 		return (print_error(strerror(errno), "pwd", "write error"), 1);
-	free(dir);
 	return (EXIT_SUCCESS);
 }

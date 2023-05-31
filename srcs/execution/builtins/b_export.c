@@ -88,30 +88,60 @@ void	export_var(char *name, char *value, t_exec *e)
 	__environ = e->env;
 }
 
-int	b_export(void *data, int argc, char **argv)
+/*int	b_export(void *data, t_word_lst *wl, int wnb)
 {
+	t_word_lst	*tmp;
 	int		i;
-	int		j;
 	char	*name;
 
-	i = 1;
-	while (i < argc && argv[i])
+	i = 0;
+	tmp = wl->next;
+	while (tmp)
 	{
-		name = sfcalloc(ft_strlen(argv[i]), sizeof(char));
-		j = 0;
-		if (ft_isdigit(argv[i][0])
-			|| (!ft_isalnum(*argv[i]) && *argv[i] != '_'))
-			return (free(name), print_error(EXPFAIL, "export", argv[i - j]), 1);
-		while (*argv[i] != '=')
+		if (ft_isdigit(tmp->word->lval[0]))
+			return (free(name),
+				print_error(EXPFAIL, "export", tmp->word->lval), 1);
+		while (tmp->word->lval[i] != '=')
 		{
-			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
+			if (!ft_isalnum(tmp->word->lval[i]) && tmp->word->lval[i] != '_')
 				return (free(name),
-					print_error(EXPFAIL, "export", argv[i] - j), 1);
-			name[j++] = *argv[i]++;
+					print_error(EXPFAIL, "export", tmp->word->lval), 1);
+			i++;
 		}
+		name = ft_substr(tmp->word->lval, i, ft_strlen(tmp->word->lval + i));
+		if (!name)
+			malloc_error();
 		export_var(name, ++argv[i], &((t_data *)data)->exec);
 		free(name);
-		i++;
 	}
 	return (EXIT_SUCCESS);
+}*/
+
+int	b_export(void *data, t_word_lst *wl, int wnb)
+{
+	t_word_lst	*w;
+	char		*name;
+	char		*val;
+	int			i;
+
+	w = wl->next;
+	while (w && wnb)
+	{
+		i = -1;
+		while (w->word->lval[++i] != '=')
+		{
+			if (ft_isdigit(w->word->lval[0])
+				|| (!ft_isalnum(w->word->lval[i]) && w->word->lval[i] != '_'))
+				return (print_error(EXPFAIL, "export", w->word->lval), 1);
+		}
+		val = ft_substr(w->word->lval, i, ft_strlen(w->word->lval + i));
+		if (!val)
+			malloc_error();
+		name = ft_substr(w->word->lval, 0, i);
+		if (!name)
+			(free(val), malloc_error());
+		(export_var(name, val, &((t_data *)data)->exec), free(name), free(val));
+		w = w->next;
+	}
+	return (0);
 }

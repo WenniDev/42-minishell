@@ -30,7 +30,7 @@ int	execute_builtin(t_data *msh, t_command cmd)
 	i = 0;
 	while (ft_strcmp(cmd.argv[0], g_builtin[i].cmd))
 		i++;
-	status = g_builtin[i].ft(msh, cmd.argc, cmd.argv);
+	status = g_builtin[i].ft(msh, cmd.elem.words, cmd.argc);
 	return (status);
 }
 

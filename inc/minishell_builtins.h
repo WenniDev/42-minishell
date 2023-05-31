@@ -25,13 +25,13 @@ typedef struct s_echo
 	int	param_end;
 }	t_echo;
 
-int		b_env(void *data, int argc, char **argv);
-int		b_pwd(void *data, int argc, char **argv);
-int		b_cd(void *data, int argc, char **argv);
-int		b_unset(void *data, int argc, char **argv);
+int		b_env(void *data, t_word_lst *wl, int wnb);
+int		b_pwd(void *data, t_word_lst *wl, int wnb);
+int		b_cd(void *data, t_word_lst *wl, int wnb);
+int		b_unset(void *data, t_word_lst *wl, int wnb);
 int		b_echo(void *data, int argc, char **argv);
-int		b_export(void *data, int argc, char **argv);
-int		b_exit(void *data, int argc, char **argv);
+int		b_export(void *data, t_word_lst *wl, int wnb);
+int		b_exit(void *data, t_word_lst *wl, int wnb);
 
 void	export_var(char *name, char *value, t_exec *e);
 void	unset_var(t_exec *e, char *var);

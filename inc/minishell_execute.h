@@ -38,7 +38,7 @@ typedef struct s_exec
 typedef struct s_builtin
 {
 	char	*cmd;
-	int		(*ft)(void *data, int argc, char **argv);
+	int		(*ft)(void *data, t_word_lst *wl, int wnb);
 }t_builtin;
 
 void	create_child(t_exec *e);

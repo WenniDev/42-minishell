@@ -72,6 +72,8 @@ char	*get_dir(void)
 	size_t	len;
 
 	dir = getenv("PWD");
+	if (!dir)
+		return (NULL);
 	len = ft_strlen(dir);
 	ptr = dir + len;
 	while (*ptr != '/')

@@ -20,7 +20,7 @@
 int			only_digits(char *s);
 long long	ft_atoll(char *s);
 
-int	b_exit(void *data, int argc, char **argv)
+int	b_exit(void *data, t_word_lst *wl, int wnb)
 {
 	t_data		*msh;
 	long long	exstat;
@@ -28,17 +28,17 @@ int	b_exit(void *data, int argc, char **argv)
 	msh = (t_data *)data;
 	if (msh->exec.child == false)
 		printf("exit\n");
-	if (argc == 1)
+	if (wnb == 1)
 		return (exit_prg(msh, msh->status));
-	if (argc > 2)
+	if (wnb > 2)
 	{
 		print_error(ERARGC, "exit", NULL);
 		return (1);
 	}
-	exstat = ft_atoll(argv[1]);
-	if (argv[1] && (!only_digits(argv[1]) || exstat == -1))
+	exstat = ft_atoll(wl->next->word->lval);
+	if (wl->next && (!only_digits(wl->next->word->lval) || exstat == -1))
 	{
-		print_error(ERNUMARG, "exit", argv[1]);
+		print_error(ERNUMARG, "exit", wl->next->word->lval);
 		exit_prg(msh, 2);
 	}
 	return (exit_prg(msh, (unsigned char)exstat));

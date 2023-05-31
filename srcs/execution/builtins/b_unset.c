@@ -55,15 +55,17 @@ void	unset_var(t_exec *e, char *var)
 	__environ = tmp_env;
 }
 
-int	b_unset(void *data, int argc, char **argv)
+int	b_unset(void *data, t_word_lst *wl, int wnb)
 {
-	int	i;
+	t_word_lst	*w;
 
-	i = 1;
-	while (i < argc && argv[i])
+	(void)wnb;
+	w = wl->next;
+	while (w)
 	{
-		unset_var(&((t_data *)data)->exec, argv[i]);
-		i++;
+		if (w->word->lval)
+			unset_var(&((t_data *)data)->exec, w->word->lval);
+		w = w->next;
 	}
 	return (0);
 }

@@ -13,6 +13,7 @@
 #include "minishell_env.h"
 #include "minishell_execute.h"
 #include "minishell_builtins.h"
+#include "minishell.h"
 
 void	new_environ(t_exec *e)
 {
@@ -47,7 +48,7 @@ void	copy_environ(t_exec *e)
 	}
 }
 
-void	init_env(t_exec *e)
+void	init_env(t_data *msh, t_exec *e)
 {
 	if (!__environ || !*__environ)
 		new_environ(e);
@@ -55,4 +56,5 @@ void	init_env(t_exec *e)
 		copy_environ(e);
 	__environ = e->env;
 	export_var("IFS", "\n\t ", e);
+	msh->xpwd = ft_strdup(getenv("PWD"));
 }

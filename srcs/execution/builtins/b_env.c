@@ -13,13 +13,13 @@
 #include "minishell_builtins.h"
 #include "minishell.h"
 
-int	b_env(void *data, int argc, char **argv)
+int	b_env(void *data, t_word_lst *wl, int wnb)
 {
 	int		i;
 	t_exec	*e;
 
-	(void)argc;
-	(void)argv;
+	(void)wnb;
+	(void)wl;
 	e = &((t_data *)data)->exec;
 	i = 0;
 	while (e->env && e->env[i])

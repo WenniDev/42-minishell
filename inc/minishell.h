@@ -31,6 +31,7 @@ typedef struct s_data
 	int			parser_status;
 	t_exec		exec;
 	int			status;
+	char		*xpwd;
 }t_data;
 
 void	signal_handler(t_data *msh);

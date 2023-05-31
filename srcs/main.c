@@ -14,7 +14,7 @@
 #include "minishell.h"
 
 int		exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl);
-void	init_env(t_exec *e);
+void	init_env(t_data *msh, t_exec *e);
 
 int	main(int argc, char **argv)
 {
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	if (argc != 1 || !argv)
 		return (EXIT_FAILURE);
 	msh = (t_data *)sfcalloc(1, sizeof (t_data));
-	init_env(&msh->exec);
+	init_env(msh, &msh->exec);
 	signal_handler(msh);
 	while (!msh->parser.eof)
 	{
