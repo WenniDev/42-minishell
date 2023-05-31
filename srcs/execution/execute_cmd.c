@@ -73,7 +73,7 @@ int	check_exec(t_exec *e, int f)
 void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	if (!cl->cmd.elem.words)
-		return ;
+		return ((void)(e->status = 0));
 	if (!(cl->cmd.flags & CMD_SUBSHELL))
 	{
 		expand(e->status, &cl->cmd.elem.words);

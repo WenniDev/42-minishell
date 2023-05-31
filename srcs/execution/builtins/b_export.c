@@ -99,11 +99,14 @@ int	b_export(void *data, int argc, char **argv)
 	{
 		name = sfcalloc(ft_strlen(argv[i]), sizeof(char));
 		j = 0;
+		if (ft_isdigit(argv[i][0])
+			|| (!ft_isalnum(*argv[i]) && *argv[i] != '_'))
+			return (free(name), print_error(EXPFAIL, "export", argv[i - j]), 1);
 		while (*argv[i] != '=')
 		{
-			if (ft_isdigit(argv[i][0]) || (!ft_isalnum(*argv[i])
-				&& *argv[i] != '_'))
-				return (free(name), print_error(EXPFAIL, "export", argv[i]), 1);
+			if (!ft_isalnum(*argv[i]) && *argv[i] != '_')
+				return (free(name),
+						print_error(EXPFAIL, "export", argv[i] - j), 1);
 			name[j++] = *argv[i]++;
 		}
 		export_var(name, ++argv[i], &((t_data *)data)->exec);

@@ -6,7 +6,7 @@
 /*   By: rsabbah <rsabbah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 11:00:16 by rsabbah           #+#    #+#             */
-/*   Updated: 2023/05/27 11:00:17 by rsabbah          ###   ########.fr       */
+/*   Updated: 2023/05/31 11:52:32 by rsabbah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	malloc_error(void)
 
 int	quote_error(char quote)
 {
-	ft_putstr_fd("msh error: ", 2);
 	ft_putstr_fd(EUNEOL, 2);
 	ft_putchar_fd(quote, 2);
 	ft_putchar_fd('\'', 2);
