@@ -25,7 +25,7 @@ int	do_redir(int status, t_exec *e, t_command cmd)
 	while (cmd.reds)
 	{
 		if (mod_redir(status, e, cmd.reds))
-			return (-1);
+			return (e->status = 1);
 		cmd.reds = cmd.reds->next;
 	}
 	if (e->infd)

@@ -31,18 +31,25 @@ void	wait_childs(t_exec *e)
 	int	sig;
 
 	sig = 0;
-	if (waitpid(e->pid_last, &e->status, 0) == -1)
-		msh_error(ERWAITPID);
+	if (e->pid_last)
+	{
+		if (waitpid(e->pid_last, &e->status, 0) == -1)
+			msh_error(ERWAITPID);
+		--e->child_nb;
+	}
 	if (WIFSIGNALED(e->status))
 		sig = WTERMSIG(e->status);
-	if (sig == SIGINT)
-		printf("\n");
-	if (sig == SIGQUIT)
-		printf("%s\n", QUITMSG);
 	e->status = WEXITSTATUS(e->status);
-	while (--e->child_nb)
+	if (sig == SIGINT)
+		(e->status = 130, printf("\n"));
+	if (sig == SIGQUIT)
+		(e->status = 131, printf("%s\n", QUITMSG));
+	while (e->child_nb)
+	{
 		if (wait(0) == -1)
 			msh_error(ERWAIT);
+		--e->child_nb;
+	}
 }
 
 void	copy_word_list(t_command_lst *cl)

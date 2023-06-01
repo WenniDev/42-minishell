@@ -49,16 +49,17 @@ int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 
 int	check_exec(t_exec *e, int f)
 {
-	int	status;
-
 	if (e->child_nb && f & (CMD_EXECTRUE | CMD_EXECFALSE))
 	{
-		if (waitpid(e->pid_last, &status, 0) == -1)
+		if (waitpid(e->pid_last, &e->status, 0) == -1)
 			msh_error(ERWAITPID);
+		e->pid_last = 0;
 		e->child_nb--;
-		e->status = WEXITSTATUS(status);
-		if ((f & CMD_EXECFALSE && !WEXITSTATUS(status))
-			|| (f & CMD_EXECTRUE && WEXITSTATUS(status)))
+		if (WIFSIGNALED(e->status))
+			return (EXS_NOEXEC);
+		e->status = WEXITSTATUS(e->status);
+		if ((f & CMD_EXECFALSE && !e->status)
+			|| (f & CMD_EXECTRUE && e->status))
 			return (EXS_NOEXEC);
 	}
 	else if ((f & (CMD_EXECTRUE | CMD_EXECFALSE)))
@@ -101,8 +102,6 @@ void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 int	exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 {
 	set_fds(e, 0);
-	e->status = msh->status;
-	msh->status = 0;
 	while (cl)
 	{
 		if (check_exec(e, cl->cmd.flags) || do_redir(e->status, e, cl->cmd))
@@ -117,7 +116,5 @@ int	exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 	set_fds(e, 1);
 	if (e->child_nb)
 		wait_childs(e);
-	if (msh->status)
-		e->status = msh->status;
 	return (e->status);
 }

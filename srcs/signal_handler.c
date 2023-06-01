@@ -37,7 +37,7 @@ void	handle_sigabrt(int signum)
 
 void	handle_sigint(int signum)
 {
-	g_msh->status = 130;
+	g_msh->exec.status = 130;
 	if (g_msh->parser.state & PST_HEREDOC)
 	{
 		printf("\n");
@@ -55,10 +55,7 @@ void	handle_sigquit(int signum)
 	if (!g_msh->exec.child_nb)
 		redisplay(signum);
 	else
-	{
-		g_msh->status = 131;
 		printf("\b\b");
-	}
 }
 
 void	signal_handler(t_data *msh)
