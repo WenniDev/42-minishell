@@ -105,7 +105,7 @@ int	is_reg_file(char *file)
 	struct stat	infos;
 
 	if (stat(file, &infos) == -1)
-		return (0);
+		return (1);
 	if (!S_ISREG(infos.st_mode))
 	{
 		if (S_ISDIR(infos.st_mode))

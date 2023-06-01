@@ -66,11 +66,28 @@ char	*no_path(t_data *msh, char *cmd_name)
 	return (bin);
 }
 
+int	error_handling(int pth, char *bin, char *cmd_name)
+{
+	if (!bin)
+		return (print_error(CMDNOTF, cmd_name, NULL), 127);
+	if (pth)
+	{
+		if (access(bin, F_OK) == -1)
+			return (print_error(strerror(errno), cmd_name, NULL), 127);
+		else if (access(bin, X_OK) == -1)
+			return (print_error(strerror(errno), cmd_name, NULL), 126);
+	}
+	if (!is_reg_file(bin) || access(bin, X_OK) == -1)
+		return (print_error(strerror(errno), cmd_name, NULL), 126);
+	return (0);
+}
+
 char	*get_path(t_data *msh, char *cmd_name)
 {
 	char	**paths;
 	char	*bin;
 	bool	pth;
+	int		error;
 
 	pth = (*cmd_name == '.' || *cmd_name == '/' || *cmd_name == '~');
 	if (!getenv("PATH"))
@@ -78,18 +95,21 @@ char	*get_path(t_data *msh, char *cmd_name)
 	paths = ft_split(getenv("PATH"), ":");
 	if (!paths)
 		malloc_error();
-	if (pth)
+	if (pth || !is_reg_file(cmd_name))
 		bin = ft_strdup(cmd_name);
 	else
 		bin = get_binary(paths, cmd_name);
 	free_split(paths);
-	if (!bin)
+	error = error_handling(pth, bin, cmd_name);
+	if (error)
+		(free(bin), exit_prg(msh, error));
+/*	if (!bin)
 		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
 	if (pth && access(bin, X_OK) == EXS_ERROR)
 		(free(bin), print_error(strerror(errno), cmd_name, NULL),
 			exit_prg(msh, 127));
 	if (!is_reg_file(bin) || access(bin, X_OK) == EXS_ERROR)
 		(free (bin), print_error(strerror(errno), cmd_name, NULL),
-			exit_prg(msh, 126));
+			exit_prg(msh, 126));*/
 	return (bin);
 }
