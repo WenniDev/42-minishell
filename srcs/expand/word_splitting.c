@@ -95,10 +95,10 @@ int	get_wnb(char *s, char *sep)
 			wnb++;
 			while (s[i] && (!ft_strchr(sep, s[i]) || s[i] == '"'))
 			{
-				if (s[i] == '"')
+				if (s [i] && s[i] == '"')
 				{
 					i++;
-					while (s[i] != '"')
+					while (s[i] && s[i] != '"')
 						i++;
 				}
 				i++;

@@ -31,19 +31,22 @@ void	wait_childs(t_exec *e)
 	int	sig;
 
 	sig = 0;
-	if (e->pid_last)
-	{
+	if (e->pid_last && e->child_nb--)
 		if (waitpid(e->pid_last, &e->status, 0) == -1)
 			msh_error(ERWAITPID);
-		--e->child_nb;
-	}
 	if (WIFSIGNALED(e->status))
 		sig = WTERMSIG(e->status);
 	e->status = WEXITSTATUS(e->status);
 	if (sig == SIGINT)
-		(e->status = 130, printf("\n"));
+	{
+		e->status = 130;
+		printf("\n");
+	}
 	if (sig == SIGQUIT)
-		(e->status = 131, printf("%s\n", QUITMSG));
+	{
+		e->status = 131;
+		printf("%s\n", QUITMSG);
+	}
 	while (e->child_nb)
 	{
 		if (wait(0) == -1)

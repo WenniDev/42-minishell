@@ -33,6 +33,7 @@ typedef struct s_exec
 	int		child_nb;
 	int		status;
 	bool	child;
+	bool	fork;
 }t_exec;
 
 typedef struct s_builtin

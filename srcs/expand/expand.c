@@ -44,6 +44,11 @@ void	expand_word(t_word_d *word, t_word_lst **word_lst, int *status, int ls)
 		word_splitting(word, word_lst, status);
 	if (!(*status) && !(word->flags & W_NOEXPAND))
 		expand_wildcard(word, word_lst, status);
+	if (!(*status) && !(word->flags & W_NOEXPAND))
+	{
+		skip_quotes(word->lval);
+		word->flags &= ~W_QUOTES;
+	}
 	if (!(*status) && word->flags & W_QUOTES)
 		skip_quotes(word->lval);
 }

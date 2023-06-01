@@ -51,10 +51,9 @@ int	here_document_read(t_parser *p, t_red *hd)
 	int		n;
 
 	ft_memset((void *)buffer, 0, 1024);
-	while (ft_strcmp((char *)buffer, hd->heredoc_eof))
+	while (true)
 	{
 		ft_putstr_fd("heredoc> ", 1);
-		add_content(&hd->hd_content, (char *)buffer);
 		ft_memset((void *)buffer, 0, 1024);
 		n = (int)read(0, buffer, 1024);
 		if (n == -1)
@@ -63,8 +62,10 @@ int	here_document_read(t_parser *p, t_red *hd)
 			return (here_document_warning(p, hd->heredoc_eof));
 		p->line++;
 		remove_newline((char *)buffer);
+		if (!ft_strcmp((char *)buffer, hd->heredoc_eof))
+			return (0);
+		add_content(&hd->hd_content, (char *)buffer);
 	}
-	return (0);
 }
 
 void	add_content(char **s, char *content)

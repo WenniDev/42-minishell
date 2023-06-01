@@ -92,8 +92,6 @@ void	expand_wildcard(t_word_d *word, t_word_lst **word_lst, int *status)
 	ent = (void *)1;
 	tmp_lst = NULL;
 	look_for_dir = is_dir_pattern(word->lval);
-	skip_quotes(word->lval);
-	word->flags &= ~W_QUOTES;
 	while (ent)
 	{
 		ent = readdir(dir);

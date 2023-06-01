@@ -103,13 +103,5 @@ char	*get_path(t_data *msh, char *cmd_name)
 	error = error_handling(pth, bin, cmd_name);
 	if (error)
 		(free(bin), exit_prg(msh, error));
-/*	if (!bin)
-		(print_error(CMDNOTF, cmd_name, NULL), exit_prg(msh, 127));
-	if (pth && access(bin, X_OK) == EXS_ERROR)
-		(free(bin), print_error(strerror(errno), cmd_name, NULL),
-			exit_prg(msh, 127));
-	if (!is_reg_file(bin) || access(bin, X_OK) == EXS_ERROR)
-		(free (bin), print_error(strerror(errno), cmd_name, NULL),
-			exit_prg(msh, 126));*/
 	return (bin);
 }

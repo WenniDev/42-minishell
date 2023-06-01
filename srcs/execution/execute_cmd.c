@@ -49,7 +49,7 @@ int	execute_simple_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 
 int	check_exec(t_exec *e, int f)
 {
-	if (e->child_nb && f & (CMD_EXECTRUE | CMD_EXECFALSE))
+	if (e->fork && e->child_nb != 0 && f & (CMD_EXECTRUE | CMD_EXECFALSE))
 	{
 		if (waitpid(e->pid_last, &e->status, 0) == -1)
 			msh_error(ERWAITPID);
@@ -94,6 +94,7 @@ void	exec_cmd(t_data *msh, t_exec *e, t_command_lst *cl)
 				e->status = execute_simple_cmd(msh, e, cl);
 			exit_prg(msh, e->status);
 		}
+		e->fork = true;
 	}
 	else
 		e->status = execute_simple_cmd(msh, e, cl);
@@ -108,6 +109,7 @@ int	exec_cmd_lst(t_data *msh, t_exec *e, t_command_lst *cl)
 		{
 			cl = cl->next;
 			set_fds(e, 2);
+			e->fork = false;
 			continue ;
 		}
 		exec_cmd(msh, e, cl);
